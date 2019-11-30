@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @Entity
-public class Advertisment extends BaseEntity{
+public class Advertisement extends BaseEntity{
 
 	private String contentUrl;
 	private String text;
