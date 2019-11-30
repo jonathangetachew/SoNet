@@ -1,4 +1,4 @@
-# SoNet
+# SoNet [![CircleCI](https://circleci.com/gh/jonathangetachew/SoNet.svg?style=svg)](https://circleci.com/gh/jonathangetachew/SoNet)
 A Social Network application for our Enterprise Architecture course at Maharishi University of Management.
 
 ## Checklist
@@ -9,15 +9,17 @@ A Social Network application for our Enterprise Architecture course at Maharishi
 * [x] Lombok
 * [x] H2
 * [x] MySQL
+* [x] JUnit 5
 * [ ] Spring Security
 * [ ] JWT / OAuth
 * [ ] CircleCI
 * [ ] WebSocket
-* [ ] JUnit 5
+* [ ] Docker
 
 ### Frontend
 * [x] Thymeleaf
 * [ ] Bulma
+* [ ] VueJS
 
 # Getting Started
 * Download / Clone the source code locally.
