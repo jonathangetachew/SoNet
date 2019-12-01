@@ -1,5 +1,7 @@
 package edu.mum.sonet.services;
 
-public interface NotificationService {
+import edu.mum.sonet.models.Notification;
+
+public interface NotificationService extends GenericService<Notification>{
 
 }

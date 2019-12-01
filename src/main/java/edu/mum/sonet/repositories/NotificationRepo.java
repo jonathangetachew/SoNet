@@ -2,6 +2,8 @@ package edu.mum.sonet.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface NotificationRepo extends JpaRepository<NotificationRepo, Long>{
+import edu.mum.sonet.models.Notification;
+
+public interface NotificationRepo extends JpaRepository<Notification, Long>{
 
 }

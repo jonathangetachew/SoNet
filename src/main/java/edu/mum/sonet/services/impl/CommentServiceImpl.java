@@ -1,10 +1,28 @@
 package edu.mum.sonet.services.impl;
 
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import edu.mum.sonet.models.Comment;
+import edu.mum.sonet.repositories.CommentRepo;
+import edu.mum.sonet.services.CommentService;
+
 @Service
 @Transactional
-public class CommentServiceImpl {
+public class CommentServiceImpl extends GenericServiceImpl<Comment> implements CommentService {
+
+	private CommentRepo commentRepo;
+
+	@Autowired
+	public CommentServiceImpl(CommentRepo repo, CommentRepo commentRepo) {
+		super(repo);
+		this.commentRepo = commentRepo;
+
+	}
 
 }

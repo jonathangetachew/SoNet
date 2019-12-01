@@ -1,5 +1,7 @@
 package edu.mum.sonet.services;
 
-public interface ClaimService {
+import edu.mum.sonet.models.Claim;
+
+public interface ClaimService extends GenericService<Claim>{
 
 }

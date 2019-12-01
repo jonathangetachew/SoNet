@@ -1,10 +1,26 @@
 package edu.mum.sonet.services.impl;
 
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import edu.mum.sonet.models.Notification;
+import edu.mum.sonet.repositories.NotificationRepo;
+import edu.mum.sonet.services.NotificationService;
+
 @Service
 @Transactional
-public class NotificationServiceImpl {
+public class NotificationServiceImpl extends GenericServiceImpl<Notification> implements NotificationService {
+
+	private NotificationRepo notificationRepo;
+
+	@Autowired
+	public NotificationServiceImpl(NotificationRepo repo, NotificationRepo notificationRepo) {
+		super(repo);
+		this.notificationRepo = notificationRepo;
+	}
 
 }

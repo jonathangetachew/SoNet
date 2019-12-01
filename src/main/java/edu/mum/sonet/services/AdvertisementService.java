@@ -1,6 +1,8 @@
 package edu.mum.sonet.services;
 
-public interface AdvertisementService {
+import edu.mum.sonet.models.Advertisement;
+
+public interface AdvertisementService extends GenericService<Advertisement>{
 
 	
 }
