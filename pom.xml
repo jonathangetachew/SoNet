@@ -12,8 +12,8 @@
 	<groupId>edu.mum.sonet</groupId>
 	<artifactId>sonet</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>sonot</name>
-	<description>social netowork </description>
+	<name>Sonet</name>
+	<description>Social Network Application for Enterprise Architecture Course.</description>
 
 	<properties>
 		<java.version>1.8</java.version>
