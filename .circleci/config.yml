@@ -11,6 +11,11 @@ jobs:
       # specify the version you desire here
       - image: circleci/openjdk:11-jdk
       - image: circleci/mysql
+        environment:
+          MYSQL_ROOT_PASSWORD: Root@A123
+          MYSQL_DATABASE: sonot
+          MYSQL_USER: sonet
+          MYSQL_PASSWORD: Root@A123
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
