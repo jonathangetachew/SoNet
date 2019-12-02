@@ -14,7 +14,7 @@ jobs:
         environment:
           MYSQL_ROOT_PASSWORD: Root@A123
           MYSQL_DATABASE: sonot
-          MYSQL_USER: root
+          MYSQL_USER: sonet
           MYSQL_PASSWORD: Root@A123
 
       # Specify service dependencies here if necessary
