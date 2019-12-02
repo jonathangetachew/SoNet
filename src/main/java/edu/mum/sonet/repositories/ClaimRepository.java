@@ -3,7 +3,8 @@ package edu.mum.sonet.repositories;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import edu.mum.sonet.models.Claim;
+import org.springframework.stereotype.Repository;
 
-public interface ClaimRepo extends JpaRepository<Claim,Long>{
-
+@Repository
+public interface ClaimRepository extends JpaRepository<Claim,Long>{
 }

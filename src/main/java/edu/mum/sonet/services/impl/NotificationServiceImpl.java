@@ -5,19 +5,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.mum.sonet.models.Notification;
-import edu.mum.sonet.repositories.NotificationRepo;
+import edu.mum.sonet.repositories.NotificationRepository;
 import edu.mum.sonet.services.NotificationService;
 
 @Service
 @Transactional
 public class NotificationServiceImpl extends GenericServiceImpl<Notification> implements NotificationService {
 
-	private NotificationRepo notificationRepo;
+	private NotificationRepository notificationRepository;
 
 	@Autowired
-	public NotificationServiceImpl(NotificationRepo repo, NotificationRepo notificationRepo) {
+	public NotificationServiceImpl(NotificationRepository repo, NotificationRepository notificationRepository) {
 		super(repo);
-		this.notificationRepo = notificationRepo;
+		this.notificationRepository = notificationRepository;
 	}
 
 }

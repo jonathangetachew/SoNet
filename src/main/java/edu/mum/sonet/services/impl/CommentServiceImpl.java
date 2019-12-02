@@ -6,19 +6,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.mum.sonet.models.Comment;
-import edu.mum.sonet.repositories.CommentRepo;
+import edu.mum.sonet.repositories.CommentRepository;
 import edu.mum.sonet.services.CommentService;
 
 @Service
 @Transactional
 public class CommentServiceImpl extends GenericServiceImpl<Comment> implements CommentService {
 
-	private CommentRepo commentRepo;
+	private CommentRepository commentRepository;
 
 	@Autowired
-	public CommentServiceImpl(CommentRepo repo, CommentRepo commentRepo) {
+	public CommentServiceImpl(CommentRepository repo, CommentRepository commentRepository) {
 		super(repo);
-		this.commentRepo = commentRepo;
+		this.commentRepository = commentRepository;
 
 	}
 

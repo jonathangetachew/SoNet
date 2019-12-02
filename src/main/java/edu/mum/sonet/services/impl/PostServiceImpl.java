@@ -5,19 +5,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.mum.sonet.models.Post;
-import edu.mum.sonet.repositories.PostRepo;
+import edu.mum.sonet.repositories.PostRepository;
 import edu.mum.sonet.services.PostService;
 
 @Service
 @Transactional
 public class PostServiceImpl extends GenericServiceImpl<Post> implements PostService{
 
-	private PostRepo postRepo;
+	private PostRepository postRepository;
 	
 	@Autowired
-	public PostServiceImpl(PostRepo repo, PostRepo postRepo) {
+	public PostServiceImpl(PostRepository repo, PostRepository postRepository) {
 		super(repo);
-		this.postRepo = postRepo;
+		this.postRepository = postRepository;
 	}
 
 }

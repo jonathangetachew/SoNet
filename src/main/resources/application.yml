@@ -8,5 +8,9 @@ logging:
     org.springframework.security: INFO
 
 spring:
+  profiles:
+    active: dev
+
   thymeleaf:
     cache: false
+
