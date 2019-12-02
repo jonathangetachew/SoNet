@@ -3,11 +3,8 @@ package edu.mum.sonet.services.impl;
 import java.util.List;
 import java.util.Optional;
 
-import javax.transaction.Transactional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Service;
 
 import edu.mum.sonet.services.GenericService;
 
