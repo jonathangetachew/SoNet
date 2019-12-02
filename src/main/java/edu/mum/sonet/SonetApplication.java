@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SonotApplication {
+public class SonetApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SonotApplication.class, args);
+		SpringApplication.run(SonetApplication.class, args);
 	}
 
 }
