@@ -1,6 +1,7 @@
 package edu.mum.sonet.models;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -8,6 +9,8 @@ import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import edu.mum.sonet.models.enums.Gender;
+import edu.mum.sonet.models.enums.Role;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -29,9 +32,48 @@ public class User extends BaseEntity {
 	
 	@OneToMany(mappedBy = "user", targetEntity = Post.class)
 	@JsonIgnoreProperties(value = "user")
-	private Set<Post> posts;
+	private Set<Post> posts = new HashSet<>();
 	
 	@OneToMany(mappedBy = "user", targetEntity = Claim.class)
-	private Set<Claim> claims;
+	private Set<Claim> claims = new HashSet<>();
+
+	/**
+	 *
+	 * Added custom add and remove methods to handle relationships
+	 *
+	 * @param post
+	 * @return
+	 */
+	public boolean addPost(Post post) {
+		if (posts.add(post)) {
+			post.setUser(this);
+			return true;
+		}
+		return false;
+	}
+
+	public boolean removePost(Post post) {
+		if (posts.remove(post)) {
+			post.setUser(null);
+			return true;
+		}
+		return false;
+	}
+
+	public boolean addClaim(Claim claim) {
+		if (claims.add(claim)) {
+			claim.setUser(this);
+			return true;
+		}
+		return false;
+	}
+
+	public boolean removeClaim(Claim claim) {
+		if (claims.remove(claim)) {
+			claim.setUser(null);
+			return true;
+		}
+		return false;
+	}
 	
 }

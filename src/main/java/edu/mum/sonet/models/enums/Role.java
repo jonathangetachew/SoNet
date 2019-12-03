@@ -1,4 +1,4 @@
-package edu.mum.sonet.models;
+package edu.mum.sonet.models.enums;
 
 public enum Role {
 
