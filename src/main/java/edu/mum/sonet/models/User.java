@@ -25,7 +25,7 @@ public class User extends BaseEntity {
 	private String location;
 	private LocalDate dateOfBirth;
 	private Boolean blocked; 
-	private Role role;
+	private Role role = Role.USER;
 	
 	@OneToMany(mappedBy = "user", targetEntity = Post.class)
 	@JsonIgnoreProperties(value = "user")
