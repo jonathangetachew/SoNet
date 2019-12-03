@@ -1,4 +1,4 @@
-package edu.mum.sonet.web;
+package edu.mum.sonet.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
