@@ -13,7 +13,6 @@ import lombok.Setter;
 
 @Data
 @NoArgsConstructor
-@Setter()
 @Entity
 public class Post extends BaseEntity {
 
