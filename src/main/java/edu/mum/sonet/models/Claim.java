@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Entity
 public class Claim extends BaseEntity {
 
-	private LocalDate cliamDate;
+	private LocalDate claimDate;
 	private String message;
 	private Boolean isAccepted;
 	
