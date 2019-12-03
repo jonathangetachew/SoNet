@@ -1,0 +1,21 @@
+# H2 Database Config
+spring:
+  jpa:
+    database: H2
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+      naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+
+  h2:
+    console:
+      enabled: true
+
+  thymeleaf:
+    cache: false
+
+logging:
+  level:
+    root: WARN
+    org.springframework.web: INFO
+    org.springframework.security: INFO

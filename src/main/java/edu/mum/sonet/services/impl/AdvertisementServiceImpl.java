@@ -6,19 +6,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.mum.sonet.models.Advertisement;
-import edu.mum.sonet.repositories.AdvertisementRepo;
+import edu.mum.sonet.repositories.AdvertisementRepository;
 import edu.mum.sonet.services.AdvertisementService;
 
 @Service
 @Transactional
 public class AdvertisementServiceImpl extends GenericServiceImpl<Advertisement> implements AdvertisementService {
 
-	private AdvertisementRepo advertisementRepo;
+	private AdvertisementRepository advertisementRepository;
 
 	@Autowired
-	public AdvertisementServiceImpl(AdvertisementRepo repo, AdvertisementRepo advertisementRepo) {
+	public AdvertisementServiceImpl(AdvertisementRepository repo, AdvertisementRepository advertisementRepository) {
 		super(repo);
-		this.advertisementRepo = advertisementRepo;
+		this.advertisementRepository = advertisementRepository;
 	}
 
 }

@@ -3,7 +3,8 @@ package edu.mum.sonet.repositories;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import edu.mum.sonet.models.Post;
+import org.springframework.stereotype.Repository;
 
-public interface PostRepo extends JpaRepository<Post, Long>{
-
+@Repository
+public interface PostRepository extends JpaRepository<Post, Long>{
 }

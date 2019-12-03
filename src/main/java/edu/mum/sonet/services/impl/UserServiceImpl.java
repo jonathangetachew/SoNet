@@ -5,19 +5,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.mum.sonet.models.User;
-import edu.mum.sonet.repositories.UserRepo;
+import edu.mum.sonet.repositories.UserRepository;
 import edu.mum.sonet.services.UserService;
 
 @Service
 @Transactional
 public class UserServiceImpl extends GenericServiceImpl<User> implements UserService {
 
-	private UserRepo userRepo;
+	private UserRepository userRepository;
 
 	@Autowired
-	public UserServiceImpl(UserRepo repo, UserRepo userRepo) {
+	public UserServiceImpl(UserRepository repo, UserRepository userRepository) {
 		super(repo);
-		this.userRepo = userRepo;
+		this.userRepository = userRepository;
 	}
 
 }

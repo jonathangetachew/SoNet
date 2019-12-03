@@ -18,8 +18,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .csrf().ignoringAntMatchers().disable()
+                .headers().frameOptions().disable()
+                .and()
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
+                                .antMatchers("/h2-console/**").permitAll()
                                 .antMatchers("/css/**", "/index").permitAll()
                                 .antMatchers("/js/**", "/index").permitAll()
                                 .antMatchers("/user/**").hasRole("USER")
