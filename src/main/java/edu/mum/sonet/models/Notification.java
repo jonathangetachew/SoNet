@@ -1,5 +1,6 @@
 package edu.mum.sonet.models;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -16,11 +17,21 @@ import lombok.NoArgsConstructor;
 public class Notification extends BaseEntity {
 
 	private Boolean isSeen;
-	
-	@ManyToMany
-	private Set<User> users;
-	
+
 	@OneToOne
 	@JoinColumn(name = "post_id")
 	private Post post;
+
+	@ManyToMany
+	private Set<User> users = new HashSet<>();
+
+	public boolean addUser(User user) {
+		if (users.add(user)) return true;
+		return false;
+	}
+
+	public boolean removeUser(User user) {
+		if (users.remove(user)) return true;
+		return false;
+	}
 }

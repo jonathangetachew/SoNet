@@ -1,7 +1,9 @@
 package edu.mum.sonet.models;
 
 import javax.persistence.Entity;
+import javax.persistence.Lob;
 
+import edu.mum.sonet.models.enums.Gender;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,11 +12,15 @@ import lombok.NoArgsConstructor;
 @Entity
 public class Advertisement extends BaseEntity{
 
+	@Lob
 	private String contentUrl;
+
+	@Lob
 	private String text;
+
 	private String adUrl;;
 	private String targetLocation;
-	private String targetAge;
-	private Gender targetGender; 
+	private Integer targetAge;
+	private Gender targetGender;
 	
 }
