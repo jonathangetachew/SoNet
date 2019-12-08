@@ -1,4 +1,4 @@
-package edu.mum.sonet.models;
+package edu.mum.sonet.models.enums;
 
 import org.springframework.security.core.GrantedAuthority;
 
