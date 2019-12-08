@@ -15,8 +15,8 @@ public class NotificationServiceImpl extends GenericServiceImpl<Notification> im
 	private NotificationRepository notificationRepository;
 
 	@Autowired
-	public NotificationServiceImpl(NotificationRepository repo, NotificationRepository notificationRepository) {
-		super(repo);
+	public NotificationServiceImpl(NotificationRepository notificationRepository) {
+		super(notificationRepository);
 		this.notificationRepository = notificationRepository;
 	}
 

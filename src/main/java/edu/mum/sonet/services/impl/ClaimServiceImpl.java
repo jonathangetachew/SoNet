@@ -15,8 +15,8 @@ public class ClaimServiceImpl extends GenericServiceImpl<Claim> implements Claim
 	private ClaimRepository claimRepository;
 
 	@Autowired
-	public ClaimServiceImpl(ClaimRepository repo, ClaimRepository claimRepository) {
-		super(repo);
+	public ClaimServiceImpl(ClaimRepository claimRepository) {
+		super(claimRepository);
 		this.claimRepository = claimRepository;
 	}
 

@@ -16,8 +16,8 @@ public class AdvertisementServiceImpl extends GenericServiceImpl<Advertisement> 
 	private AdvertisementRepository advertisementRepository;
 
 	@Autowired
-	public AdvertisementServiceImpl(AdvertisementRepository repo, AdvertisementRepository advertisementRepository) {
-		super(repo);
+	public AdvertisementServiceImpl(AdvertisementRepository advertisementRepository) {
+		super(advertisementRepository);
 		this.advertisementRepository = advertisementRepository;
 	}
 

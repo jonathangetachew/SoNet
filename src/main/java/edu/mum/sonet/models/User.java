@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
@@ -21,6 +22,8 @@ import lombok.NoArgsConstructor;
 public class User extends BaseEntity {
 
 	private String name;
+
+	@Column(unique = true)
 	private String email;
 	private String password;
 	private String imageUrl;

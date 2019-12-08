@@ -26,9 +26,9 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
 	private AuthenticationManager authenticationManager;
 
 	@Autowired
-	public UserServiceImpl(UserRepository repo, UserRepository userRepository,PasswordEncoder passwordEncoder,
+	public UserServiceImpl(UserRepository userRepository,PasswordEncoder passwordEncoder,
 						   JwtTokenProvider jwtTokenProvider,AuthenticationManager authenticationManager) {
-		super(repo);
+		super(userRepository);
 		this.userRepository = userRepository;
 		this.passwordEncoder = passwordEncoder;
 		this.jwtTokenProvider = jwtTokenProvider;
