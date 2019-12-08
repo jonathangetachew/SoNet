@@ -27,20 +27,33 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .headers().frameOptions().disable()
                 .and()
                 .authorizeRequests(authorizeRequests ->
-                        authorizeRequests
-                                .antMatchers("/h2-console/**").permitAll()
-                                .antMatchers("/css/**", "/index").permitAll()
-                                .antMatchers("/js/**", "/index").permitAll()
-                                .antMatchers("/user/**").hasRole("USER")
-                                .anyRequest().authenticated()
+                        {
+                            try {
+                                authorizeRequests
+                                        .antMatchers("/h2-console/**").permitAll()
+                                        .antMatchers("/css/**", "/index").permitAll()
+                                        .antMatchers("/js/**", "/index").permitAll()
+                                        .antMatchers("/").permitAll()
+                                        .antMatchers("/login").permitAll()
+                                        .antMatchers("/register").permitAll()
+        //                                .antMatchers("/user/**").hasRole("USER")
+                                        .anyRequest().authenticated()
+//                                        .and()
+//                                        .apply(new JwtTokenFilterConfigurer(jwtTokenProvider))
+                                        ;
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+
                 )
                 .formLogin(formLogin ->
                         formLogin
-                                .loginPage("/user/index")
+                                .loginPage("/login")
                                 .failureUrl("/login-error")
                 );
 
-        http.exceptionHandling().accessDeniedPage("/login");
+//        http.exceptionHandling().accessDeniedPage("/login");
 
         // Apply JWT
 //        http.apply(new JwtTokenFilterConfigurer(jwtTokenProvider));
@@ -70,21 +83,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //        // http.httpBasic();
     }
 
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        // Allow swagger to be accessed without authentication
-        web.ignoring().antMatchers("/v2/api-docs")//
-                .antMatchers("/swagger-resources/**")//
-                .antMatchers("/swagger-ui.html")//
-                .antMatchers("/configuration/**")//
-                .antMatchers("/webjars/**")//
-                .antMatchers("/public")
-
-                // Un-secure H2 Database (for testing purposes, H2 console shouldn't be unprotected in production)
-                .and()
-                .ignoring()
-                .antMatchers("/h2-console/**/**");;
-    }
+//    @Override
+//    public void configure(WebSecurity web) throws Exception {
+//        // Allow swagger to be accessed without authentication
+//        web.ignoring().antMatchers("/v2/api-docs")//
+//                .antMatchers("/swagger-resources/**")//
+//                .antMatchers("/swagger-ui.html")//
+//                .antMatchers("/configuration/**")//
+//                .antMatchers("/webjars/**")//
+//                .antMatchers("/public")
+//                .antMatchers("/login")
+//                .antMatchers("/index")
+//                .antMatchers("/")
+//                // Un-secure H2 Database (for testing purposes, H2 console shouldn't be unprotected in production)
+//                .and()
+//                .ignoring()
+//                .antMatchers("/h2-console/**/**");
+//    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -96,4 +111,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+//
+//    @Bean
+//    public FilterRegistrationBean < JwtTokenFilter > filterTokenBean() {
+//        FilterRegistrationBean < CustomURLFilter > registrationBean = new FilterRegistrationBean();
+//        CustomURLFilter customURLFilter = new CustomURLFilter();
+//
+//        registrationBean.setFilter(customURLFilter);
+//        registrationBean.addUrlPatterns("/greeting/*");
+//        registrationBean.setOrder(2); //set precedence
+//        return registrationBean;
+//    }
 }

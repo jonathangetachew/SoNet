@@ -64,12 +64,15 @@ public class JwtTokenProvider {
     }
 
     public Authentication getAuthentication(String token) {
+        System.out.println("======2 getAuthentication jwtTokenProvider =====");
         UserDetails userDetails = myUserDetails.loadUserByUsername(getUsername(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
     public String getUsername(String token) {
-        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
+        String email =  Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
+        System.out.println(">>> get email from token: "+email);
+        return email;
     }
 
     public String resolveToken(HttpServletRequest req) {

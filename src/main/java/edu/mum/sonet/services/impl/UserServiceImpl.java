@@ -39,7 +39,7 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
 	public String login(String email, String password) {
 
 		try {
-			System.out.println("==== start token ===");
+			System.out.println("==== start token (login)===");
 //			String encodedPassword = passwordEncoder.encode(password);
 
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
@@ -59,5 +59,12 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
 		user.setPassword(encodedPassword);
 		userRepository.save(user);
 		return user;
+	}
+
+	@Override
+	public User findByEmail(String email) {
+		System.out.println("====== service findByEmail =====");
+
+		return userRepository.findByEmail(email);
 	}
 }
