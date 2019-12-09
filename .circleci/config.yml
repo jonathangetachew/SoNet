@@ -32,6 +32,12 @@ jobs:
       - checkout:
           path: ~/Sonet
 
+      - run:
+          name: "Custom Environment Variables"
+          command: |
+            echo 'export GOOGLE_CLIENT_ID' |
+            echo 'export GOOGLE_CLIENT_SECRET
+
       # Download and cache dependencies
       - restore_cache:
           keys:
