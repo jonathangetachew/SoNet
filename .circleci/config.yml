@@ -32,11 +32,14 @@ jobs:
       - checkout:
           path: ~/Sonet
 
+#      Setting Environemt Variables for OAuth2 Google
       - run:
-          name: "Custom Environment Variables"
-          command: |
-            echo 'export GOOGLE_CLIENT_ID' |
-            echo 'export GOOGLE_CLIENT_SECRET
+          name: "Google Client ID Environment Variable"
+          command: echo 'export GOOGLE_CLIENT_ID'
+
+      - run:
+          name: "Google Client Secret Environment Variable"
+          command: echo 'export GOOGLE_CLIENT_SECRET
 
       # Download and cache dependencies
       - restore_cache:
