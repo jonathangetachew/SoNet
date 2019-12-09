@@ -39,7 +39,7 @@ jobs:
 
       - run:
           name: "Google Client Secret Environment Variable"
-          command: echo 'export GOOGLE_CLIENT_SECRET
+          command: echo 'export GOOGLE_CLIENT_SECRET'
 
       # Download and cache dependencies
       - restore_cache:
