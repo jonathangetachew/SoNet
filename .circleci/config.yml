@@ -35,11 +35,11 @@ jobs:
 #      Setting Environemt Variables for OAuth2 Google
       - run:
           name: "Google Client ID Environment Variable"
-          command: echo 'export GOOGLE_CLIENT_ID'
+          command: echo 'export spring.security.oauth2.client.registration.google.clientId="405838513888-bfrnubu69sfetunplthroe8b72v7h7kv.apps.googleusercontent.com"'
 
       - run:
           name: "Google Client Secret Environment Variable"
-          command: echo 'export GOOGLE_CLIENT_SECRET'
+          command: echo 'export spring.security.oauth2.client.registration.google.clientSecret="G2uZwLOFT7lbXKNjhsym7a7g"'
 
       # Download and cache dependencies
       - restore_cache:
