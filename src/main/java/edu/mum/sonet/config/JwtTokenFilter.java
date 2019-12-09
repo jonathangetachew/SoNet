@@ -73,7 +73,7 @@ public class JwtTokenFilter extends GenericFilterBean {
 
         String token = null;
         HttpSession session = httpServletRequest.getSession(false);// don't create if it doesn't exist
-        if (session != null && !session.isNew()) {
+        if (session != null && !session.isNew() && session.getAttribute("token") != null) {
             ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
             session = attr.getRequest().getSession(true);
             token = session.getAttribute("token").toString();

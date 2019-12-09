@@ -1,9 +1,12 @@
 package edu.mum.sonet.services.impl;
 
 import edu.mum.sonet.config.JwtTokenProvider;
+import edu.mum.sonet.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -26,8 +29,8 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
 	private AuthenticationManager authenticationManager;
 
 	@Autowired
-	public UserServiceImpl(UserRepository userRepository,PasswordEncoder passwordEncoder,
-						   JwtTokenProvider jwtTokenProvider,AuthenticationManager authenticationManager) {
+	public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder,
+	                       @Lazy JwtTokenProvider jwtTokenProvider, AuthenticationManager authenticationManager) {
 		super(userRepository);
 		this.userRepository = userRepository;
 		this.passwordEncoder = passwordEncoder;
@@ -42,8 +45,8 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
 			System.out.println("==== start token (login)===");
 //			String encodedPassword = passwordEncoder.encode(password);
 
-			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
-			String token = jwtTokenProvider.createToken(email, userRepository.findByEmail(email).getRole());
+			Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
+			String token = jwtTokenProvider.createToken(authentication);
 			System.out.println(">>> generated token: "+token);
 			return token;
 		} catch (AuthenticationException e) {
@@ -65,6 +68,7 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
 	public User findByEmail(String email) {
 		System.out.println("====== service findByEmail =====");
 
-		return userRepository.findByEmail(email);
+		// TODO: implement User not found exception
+		return userRepository.findByEmail(email).orElse(null);
 	}
 }

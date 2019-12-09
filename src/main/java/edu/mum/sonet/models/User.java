@@ -4,12 +4,12 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import edu.mum.sonet.models.enums.AuthProvider;
 import edu.mum.sonet.models.enums.Gender;
 import edu.mum.sonet.models.enums.Role;
 import lombok.Data;
@@ -32,11 +32,17 @@ public class User extends BaseEntity {
 	private LocalDate dateOfBirth;
 	private Boolean blocked; 
 	private Role role = Role.USER;
-	
+
+	@NotNull
+	@Enumerated(EnumType.STRING)
+	private AuthProvider authProvider;
+
+	private String providerId;
+
 	@OneToMany(mappedBy = "user", targetEntity = Post.class)
 	@JsonIgnoreProperties(value = "user")
 	private Set<Post> posts = new HashSet<>();
-	
+
 	@OneToMany(mappedBy = "user", targetEntity = Claim.class)
 	private Set<Claim> claims = new HashSet<>();
 

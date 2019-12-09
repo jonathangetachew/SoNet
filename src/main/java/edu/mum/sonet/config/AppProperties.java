@@ -50,4 +50,12 @@ public class AppProperties {
 			return this;
 		}
 	}
+
+	public Auth getAuth() {
+		return auth;
+	}
+
+	public OAuth2 getOauth2() {
+		return oAuth2;
+	}
 }
