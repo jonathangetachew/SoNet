@@ -38,6 +38,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                                         .antMatchers("/register").permitAll()
         //                                .antMatchers("/user/**").hasRole("USER")
                                         .anyRequest().authenticated()
+                                        .and()
+                                        .formLogin()
+                                        .loginPage("/login")
+                                        .usernameParameter("username")
+                                        .passwordParameter("password")
+                                        .failureUrl("/login-error")
+                                        .defaultSuccessUrl("/approvelogin")
+//                                        .loginProcessingUrl("/approvelogin")
+                                        .usernameParameter("username")
+                                        .passwordParameter("password")
+                                        .and()
+                                        .httpBasic().disable()
 //                                        .and()
 //                                        .apply(new JwtTokenFilterConfigurer(jwtTokenProvider))
                                         ;
@@ -46,12 +58,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                             }
                         }
 
-                )
-                .formLogin(formLogin ->
-                        formLogin
-                                .loginPage("/login")
-                                .failureUrl("/login-error")
                 );
+//                .formLogin(formLogin ->
+//                        formLogin
+//
+//                                .loginPage("/login")
+//                                .failureUrl("/login-error")
+//
+//                );
 
 //        http.exceptionHandling().accessDeniedPage("/login");
 

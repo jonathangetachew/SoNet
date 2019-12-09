@@ -28,13 +28,13 @@ public class UserController {
 		return userService.register(user);
 	}
 
-	@RequestMapping(value = "loginTest", method = RequestMethod.POST)
-	public @ResponseBody String login(@RequestParam("email") String email, @RequestParam("password") String password) {
-		return userService.login(email,password);
-	}
-
-	@RequestMapping(value = "user/getUserById", method = RequestMethod.GET)
-	public @ResponseBody Optional<User> register(@RequestParam("id") Long id) {
-		return userService.findById(id);
-	}
+//	@RequestMapping(value = "loginTest", method = RequestMethod.POST)
+//	public @ResponseBody String login(@RequestParam("email") String email, @RequestParam("password") String password) {
+//		return userService.login(email,password);
+//	}
+//
+//	@RequestMapping(value = "user/getUserById", method = RequestMethod.GET)
+//	public @ResponseBody Optional<User> register(@RequestParam("id") Long id) {
+//		return userService.findById(id);
+//	}
 }

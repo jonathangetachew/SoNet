@@ -27,7 +27,8 @@
                     <div th:if="${param.logout}" class="alert alert-success">
                         You have been logged out.
                     </div>
-                    <form th:action="@{/login}" method="post" class="box">
+<!--                    <form th:action="@{/login}" method="post" class="box">-->
+                    <form action="/login" method="POST" modelAttribute="userBean" class="box">
                         <div class="field">
                             <label for="email" class="label">Email</label>
                             <div class="control has-icons-left">
