@@ -24,15 +24,18 @@
                     <div th:if="${loginError}" class="alert alert-error">
                         Invalid username and password.
                     </div>
+                    <div  class="alert alert-error">
+                        <p th:text="${session.loginMessage}" th:unless="${session == null}">[...]</p>
+                    </div>
                     <div th:if="${param.logout}" class="alert alert-success">
                         You have been logged out.
                     </div>
 <!--                    <form th:action="@{/login}" method="post" class="box">-->
-                    <form action="/login" method="POST" modelAttribute="userBean" class="box">
+                    <form action="/login" method="post"  class="box">
                         <div class="field">
                             <label for="email" class="label">Email</label>
                             <div class="control has-icons-left">
-                                <input type="email" id="email" name="username" placeholder="e.g. johndoe@gmail.com"
+                                <input type="email" id="email" name="email" placeholder="e.g. johndoe@gmail.com"
                                        class="input" required>
                                 <span class="icon is-small is-left">
                   <i class="fa fa-envelope"></i>

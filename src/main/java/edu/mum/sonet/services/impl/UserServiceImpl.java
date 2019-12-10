@@ -1,7 +1,6 @@
 package edu.mum.sonet.services.impl;
 
-import edu.mum.sonet.config.JwtTokenProvider;
-import edu.mum.sonet.exceptions.ResourceNotFoundException;
+import edu.mum.sonet.security.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -66,9 +65,6 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
 
 	@Override
 	public User findByEmail(String email) {
-		System.out.println("====== service findByEmail =====");
-
-		// TODO: implement User not found exception
-		return userRepository.findByEmail(email).orElse(null);
+ 		return userRepository.findByEmail(email).orElse(null);
 	}
 }

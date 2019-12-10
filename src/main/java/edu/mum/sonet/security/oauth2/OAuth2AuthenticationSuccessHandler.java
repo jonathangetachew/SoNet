@@ -1,7 +1,7 @@
 package edu.mum.sonet.security.oauth2;
 
 import edu.mum.sonet.config.AppProperties;
-import edu.mum.sonet.config.JwtTokenProvider;
+import edu.mum.sonet.security.JwtTokenProvider;
 import edu.mum.sonet.exceptions.BadRequestException;
 import edu.mum.sonet.util.CookieUtils;
 import org.springframework.beans.factory.annotation.Autowired;

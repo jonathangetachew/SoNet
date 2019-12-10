@@ -11,7 +11,6 @@ import javax.servlet.http.HttpSession;
 
 
 @Controller
-@SessionAttributes("token")
 public class MainController {
 
     private UserService userService;
@@ -28,47 +27,44 @@ public class MainController {
 
     @RequestMapping("/index")
     public String index() {
-        System.out.println(">>>> show /index");
         return "index";
     }
 
     @RequestMapping("/user/index")
     public String userIndex() {
-        System.out.println(">>>> show /user/index");
         return "user/index";
     }
 
     @RequestMapping("/login")
     public String login(@ModelAttribute("userBean")User user) {
-        System.out.println(">>>> show /login");
         return "login";
     }
 
-    @RequestMapping(value="/login", method = RequestMethod.POST)
-    public String approveLogin(@ModelAttribute("userBean")User user) {
-        System.out.println(">>> approve login by modelAtrribute : "+user.getEmail()+ "   -password: "+user.getPassword());
-        String token = userService.login(user.getEmail(), user.getPassword());
-//        model.addAttribute("token",token);
-        return  "/user/index";
-    }
-
-    @RequestMapping(value = "/approvelogin", method = RequestMethod.POST)
-    public String doLogin(@RequestParam("email") String email, @RequestParam("password") String password, Model model) {
-        System.out.println(">>> do login : "+email+ "   -password: "+password);
-        String token = userService.login(email, password);
-        model.addAttribute("token",token);
-        return  "/user/index";
-
-    }
-
-    @RequestMapping(value = "/approvelogin", method = RequestMethod.GET)
-    public String doLogin(Model model) {
-        System.out.println(">>> do login ----> get : without email and password");
+//    @RequestMapping(value="/login", method = RequestMethod.POST)
+//    public String approveLogin(@ModelAttribute("userBean")User user) {
+//        System.out.println(">>> approve login by modelAtrribute : "+user.getEmail()+ "   -password: "+user.getPassword());
+//        String token = userService.login(user.getEmail(), user.getPassword());
+////        model.addAttribute("token",token);
+//        return  "/user/index";
+//    }
+//
+//    @RequestMapping(value = "/signin", method = RequestMethod.POST)
+//    public String doLogin(@RequestParam("username") String email, @RequestParam("password") String password, Model model) {
+//        System.out.println(">>> do signin : "+email+ "   -password: "+password);
 //        String token = userService.login(email, password);
 //        model.addAttribute("token",token);
-        return  "/user/index";
-
-    }
+//        return  "/user/index";
+//
+//    }
+//
+//    @RequestMapping(value = "/approvelogin", method = RequestMethod.GET)
+//    public String doLogin(Model model) {
+//        System.out.println(">>> do login ----> get : without email and password");
+////        String token = userService.login(email, password);
+////        model.addAttribute("token",token);
+//        return  "/user/index";
+//
+//    }
 
     @RequestMapping("/login-error")
     public String loginError(Model model) {

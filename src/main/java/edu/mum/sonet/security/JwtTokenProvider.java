@@ -1,17 +1,15 @@
-package edu.mum.sonet.config;
+package edu.mum.sonet.security;
 
 
-import java.util.Base64;
 import java.util.Date;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 
-import edu.mum.sonet.models.enums.Role;
+import edu.mum.sonet.config.AppProperties;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -27,11 +25,6 @@ public class JwtTokenProvider {
      * THIS IS NOT A SECURE PRACTICE! For simplicity, we are storing a static key here. Ideally, in a
      * microservices environment, this key would be kept on a config-server.
      */
-    @Value("${security.jwt.token.secret-key:secret-key}")
-    private String secretKey;
-
-    @Value("${security.jwt.token.expire-length:3600000}")
-    private long validityInMilliseconds = 3600000; // 1h
 
     private final MyUserDetails myUserDetails;
 
@@ -46,7 +39,6 @@ public class JwtTokenProvider {
 
     @PostConstruct
     protected void init() {
-        secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
     public String createToken(Authentication authentication) {
@@ -70,7 +62,7 @@ public class JwtTokenProvider {
                 .setClaims(claims)//
                 .setIssuedAt(now)//
                 .setExpiration(expiryDate)//
-                .signWith(SignatureAlgorithm.HS256, secretKey)//
+                .signWith(SignatureAlgorithm.HS256, appProperties.getAuth().getTokenSecret())//
                 .compact();
     }
 
@@ -81,8 +73,7 @@ public class JwtTokenProvider {
     }
 
     public String getUsername(String token) {
-        String email =  Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
-        System.out.println(">>> get email from token: "+email);
+        String email =  Jwts.parser().setSigningKey(appProperties.getAuth().getTokenSecret()).parseClaimsJws(token).getBody().getSubject();
         return email;
     }
 
@@ -99,6 +90,7 @@ public class JwtTokenProvider {
             Jwts.parser().setSigningKey(appProperties.getAuth().getTokenSecret()).parseClaimsJws(authToken);
             return true;
         } catch (SignatureException ex) {
+            ex.printStackTrace();
             logger.error("Invalid JWT signature");
         } catch (MalformedJwtException ex) {
             logger.error("Invalid JWT token");
