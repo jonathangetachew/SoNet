@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import edu.mum.sonet.models.enums.AuthProvider;
@@ -14,6 +15,8 @@ import edu.mum.sonet.models.enums.Gender;
 import edu.mum.sonet.models.enums.Role;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 
 @Data
@@ -29,9 +32,14 @@ public class User extends BaseEntity {
 	private String imageUrl;
 	private Gender gender;
 	private String location;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate dateOfBirth;
 	private Boolean blocked; 
 	private Role role = Role.USER;
+
+	@Transient
+	@JsonIgnore
+	private MultipartFile imageFile;
 
 	@NotNull
 	@Enumerated(EnumType.STRING)

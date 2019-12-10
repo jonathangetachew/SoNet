@@ -80,6 +80,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                                     .antMatchers("/js/**", "/index").permitAll()
                                     .antMatchers("/").permitAll()
                                     .antMatchers("/login").permitAll()
+                                    .antMatchers("/signup").permitAll()
                                     .antMatchers("/register").permitAll()
                                     .anyRequest().authenticated()
                                     .and()

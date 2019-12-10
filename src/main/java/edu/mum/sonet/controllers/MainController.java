@@ -16,7 +16,7 @@ public class MainController {
     private UserService userService;
 
     @Autowired
-    MainController(UserService userService){
+    MainController(UserService userService) {
         this.userService = userService;
     }
 
@@ -36,7 +36,19 @@ public class MainController {
     }
 
     @RequestMapping("/login")
-    public String login(@ModelAttribute("userBean")User user) {
+    public String login() {
+        return "login";
+    }
+
+    @RequestMapping("/signup")
+    public String signup(@ModelAttribute("user") User user) {
+        return "signup";
+    }
+
+    @RequestMapping(value = "/signup", method = RequestMethod.POST)
+    public String doSignup(User user) {
+        User u = userService.register(user);
+        System.out.println(">>>> Saved User: " + u.getId() + "  email: " + u.getEmail());
         return "login";
     }
 
