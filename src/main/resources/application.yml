@@ -5,4 +5,28 @@ spring:
   profiles:
     active: dev
 
+jwt:
+  header: Authorization
+  secret: mySecret
+  expiration: 60480000
+  route:
+    authentication:
+      path: auth
+      refresh: refresh
 
+# Security Config
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            redirectUriTemplate: "{baseUrl}/oauth2/callback/{registrationId}"
+
+app:
+  auth:
+    tokenSecret: 926D96C90030DD58429D2751AC1BDBBC
+    tokenExpirationMsec: 864000000
+
+  oauth2:
+    authorizedRedirectUris:
+      - http://localhost:8080/oauth2/redirect

@@ -16,8 +16,8 @@ public class CommentServiceImpl extends GenericServiceImpl<Comment> implements C
 	private CommentRepository commentRepository;
 
 	@Autowired
-	public CommentServiceImpl(CommentRepository repo, CommentRepository commentRepository) {
-		super(repo);
+	public CommentServiceImpl(CommentRepository commentRepository) {
+		super(commentRepository);
 		this.commentRepository = commentRepository;
 
 	}

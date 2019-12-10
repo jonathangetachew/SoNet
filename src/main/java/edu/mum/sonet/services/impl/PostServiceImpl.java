@@ -15,8 +15,8 @@ public class PostServiceImpl extends GenericServiceImpl<Post> implements PostSer
 	private PostRepository postRepository;
 	
 	@Autowired
-	public PostServiceImpl(PostRepository repo, PostRepository postRepository) {
-		super(repo);
+	public PostServiceImpl(PostRepository postRepository) {
+		super(postRepository);
 		this.postRepository = postRepository;
 	}
 
