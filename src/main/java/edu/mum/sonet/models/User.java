@@ -30,11 +30,16 @@ public class User extends BaseEntity {
 	private String email;
 	private String password;
 	private String imageUrl;
+
+	@Enumerated(EnumType.STRING)
 	private Gender gender;
+
 	private String location;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate dateOfBirth;
-	private Boolean blocked; 
+	private Boolean blocked = false;
+
+	@Enumerated(EnumType.STRING)
 	private Role role = Role.USER;
 
 	@Transient
@@ -44,8 +49,6 @@ public class User extends BaseEntity {
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	private AuthProvider authProvider= AuthProvider.LOCAL;
-
-	private String providerId;
 
 	@OneToMany(mappedBy = "user", targetEntity = Post.class)
 	@JsonIgnoreProperties(value = "user")

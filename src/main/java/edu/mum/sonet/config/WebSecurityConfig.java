@@ -1,16 +1,11 @@
 package edu.mum.sonet.config;
 import edu.mum.sonet.security.*;
-import edu.mum.sonet.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
-import edu.mum.sonet.security.oauth2.OAuth2AuthenticationFailureHandler;
-import edu.mum.sonet.security.oauth2.OAuth2AuthenticationSuccessHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.config.BeanIds;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -18,6 +13,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserService;
+import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository;
+import org.springframework.security.oauth2.client.web.HttpSessionOAuth2AuthorizationRequestRepository;
+import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 
@@ -27,37 +26,27 @@ import java.io.IOException;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(
-        securedEnabled = true,
-        jsr250Enabled = true,
-        prePostEnabled = true
-)
+//@EnableGlobalMethodSecurity(
+//        securedEnabled = true,
+//        jsr250Enabled = true,
+//        prePostEnabled = true
+//)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JwtTokenProvider jwtTokenProvider;
 
-    private final MyUserDetails userDetails;
+    private final OidcUserService oidcUserService;
 
-    private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
-
-    private final OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
-
-    private final HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
+    private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
     RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
-
-
-    public WebSecurityConfig(@Lazy JwtTokenProvider jwtTokenProvider, @Lazy MyUserDetails userDetails,
-                             OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler,
-                             OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler,
-                             HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository) {
+    public WebSecurityConfig(JwtTokenProvider jwtTokenProvider, OidcUserService oidcUserService,
+                             @Lazy CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler) {
         this.jwtTokenProvider = jwtTokenProvider;
-        this.userDetails = userDetails;
-        this.oAuth2AuthenticationSuccessHandler = oAuth2AuthenticationSuccessHandler;
-        this.oAuth2AuthenticationFailureHandler = oAuth2AuthenticationFailureHandler;
-        this.httpCookieOAuth2AuthorizationRequestRepository = httpCookieOAuth2AuthorizationRequestRepository;
 
+        this.oidcUserService = oidcUserService;
+        this.customAuthenticationSuccessHandler = customAuthenticationSuccessHandler;
     }
 
     @Override
@@ -108,24 +97,28 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                                     .permitAll() // Allow access to any URL associate to logout()
                                     .and()
                                         .apply(new JwtTokenFilterConfigurer(jwtTokenProvider))
-                                    ;
+                                    .and()
+                                        ///> Enable oauth2
+                                        .oauth2Login()
+                                            .loginPage("/login")
+                                            .authorizationEndpoint()
+                                                .baseUri("/oauth2/authorize")
+                                                .authorizationRequestRepository(customAuthorizationRequestRepository())
+                                                .and()
+                                            .redirectionEndpoint()
+                                                .baseUri("/oauth2/callback/*")
+                                                .and()
+                                                .userInfoEndpoint()
+                                                .oidcUserService(oidcUserService)
+                                                .and()
+                                                .successHandler(customAuthenticationSuccessHandler);
+//                                            .failureHandler(oAuth2AuthenticationFailureHandler);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
                 );
 
-
-//                .oauth2Login()
-//                    .authorizationEndpoint()
-//                        .baseUri("/oauth2/authorize")
-//                        .authorizationRequestRepository(httpCookieOAuth2AuthorizationRequestRepository)
-//                        .and()
-//                    .redirectionEndpoint()
-//                        .baseUri("/oauth2/callback/*")
-//                        .and()
-//                    .successHandler(oAuth2AuthenticationSuccessHandler)
-//                    .failureHandler(oAuth2AuthenticationFailureHandler);
 //
 //        // Add our custom Token based authentication filter
 //        http.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
@@ -138,22 +131,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     }
 
-
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(12);
     }
-
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-
-        auth
-                .userDetailsService(userDetails)
-                .passwordEncoder(passwordEncoder());
-    }
-
 
     @Override
     @Bean(BeanIds.AUTHENTICATION_MANAGER)
@@ -161,21 +142,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-
-    @Bean
-    public TokenAuthenticationFilter tokenAuthenticationFilter() {
-        return new TokenAuthenticationFilter();
-    }
-
-
     @Bean
     public JwtTokenFilter jwtTokenFilter() {
         return new JwtTokenFilter(jwtTokenProvider);
     }
 
     @Bean
-    public HttpCookieOAuth2AuthorizationRequestRepository cookieAuthorizationRequestRepository() {
-        return new HttpCookieOAuth2AuthorizationRequestRepository();
+    public AuthorizationRequestRepository<OAuth2AuthorizationRequest> customAuthorizationRequestRepository() {
+        return new HttpSessionOAuth2AuthorizationRequestRepository();
     }
 
     public void successAuthenticate(HttpServletRequest req, HttpServletResponse res, Authentication auth){
