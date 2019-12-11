@@ -1,4 +1,4 @@
-package edu.mum.sonet.config;
+package edu.mum.sonet.security;
 
 import edu.mum.sonet.models.User;
 import edu.mum.sonet.services.UserService;

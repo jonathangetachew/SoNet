@@ -35,7 +35,7 @@ public class User extends BaseEntity {
 
 	@NotNull
 	@Enumerated(EnumType.STRING)
-	private AuthProvider authProvider;
+	private AuthProvider authProvider= AuthProvider.LOCAL;
 
 	private String providerId;
 

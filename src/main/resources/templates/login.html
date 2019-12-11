@@ -1,20 +1,17 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
-
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Login - Free Bulma template</title>
+    <title>Login</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet"> -->
     <link href="https://fonts.googleapis.com/css?family=Questrial&display=swap" rel="stylesheet">
     <!-- Bulma Version 0.8.x-->
     <link rel="stylesheet" href="https://unpkg.com/bulma@0.8.0/css/bulma.min.css"/>
     <link rel="stylesheet" href="/css/main.css" th:href="@{/css/main.css}"/>
-
 </head>
-
 <body>
 <section class="hero is-primary is-fullheight">
     <div class="hero-body">
@@ -24,14 +21,18 @@
                     <div th:if="${loginError}" class="alert alert-error">
                         Invalid username and password.
                     </div>
+                    <div  class="alert alert-error">
+                        <p th:text="${session.loginMessage}" th:unless="${session == null}">[...]</p>
+                    </div>
                     <div th:if="${param.logout}" class="alert alert-success">
                         You have been logged out.
                     </div>
-                    <form th:action="@{/login}" method="post" class="box">
+<!--                    <form th:action="@{/login}" method="post" class="box">-->
+                    <form action="/login" method="post"  class="box">
                         <div class="field">
                             <label for="email" class="label">Email</label>
                             <div class="control has-icons-left">
-                                <input type="email" id="email" name="username" placeholder="e.g. johndoe@gmail.com"
+                                <input type="email" id="email" name="email" placeholder="e.g. johndoe@gmail.com"
                                        class="input" required>
                                 <span class="icon is-small is-left">
                   <i class="fa fa-envelope"></i>
@@ -67,5 +68,4 @@
 </section>
 <script async type="text/javascript" th:src="@{/js/bulma.js}"></script>
 </body>
-
 </html>

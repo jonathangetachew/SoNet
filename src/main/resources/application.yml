@@ -5,6 +5,15 @@ spring:
   profiles:
     active: dev
 
+jwt:
+  header: Authorization
+  secret: mySecret
+  expiration: 60480000
+  route:
+    authentication:
+      path: auth
+      refresh: refresh
+
 # Security Config
   security:
     oauth2:
