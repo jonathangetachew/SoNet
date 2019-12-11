@@ -1,15 +1,14 @@
 package edu.mum.sonet.models;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.persistence.*;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -17,6 +16,7 @@ import lombok.Setter;
 public class Post extends BaseEntity {
 
 	@Lob
+	@NotEmpty
 	private String text;
 
 	@Lob
@@ -24,12 +24,13 @@ public class Post extends BaseEntity {
 	private Integer likeCount;
 	private Integer commentCount;
 	private Boolean isHealthy;
-	
+	private LocalDate creationDate;
+
 	@ManyToOne
 	@JoinColumn(name = "user_id")
-	@JsonIgnoreProperties(value= {"posts"})
-	private User user;
-	
+	@JsonIgnoreProperties(value = {"posts"})
+	private User author;
+
 	@OneToMany
 	@JoinTable(name = "post_comment",
 			joinColumns = {@JoinColumn(name = "post_id")},

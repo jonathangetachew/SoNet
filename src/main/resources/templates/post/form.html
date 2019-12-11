@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<div th:fragment="form" class="container" xmlns:th="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/xhtml">
+
+    <nav class="panel">
+        <p class="panel-heading" th:text="#{title.create.post}">
+            Repositories
+        </p>
+        <div class="panel-block">
+            <p class="control">
+                <textarea name="text" class="textarea modal-trigger" placeholder="Textarea"
+                          data-target="modal-post"
+                          th:placeholder="#{label.add_content}"></textarea>
+            </p>
+        </div>
+    </nav>
+    <form method="post" th:object="${post}" action="#">
+        <div class="modal" id="modal-post">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title" th:text="#{title.create.post}">Create</p>
+                    <a class="delete" aria-label="close"></a>
+                </header>
+                <section class="modal-card-body">
+                    <div class="field">
+                        <div id="file-js-example" class="file is-centered is-boxed has-name">
+                            <label class="file-label">
+                                <input class="file-input" type="file" name="contentUrl">
+                                <span class="file-cta">
+                                      <span class="file-icon">
+                                        <i class="fa fa-upload"></i>
+                                      </span>
+                                      <span class="file-label" th:text="#{label.choose_file}">
+                                        Choose a file…
+                                      </span>
+                                    </span>
+                                <span class="file-name" th:text="#{label.no_file_uploaded}">
+                                      No file uploaded
+                                    </span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="label" th:text="#{label.content}">Content</label>
+                        <div class="control">
+                            <textarea class="textarea" th:placeholder="#{label.add_content}"
+                                      placeholder="Textarea"
+                                      name="text"></textarea>
+                        </div>
+                    </div>
+                </section>
+                <footer class="modal-card-foot">
+                    <a id="submit" class="button is-success" th:text="#{title.create.post}">Submit</a>
+                    <a class="button" th:text="#{label.cancel}">Cancel</a>
+                </footer>
+            </div>
+        </div>
+    </form>
+    <script type="text/javascript" th:src="@{/js/post.js}"></script>
+</div>
