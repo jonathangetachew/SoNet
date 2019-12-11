@@ -1,12 +1,14 @@
 package edu.mum.sonet.controllers;
 
 import edu.mum.sonet.models.User;
+import edu.mum.sonet.services.FileService;
 import edu.mum.sonet.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 
@@ -14,10 +16,12 @@ import javax.servlet.http.HttpSession;
 public class MainController {
 
     private UserService userService;
+    private FileService fileService;
 
     @Autowired
-    MainController(UserService userService) {
+    MainController(UserService userService, FileService fileService) {
         this.userService = userService;
+        this.fileService = fileService;
     }
 
     @RequestMapping("/")
@@ -46,37 +50,13 @@ public class MainController {
     }
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
-    public String doSignup(User user) {
+    public String doSignup(User user, HttpServletRequest request) {
+        String rootDirectory = request.getSession().getServletContext().getRealPath("/");
+        String imageUrl = fileService.saveFile(user.getImageFile(),rootDirectory+"profileImages/images/");
+        user.setImageUrl(imageUrl);
         User u = userService.register(user);
-        System.out.println(">>>> Saved User: " + u.getId() + "  email: " + u.getEmail());
         return "login";
     }
-
-//    @RequestMapping(value="/login", method = RequestMethod.POST)
-//    public String approveLogin(@ModelAttribute("userBean")User user) {
-//        System.out.println(">>> approve login by modelAtrribute : "+user.getEmail()+ "   -password: "+user.getPassword());
-//        String token = userService.login(user.getEmail(), user.getPassword());
-////        model.addAttribute("token",token);
-//        return  "/user/index";
-//    }
-//
-//    @RequestMapping(value = "/signin", method = RequestMethod.POST)
-//    public String doLogin(@RequestParam("username") String email, @RequestParam("password") String password, Model model) {
-//        System.out.println(">>> do signin : "+email+ "   -password: "+password);
-//        String token = userService.login(email, password);
-//        model.addAttribute("token",token);
-//        return  "/user/index";
-//
-//    }
-//
-//    @RequestMapping(value = "/approvelogin", method = RequestMethod.GET)
-//    public String doLogin(Model model) {
-//        System.out.println(">>> do login ----> get : without email and password");
-////        String token = userService.login(email, password);
-////        model.addAttribute("token",token);
-//        return  "/user/index";
-//
-//    }
 
     @RequestMapping("/login-error")
     public String loginError(Model model) {

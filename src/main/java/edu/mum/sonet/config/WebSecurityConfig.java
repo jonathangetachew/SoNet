@@ -65,11 +65,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
         http
-//                .csrf().ignoringAntMatchers().disable()
-//                .headers().frameOptions().disable()
+                .csrf().ignoringAntMatchers().disable()
+                .headers().frameOptions().disable()
 //                .and().sessionManagement()
 //                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                .and()
+                .and()
                 .csrf().disable()
                 .authorizeRequests(authorizeRequests -> {
                         try {

@@ -23,7 +23,7 @@
                 <div class="column is-6-tablet is-7-desktop is-4-widescreen">
 
                     <!--                    <form th:action="@{/login}" method="post" class="box">-->
-                    <form th:object="${user}" th:action="@{/signup}" method="post" class="box">
+                    <form th:object="${user}" th:action="@{/signup}" method="post" class="box" enctype="multipart/form-data">
 
                         <div class="field">
                             <label for="name" class="label">Name</label>
@@ -79,7 +79,7 @@
                             </div>
                         </div>
 
-                        <div class="file has-name is-fullwidth">
+                        <div class="file has-name is-fullwidth field">
                             <label class="file-label">
                                 <input class="file-input" type="file" name="imageFile"  th:field="*{imageFile}">
                                 <span class="file-cta">
@@ -96,10 +96,10 @@
                             </label>
                         </div>
 
-                        <div class="select">
+                        <div class="field select" id="select-div">
                             <!--                            <label for="gender" class="label">Gender</label>-->
                             <div class="control has-icons-left">
-                                <select id="gender">
+                                <select id="gender"  th:value="*{gender}"  th:field="*{gender}">
                                     <option th:value="NONE" label="Gender "/>
                                     <option th:value="MALE" label="Male"/>
                                     <option th:value="FEMALE" label="Female"/>
