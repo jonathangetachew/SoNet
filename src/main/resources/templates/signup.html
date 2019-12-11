@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login - Free Bulma template</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet"> -->
+    <link href="https://fonts.googleapis.com/css?family=Questrial&display=swap" rel="stylesheet">
+    <!-- Bulma Version 0.8.x-->
+    <link rel="stylesheet" href="https://unpkg.com/bulma@0.8.0/css/bulma.min.css"/>
+    <link rel="stylesheet" href="/css/main.css" th:href="@{/css/main.css}"/>
+
+</head>
+
+<body>
+<section class="hero is-primary is-fullheight">
+    <div class="hero-body">
+        <div class="container">
+            <div class="columns is-centered">
+                <div class="column is-6-tablet is-7-desktop is-4-widescreen">
+
+                    <!--                    <form th:action="@{/login}" method="post" class="box">-->
+                    <form th:object="${user}" th:action="@{/signup}" method="post" class="box" enctype="multipart/form-data">
+
+                        <div class="field">
+                            <label for="name" class="label">Name</label>
+                            <div class="control has-icons-left">
+                                <input type="name" id="name" name="name" placeholder="e.g. John Doe"
+                                       class="input" required>
+                                <span class="icon is-small is-left">
+                                    <i class="fa fa-user"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="email" class="label">Email</label>
+                            <div class="control has-icons-left">
+                                <input type="email" id="email" name="email" placeholder="e.g. johndoe@gmail.com"
+                                       class="input" required>
+                                <span class="icon is-small is-left">
+                                    <i class="fa fa-envelope"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="password" class="label">Password</label>
+                            <div class="control has-icons-left">
+                                <input type="password" id="password" name="password" placeholder="*******" class="input"
+                                       required>
+                                <span class="icon is-small is-left">
+                  <i class="fa fa-lock"></i>
+                </span>
+                            </div>
+                        </div>
+
+
+                        <div class="field">
+                            <label for="location" class="label">Location</label>
+                            <div class="control has-icons-left">
+                                <input type="text" id="location" name="location" placeholder="e.g. location"
+                                       class="input">
+                                <span class="icon is-small is-left">
+                                    <i class="fa fa-location-arrow"></i>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label for="dateOfBirth" class="label">Date Of Birth</label>
+                            <div class="control has-icons-left">
+                                <input type="date" id="dateOfBirth" name="dateOfBirth"
+                                       class="input" th:value="*{dateOfBirth}" th:field="*{dateOfBirth}">
+                                <span class="icon is-small is-left">
+                                    <i class="fa fa-calendar"></i>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="file has-name is-fullwidth field">
+                            <label class="file-label">
+                                <input class="file-input" type="file" name="imageFile"  th:field="*{imageFile}">
+                                <span class="file-cta">
+                                <span class="file-icon">
+                                 <i class="fas fa-upload"></i>
+                                </span>
+                                <span class="file-label">
+                                Choose a file…
+                                 </span>
+                                 </span>
+                                <span class="file-name">
+                                ...
+                                </span>
+                            </label>
+                        </div>
+
+                        <div class="field select" id="select-div">
+                            <!--                            <label for="gender" class="label">Gender</label>-->
+                            <div class="control has-icons-left">
+                                <select id="gender"  th:value="*{gender}"  th:field="*{gender}">
+                                    <option th:value="NONE" label="Gender "/>
+                                    <option th:value="MALE" label="Male"/>
+                                    <option th:value="FEMALE" label="Female"/>
+                                    <option th:value="OTHER" label="Other"/>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button class="button is-success">
+                                Sign Up
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script async type="text/javascript" th:src="@{/js/bulma.js}"></script>
+</body>
+
+</html>

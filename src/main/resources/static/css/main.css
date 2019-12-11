@@ -63,3 +63,7 @@ p.error {
 div.logout {
     float: right;
 }
+
+#select-div, #gender{
+    width: 100%;
+}
