@@ -1,8 +1,6 @@
 package edu.mum.sonet.models;
 
-import javax.persistence.Entity;
-import javax.persistence.Lob;
-import javax.persistence.Transient;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import edu.mum.sonet.models.enums.Gender;
@@ -28,6 +26,8 @@ public class Advertisement extends BaseEntity {
 	private String adUrl;;
 	private String targetLocation;
 	private Integer targetAge;
+
+	@Enumerated(EnumType.STRING)
 	private Gender targetGender;
 	
 }

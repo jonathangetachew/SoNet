@@ -44,7 +44,7 @@ p.subtitle {
 
 .select {
     width: 100%;
-    margin: 1rem 0 2rem;
+    /*margin: 1rem 0 2rem;*/
 }
 
 /*
@@ -115,6 +115,6 @@ div.logout {
     float: right;
 }
 
-#select-div, #gender{
+#select-div, #gender {
     width: 100%;
 }

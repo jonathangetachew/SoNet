@@ -16,7 +16,7 @@
                 <div class="columns is-centered">
                     <div class="column is-6-tablet is-7-desktop is-4-widescreen">
 
-                        <form th:object="${newAdvertisement}" th:action="@{/add}" method="post" class="box" enctype="multipart/form-data">
+                        <form th:object="${newAdvertisement}" th:action="@{/advertisements/add}" method="post" class="box" enctype="multipart/form-data">
 
                             <div class="field">
                                 <label for="text" class="label">Text</label>
@@ -30,12 +30,12 @@
                             </div>
 
                             <div class="field">
-                                <label for="location" class="label">Target Location</label>
+                                <label for="adUrl" class="label">Advertisement URL</label>
                                 <div class="control has-icons-left">
-                                    <input type="text" id="location" name="location" placeholder="Target Location"
-                                           class="input" th:value="*{targetAge}" th:field="*{targetAge}">
+                                    <input type="url" id="adUrl" name="adUrl" placeholder="Advertisement URL"
+                                           class="input" th:value="*{adUrl}" th:field="*{adUrl}">
                                     <span class="icon is-small is-left">
-                                    <i class="fa fa-location-arrow"></i>
+                                    <i class="fa fa-link"></i>
                                 </span>
                                 </div>
                             </div>
@@ -44,7 +44,8 @@
                                 <label for="targetAge" class="label">Target Age</label>
                                 <div class="control has-icons-left">
                                     <input type="number" id="targetAge" name="targetAge"
-                                           class="input" th:value="*{targetAge}" th:field="*{targetAge}">
+                                           class="input" th:value="*{targetAge}" th:field="*{targetAge}"
+                                           placeholder="Target Age" required>
                                     <span class="icon is-small is-left">
                                     <i class="fa fa-calendar"></i>
                                 </span>
@@ -53,50 +54,57 @@
 
                             <div class="file has-name is-fullwidth field">
                                 <label class="file-label">
-                                    <input class="file-input" type="file" name="imageFile"  th:field="*{imageFile}">
+                                    <input class="file-input" type="file" name="imageFile" th:field="*{imageFile}" required>
                                     <span class="file-cta">
-                                <span class="file-icon">
-                                <i class="fas fa-file-upload"></i>
-                                </span>
-                                <span class="file-label">
-                                Choose Ad Image
-                                 </span>
-                                 </span>
+                                        <span class="file-icon">
+                                            <i class="fa fa-upload"></i>
+                                        </span>
+                                        <span class="file-label">
+                                            Choose Ad Image
+                                        </span>
+                                    </span>
                                     <span class="file-name">
-                                ...
-                                </span>
+                                        Advertisement Poster Image
+                                    </span>
                                 </label>
                             </div>
 
-                            <div class="field select">
-                                <label for="targetGender" class="label">Gender</label>
-                                <div class="control has-icons-left">
-                                    <select th:field="*{targetGender}" th:value="*{targetGender}" id="targetGender">
-                                        <option value="" disabled selected>Choose Target Gender</option>
-                                        <option th:each="targetGenderValue : ${T(edu.mum.sonet.models.enums.Gender).values()}"
-                                                th:value="${targetGenderValue.name()}"
-                                                th:text="${targetGenderValue.name()}">FEMALE</option>
-                                    </select>
+                            <div class="field">
+                                <label class="label">Target Gender</label>
+                                <div class="control">
+                                    <div class="select">
+                                        <select class="select" th:field="*{targetGender}" th:value="*{targetGender}" required>
+                                            <option value="" disabled selected>Choose Target Gender</option>
+                                            <option th:each="targetGenderValue : ${T(edu.mum.sonet.models.enums.Gender).values()}"
+                                                    th:value="${targetGenderValue.name()}"
+                                                    th:text="${targetGenderValue.name()}">FEMALE</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="field select">
-                                <label for="targetLocation" class="label">Target Location</label>
-                                <div class="control has-icons-left">
-                                    <select th:field="*{targetLocation}" th:value="*{targetLocation}" id="targetLocation">
-                                        <option th:value="All" label="All"/>
-                                        <option th:value="Fairfield" label="Fairfield"/>
-                                        <option th:value="Ottumwa" label="Ottumwa"/>
-                                    </select>
+                            <div class="field">
+                                <label class="label">Target Location</label>
+                                <div class="control">
+                                    <div class="select">
+                                        <select class="select" th:field="*{targetLocation}" th:value="*{targetLocation}" required>
+                                            <option value="" disabled selected>Choose Target Location</option>
+                                            <option th:value="'All'" th:text="All">All</option>
+                                            <option th:value="'Fairfield, IA'" th:text="'Fairfield, IA'">Fairfield, IA</option>
+                                            <option th:value="'San Francisco, CA'" th:text="'San Francisco, CA'">San Francisco, CA</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="form-actions">
-                                <button class="button is-success">
-                                    Publish
-                                </button>
+                            <div class="field is-grouped is-grouped-right form-actions">
+                                <div class="control">
+                                    <button class="button is-success" type="submit">Submit</button>
+                                </div>
+                                <div class="control">
+                                    <button class="button is-link is-light" type="reset">Reset</button>
+                                </div>
                             </div>
-                            <div></div>
                         </form>
                     </div>
                 </div>
