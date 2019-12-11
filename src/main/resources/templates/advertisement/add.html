@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{fragments/main_layout}"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Advertisement</title>
+</head>
+<body>
+<div layout:fragment="content" id="add-advertisement">
+    <section class="hero is-fullheight">
+        <div class="hero-body">
+            <div class="container">
+                <div class="columns is-centered">
+                    <div class="column is-6-tablet is-7-desktop is-4-widescreen">
+
+                        <form th:object="${newAdvertisement}" th:action="@{/add}" method="post" class="box" enctype="multipart/form-data">
+
+                            <div class="field">
+                                <label for="text" class="label">Text</label>
+                                <div class="control has-icons-left">
+                                    <input type="name" id="text" name="text" placeholder="Advertisement Text"
+                                           class="input" required>
+                                    <span class="icon is-small is-left">
+                                    <i class="fa fa-user"></i>
+                                </span>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label for="location" class="label">Target Location</label>
+                                <div class="control has-icons-left">
+                                    <input type="text" id="location" name="location" placeholder="Target Location"
+                                           class="input" th:value="*{targetAge}" th:field="*{targetAge}">
+                                    <span class="icon is-small is-left">
+                                    <i class="fa fa-location-arrow"></i>
+                                </span>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label for="targetAge" class="label">Target Age</label>
+                                <div class="control has-icons-left">
+                                    <input type="number" id="targetAge" name="targetAge"
+                                           class="input" th:value="*{targetAge}" th:field="*{targetAge}">
+                                    <span class="icon is-small is-left">
+                                    <i class="fa fa-calendar"></i>
+                                </span>
+                                </div>
+                            </div>
+
+                            <div class="file has-name is-fullwidth field">
+                                <label class="file-label">
+                                    <input class="file-input" type="file" name="imageFile"  th:field="*{imageFile}">
+                                    <span class="file-cta">
+                                <span class="file-icon">
+                                <i class="fas fa-file-upload"></i>
+                                </span>
+                                <span class="file-label">
+                                Choose Ad Image
+                                 </span>
+                                 </span>
+                                    <span class="file-name">
+                                ...
+                                </span>
+                                </label>
+                            </div>
+
+                            <div class="field select">
+                                <label for="targetGender" class="label">Gender</label>
+                                <div class="control has-icons-left">
+                                    <select th:field="*{targetGender}" th:value="*{targetGender}" id="targetGender">
+                                        <option value="" disabled selected>Choose Target Gender</option>
+                                        <option th:each="targetGenderValue : ${T(edu.mum.sonet.models.enums.Gender).values()}"
+                                                th:value="${targetGenderValue.name()}"
+                                                th:text="${targetGenderValue.name()}">FEMALE</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="field select">
+                                <label for="targetLocation" class="label">Target Location</label>
+                                <div class="control has-icons-left">
+                                    <select th:field="*{targetLocation}" th:value="*{targetLocation}" id="targetLocation">
+                                        <option th:value="All" label="All"/>
+                                        <option th:value="Fairfield" label="Fairfield"/>
+                                        <option th:value="Ottumwa" label="Ottumwa"/>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-actions">
+                                <button class="button is-success">
+                                    Publish
+                                </button>
+                            </div>
+                            <div></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+</body>
+</html>
