@@ -63,6 +63,12 @@ public class User extends BaseEntity {
 	@OneToMany(mappedBy = "user", targetEntity = Claim.class)
 	private Set<Claim> claims = new HashSet<>();
 
+	@OneToMany
+	private Set<User> followers = new HashSet<>();
+
+	@OneToMany
+	private Set<User> followingUsers = new HashSet<>();
+
 	/**
 	 *
 	 * Added custom add and remove methods to handle relationships

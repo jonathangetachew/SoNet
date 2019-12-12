@@ -8,4 +8,7 @@ public interface UserService extends GenericService<User>{
     User register(User user);
     User findByEmail(String email);
     User saveProfileChanges(User user,String imagesDirectory);
+    Boolean isAuthenticatedUserFollowUser(String authenticatedEmail,User user);
+    void follow(String authenticatedEmail, String targetUserEmail);
+    void unfollow(String authenticatedEmail, String targetUserEmail);
 }

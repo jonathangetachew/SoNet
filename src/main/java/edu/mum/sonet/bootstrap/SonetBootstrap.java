@@ -149,7 +149,17 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 		user2.addClaim(claim);
 		user2.addClaim(claim2);
 
-		userRepository.saveAll(Arrays.asList(user, user2));
+		User user3 = new User();
+		user3.setName("User2");
+		user3.setEmail("user2@sonet.com");
+		user3.setPassword(passwordEncoder.encode("user2"));
+		user3.setImageUrl("https://www.google.com/url?sa=i&source=images&cd=&cad=rja&uact=8&ved=2ahUKEwjirsGzqa7mAhVzGDQIHfijBQAQjRx6BAgBEAQ&url=https%3A%2F%2Fwww.shutterstock.com%2Fsearch%2Fuser%2Bicon&psig=AOvVaw1yGp9HJM6KGjbphW9mAxYv&ust=1576178700805099");
+		user3.setGender(Gender.OTHER);
+		user3.setLocation("Fairfield");
+		user3.setDateOfBirth(LocalDate.of(2005, 1, 1));
+
+
+		userRepository.saveAll(Arrays.asList(user, user2, user3));
 
 		///> Add Notifications
 		Notification notification = new Notification();
