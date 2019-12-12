@@ -5,6 +5,7 @@ import edu.mum.sonet.repositories.UserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -48,11 +49,17 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 		Authentication auth = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(email, "google"));
 
+		 SecurityContextHolder.getContext().setAuthentication(auth);
+
 		String token = jwtTokenProvider.createToken(auth);
 		String redirectionUrl = UriComponentsBuilder.fromUriString("http://localhost:8080/user/index")
 				.queryParam("token", token)
 				.queryParam("loginMessage", "Login Successful")
 				.build().toUriString();
+//		String redirectionUrl = UriComponentsBuilder.fromUriString("/login")
+//				.queryParam("email", email)
+//				.queryParam("password", "google")
+//				.build().toUriString();
 		getRedirectStrategy().sendRedirect(request, response, redirectionUrl);
 	}
 }

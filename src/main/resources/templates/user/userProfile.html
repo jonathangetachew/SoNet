@@ -19,8 +19,8 @@
 
     <div class="columns">
         <div class="column " id="profile-follow" th:if="${!#authentication.getName().equals(user.email)}">
-            <button class="button is-success is-outlined is-pulled-right">Follow</button>
-            <button class="button is-success is-outlined is-pulled-right">UnFollow</button>
+            <a class="button is-success is-outlined is-pulled-right" th:if="${!follow}" th:href="@{/user/follow(email=${user.email})}">Follow</a>
+            <a class="button is-success is-outlined is-pulled-right" th:if="${follow}" th:href="@{/user/unfollow(email=${user.email})}">UnFollow</a>
         </div>
     </div>
         <div class="columns" >
@@ -30,7 +30,7 @@
                     <!--                    <img  th:src="@{/resources/static/images/no-image.jpg}" />-->
 <!--                    <img th:alt="${user.name}"-->
 <!--                            th:src="${(user.imageUrl != null) ? user.imageUrl.substring(user.imageUrl.indexOf('8080/')+4) : '/images/no-image.jpg'}"/>-->
-                                          <img th:src="${user.imageUrl.substring(user.imageUrl.indexOf('8080/')+4)}"  th:alt="${user.name}"/>
+                                          <img th:src="${(user.imageUrl !=null)?user.imageUrl.substring(user.imageUrl.indexOf('8080/')+4):'/images/no-image.jpg'}"  th:alt="${user.name}"/>
 
                 </figure>
             </div>

@@ -16,6 +16,9 @@ import edu.mum.sonet.models.User;
 import edu.mum.sonet.repositories.UserRepository;
 import edu.mum.sonet.services.UserService;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Service
 @Transactional
 public class UserServiceImpl extends GenericServiceImpl<User> implements UserService {
@@ -93,5 +96,34 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
 			response = save(originalUser);
 		}
 		return response;
+	}
+
+	@Override
+	public Boolean isAuthenticatedUserFollowUser(String authenticatedEmail, User targetUser) {
+	return userRepository.existsByEmailAndFollowers(authenticatedEmail, targetUser);
+	}
+
+	@Override
+	public void follow(String authenticatedEmail, String targetUserEmail) {
+		User targetUser = findByEmail(targetUserEmail);
+		User authenticatedUser = userRepository.getUserByEmailFetchFollowers(authenticatedEmail);
+		Set<User> followers = authenticatedUser.getFollowers();
+		if(followers == null){
+			followers = new HashSet<>();
+		}
+		followers.add(targetUser);
+		userRepository.save(authenticatedUser);
+	}
+
+	@Override
+	public void unfollow(String authenticatedEmail, String targetUserEmail) {
+		User targetUser = findByEmail(targetUserEmail);
+		User authenticatedUser = userRepository.getUserByEmailFetchFollowers(authenticatedEmail);
+		Set<User> followers =authenticatedUser.getFollowers();
+		if(followers != null){
+			authenticatedUser.getFollowers().remove(targetUser);;
+		}
+
+		userRepository.save(authenticatedUser);
 	}
 }
