@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const rootEl = document.documentElement;
     const $modals = getAll('.modal');
     const $modalButtons = getAll('.modal-trigger');
-    const $modalCloses = getAll('.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button');
+    const $modalCloses = getAll('.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .closer');
 
     if ($modalButtons.length > 0) {
         $modalButtons.forEach(function ($el) {
@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    function closeModals() {
+    window.closeModals = function closeModals() {
         rootEl.classList.remove('is-clipped');
         $modals.forEach(function ($el) {
             $el.classList.remove('is-active');

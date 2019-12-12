@@ -21,9 +21,9 @@ public class Post extends BaseEntity {
 
 	@Lob
 	private String contentUrl;
-	private Integer likeCount;
-	private Integer commentCount;
-	private Boolean isHealthy;
+	private Integer likeCount = 0;
+	private Integer commentCount = 0;
+	private Boolean isHealthy = true;
 	private LocalDate creationDate;
 
 	@ManyToOne

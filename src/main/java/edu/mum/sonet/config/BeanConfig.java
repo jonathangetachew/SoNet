@@ -49,7 +49,7 @@ public class BeanConfig implements WebMvcConfigurer {
         ReloadableResourceBundleMessageSource messageSource
                 = new ReloadableResourceBundleMessageSource();
 
-        messageSource.setBasenames("classpath:/strings/messages", "classpath:/strings/errorMessages");
+        messageSource.setBasenames("classpath:/strings/messages");
         messageSource.setDefaultEncoding("UTF-8");
         return messageSource;
     }
