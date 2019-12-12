@@ -45,12 +45,8 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
 	public String login(String email, String password) {
 
 		try {
-			System.out.println("==== start token (login)===");
-//			String encodedPassword = passwordEncoder.encode(password);
-
 			Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
 			String token = jwtTokenProvider.createToken(authentication);
-			System.out.println(">>> generated token: "+token);
 			return token;
 		} catch (AuthenticationException e) {
 //			throw new CustomException("Invalid username/password supplied", HttpStatus.UNPROCESSABLE_ENTITY);
