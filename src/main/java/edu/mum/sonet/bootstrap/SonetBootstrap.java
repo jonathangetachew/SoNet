@@ -4,6 +4,7 @@ import edu.mum.sonet.models.*;
 import edu.mum.sonet.models.enums.Gender;
 import edu.mum.sonet.models.enums.Role;
 import edu.mum.sonet.repositories.*;
+import edu.mum.sonet.services.UserService;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -36,6 +37,7 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 
 	private final PostRepository postRepository;
 
+
 	private final PasswordEncoder passwordEncoder;
 
 	public SonetBootstrap(UserRepository userRepository, AdvertisementRepository advertisementRepository,
@@ -49,6 +51,7 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 		this.notificationRepository = notificationRepository;
 		this.postRepository = postRepository;
 		this.passwordEncoder = passwordEncoder;
+
 	}
 
 	@Override
@@ -158,5 +161,6 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 		notification2.setPost(post2);
 
 		notificationRepository.saveAll(Arrays.asList(notification, notification2));
+
 	}
 }

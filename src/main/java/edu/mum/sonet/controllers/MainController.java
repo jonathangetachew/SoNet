@@ -9,7 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 
 @Controller
@@ -52,15 +51,14 @@ public class MainController {
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     public String doSignup(User user, HttpServletRequest request) {
         String rootDirectory = request.getSession().getServletContext().getRealPath("/");
-        String imageUrl = fileService.saveFile(user.getImageFile(),rootDirectory+"profileImages/images/");
+        String imageUrl = fileService.saveFile(user.getImageFile(),rootDirectory+"profileImages/");
         user.setImageUrl(imageUrl);
         User u = userService.register(user);
-        return "login";
+        return "redirect:/login";
     }
 
     @RequestMapping("/login-error")
     public String loginError(Model model) {
-        System.out.println(">>>> show /login-error");
         model.addAttribute("loginError", true);
         return "login";
     }

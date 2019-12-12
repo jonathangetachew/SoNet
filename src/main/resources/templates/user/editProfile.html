@@ -1,0 +1,162 @@
+<!DOCTYPE HTML>
+<html
+        xmlns:layout="http://www.w3.org/1999/xhtml"
+        layout:decorate="~{fragments/main_layout}"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:th="https://www.thymeleaf.org"
+>
+<head>
+    <title>Edit Profile</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/user-profile.js}"></script>
+    <link rel="stylesheet" href="/css/main.css" th:href="@{/css/profile.css}"/>
+</head>
+<body>
+<div layout:fragment="content" class="container">
+
+    <div class="column box"><h2 class="title profile-label">Edit Profile</h2></div>
+
+    <div class="columns" id="profileForm">
+        <div class="column is-4">
+            <figure class="image">
+                <img id="img-display" th:src="${user.imageUrl.substring(user.imageUrl.indexOf('8080/')+4)}"  th:alt="${user.name}"/>
+
+            </figure>
+        </div>
+        <div class="column is-8">
+            <form th:object="${user}" th:action="@{/user/saveProfileChanges}" method="post" class="box" enctype="multipart/form-data">
+            <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                    <label class="label">Name:</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <div class="control">
+                            <input class="input" type="text" name="name"  th:value="*{name}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Email:</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input class="input" type="email" name="email" th:value="*{email}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Location:</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input class="input" type="text" name="location"  th:field="*{location}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Gender:</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field select">
+                            <div class="control">
+                                <select  th:value="*{gender}"  th:field="*{gender}">
+                                    <option th:value="NONE" label="Gender "/>
+                                    <option th:value="MALE" label="Male"/>
+                                    <option th:value="FEMALE" label="Female"/>
+                                    <option th:value="OTHER" label="Other"/>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Date Of Birth:</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input class="input" type="date" name="dateOfBirth"  th:field="*{dateOfBirth}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">Password:</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <div class="control">
+                                    <input class="input" type="password" name="oldPassword"  th:value="*{oldPassword}" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">New Password:</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <div class="control">
+                                    <input class="input" type="password" name="password"  th:value="*{password}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Photo:</label>
+                    </div>
+                    <div class="control field-body">
+                        <label class="file-label is-normal">
+                            <input class="input file-input " type="file" id="imageFile" name="imageFile"  th:field="*{imageFile}">
+                            <span class="file-cta">
+                                <span class="file-icon">
+                                 <i class="fas fa-upload"></i>
+                                </span>
+                                <span class="file-label">
+                                Choose a file…
+                                 </span>
+                                 </span>
+                            <span class="file-name">
+                                ...
+                                </span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="columns field">
+                    <button class="button is-success" type="submit">Save Changes</button>
+                </div>
+
+
+            </form>
+        </div>
+
+    </div>
+
+
+
+</div>
+</body>
+</html>

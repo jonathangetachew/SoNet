@@ -1,0 +1,19 @@
+#profileForm{
+    padding-top: 5%;
+}
+
+.profile-label{
+    color: #60d1b2;
+}
+
+#profile-follow{
+    padding-right: 30%;
+}
+
+form{
+    margin: unset!important;
+}
+
+#profile-data{
+    padding-top: 2%!important;
+}

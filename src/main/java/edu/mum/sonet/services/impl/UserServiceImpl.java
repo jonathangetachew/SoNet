@@ -1,6 +1,7 @@
 package edu.mum.sonet.services.impl;
 
 import edu.mum.sonet.security.JwtTokenProvider;
+import edu.mum.sonet.services.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,26 +28,25 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
 
 	private AuthenticationManager authenticationManager;
 
+	private FileService fileService;
+
 	@Autowired
 	public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder,
-	                       @Lazy JwtTokenProvider jwtTokenProvider, AuthenticationManager authenticationManager) {
+	                       @Lazy JwtTokenProvider jwtTokenProvider, AuthenticationManager authenticationManager, FileService fileService) {
 		super(userRepository);
 		this.userRepository = userRepository;
 		this.passwordEncoder = passwordEncoder;
 		this.jwtTokenProvider = jwtTokenProvider;
 		this.authenticationManager = authenticationManager;
+		this.fileService = fileService;
 	}
 
 	@Override
 	public String login(String email, String password) {
 
 		try {
-			System.out.println("==== start token (login)===");
-//			String encodedPassword = passwordEncoder.encode(password);
-
 			Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
 			String token = jwtTokenProvider.createToken(authentication);
-			System.out.println(">>> generated token: "+token);
 			return token;
 		} catch (AuthenticationException e) {
 //			throw new CustomException("Invalid username/password supplied", HttpStatus.UNPROCESSABLE_ENTITY);
@@ -66,5 +66,32 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
 	@Override
 	public User findByEmail(String email) {
  		return userRepository.findByEmail(email).orElse(null);
+	}
+
+	@Override
+	public User saveProfileChanges(User user, String imagesDirectory) {
+		User response = null;
+		User originalUser = findByEmail(user.getEmail());
+		if(passwordEncoder.matches(user.getOldPassword(), originalUser.getPassword())) {
+			originalUser.setName(user.getName());
+			if (user.getPassword() != null &&user.getPassword().length()>3) {
+				String encodedPassword = passwordEncoder.encode(user.getPassword());
+				originalUser.setPassword(encodedPassword);
+			}
+			originalUser.setEmail(user.getEmail());
+			originalUser.setGender(user.getGender());
+			originalUser.setDateOfBirth(user.getDateOfBirth());
+			originalUser.setLocation(user.getLocation());
+			if(user.getImageFile() != null){
+//				String rootDirectory = originalUser.getImageUrl().substring(0,originalUser.getImageUrl().lastIndexOf("/")+1);
+				String imagePath = fileService.saveFile(user.getImageFile(),imagesDirectory);
+				if(imagePath != null){
+					fileService.deleteFile(originalUser.getImageUrl());
+					originalUser.setImageUrl(imagePath);
+				}
+			}
+			response = save(originalUser);
+		}
+		return response;
 	}
 }
