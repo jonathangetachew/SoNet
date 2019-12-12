@@ -14,6 +14,7 @@ import edu.mum.sonet.models.enums.AuthProvider;
 import edu.mum.sonet.models.enums.Gender;
 import edu.mum.sonet.models.enums.Role;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Data
 @NoArgsConstructor
 @Entity
+@EqualsAndHashCode(exclude={"posts", "claims"})
 public class User extends BaseEntity {
 
 	private String name;
@@ -50,7 +52,7 @@ public class User extends BaseEntity {
 	@Enumerated(EnumType.STRING)
 	private AuthProvider authProvider= AuthProvider.LOCAL;
 
-	@OneToMany(mappedBy = "user", targetEntity = Post.class)
+	@OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST ,targetEntity = Post.class)
 	@JsonIgnoreProperties(value = "user")
 	private Set<Post> posts = new HashSet<>();
 

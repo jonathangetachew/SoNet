@@ -11,7 +11,7 @@ html,body {
     box-shadow: none;
 }
 .box {
-    margin-top: 5rem;
+    /*margin-top: 5rem;*/
 }
 .avatar {
     margin-top: -70px;
@@ -33,6 +33,23 @@ p {
 p.subtitle {
     padding-top: 1rem;
 }
+
+/*
+    Advertisement
+ */
+#add-advertisement {
+    background-color: #F2F2F2;
+    width: 100vw;
+}
+
+.select {
+    width: 100%;
+    /*margin: 1rem 0 2rem;*/
+}
+
+/*
+    Login
+*/
 
 .login-hr{
     border-bottom: 1px solid black;
@@ -85,7 +102,7 @@ p.subtitle {
 }
 
 body {
-    font-family: sans;
+    font-family: sans-serif, Arial;
     font-size: 1em;
 }
 
@@ -98,6 +115,6 @@ div.logout {
     float: right;
 }
 
-#select-div, #gender{
+#select-div, #gender {
     width: 100%;
 }
