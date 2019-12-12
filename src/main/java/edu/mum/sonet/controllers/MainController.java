@@ -52,10 +52,10 @@ public class MainController {
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     public String doSignup(User user, HttpServletRequest request) {
         String rootDirectory = request.getSession().getServletContext().getRealPath("/");
-        String imageUrl = fileService.saveFile(user.getImageFile(),rootDirectory+"profileImages/images/");
+        String imageUrl = fileService.saveFile(user.getImageFile(),rootDirectory+"profileImages/");
         user.setImageUrl(imageUrl);
         User u = userService.register(user);
-        return "login";
+        return "redirect:/login";
     }
 
     @RequestMapping("/login-error")

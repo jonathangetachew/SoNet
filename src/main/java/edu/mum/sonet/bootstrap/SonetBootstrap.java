@@ -3,6 +3,7 @@ package edu.mum.sonet.bootstrap;
 import edu.mum.sonet.models.*;
 import edu.mum.sonet.models.enums.Gender;
 import edu.mum.sonet.repositories.*;
+import edu.mum.sonet.services.UserService;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
@@ -32,14 +33,17 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 
 	private final PostRepository postRepository;
 
+	private final UserService userService;
+
 	public SonetBootstrap(AdvertisementRepository advertisementRepository, ClaimRepository claimRepository,
 	                      CommentRepository commentRepository, NotificationRepository notificationRepository,
-	                      PostRepository postRepository) {
+	                      PostRepository postRepository, UserService userService) {
 		this.advertisementRepository = advertisementRepository;
 		this.claimRepository = claimRepository;
 		this.commentRepository = commentRepository;
 		this.notificationRepository = notificationRepository;
 		this.postRepository = postRepository;
+		this.userService = userService;
 	}
 
 	@Override
@@ -125,5 +129,15 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 		notification2.setPost(post2);
 
 		notificationRepository.saveAll(Arrays.asList(notification, notification2));
+
+		User user1 = new User();
+		user1.setName("Mahmoud");
+		user1.setLocation("Fairfield");
+		user1.setGender(Gender.MALE);
+		user1.setEmail("mahmoud@gmail.com");
+		user1.setPassword("m");
+		user1.setImageUrl("/tmp/tomcat-docbase.13474198551271694409.8080/profileImages/images/test case (Failing test)-1576046052.png");
+
+		userService.register(user1);
 	}
 }

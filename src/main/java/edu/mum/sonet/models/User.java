@@ -28,6 +28,7 @@ public class User extends BaseEntity {
 
 	@Column(unique = true)
 	private String email;
+	@JsonIgnore
 	private String password;
 	private String imageUrl;
 	private Gender gender;
@@ -40,6 +41,9 @@ public class User extends BaseEntity {
 	@Transient
 	@JsonIgnore
 	private MultipartFile imageFile;
+
+	@Transient
+	private String oldPassword;
 
 	@NotNull
 	@Enumerated(EnumType.STRING)

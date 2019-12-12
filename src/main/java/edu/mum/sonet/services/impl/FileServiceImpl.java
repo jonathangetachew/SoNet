@@ -34,4 +34,12 @@ public class FileServiceImpl implements FileService {
               return path;
     }
 
+    @Override
+    public void deleteFile(String filePath) {
+        File file = new File(filePath);
+        if(file.exists()){
+            file.delete();
+        }
+    }
+
 }

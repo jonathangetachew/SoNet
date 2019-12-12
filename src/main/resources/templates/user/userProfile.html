@@ -1,0 +1,73 @@
+<!DOCTYPE HTML>
+<html
+        xmlns:layout="http://www.w3.org/1999/xhtml"
+        layout:decorate="~{fragments/main_layout}"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:th="https://www.thymeleaf.org"
+>
+<head>
+    <title>Profile</title>
+<!--    <link rel="stylesheet" href="/css/main.css" th:href="@{/css/profile.css}"/>-->
+</head>
+<body>
+<div layout:fragment="content" class="container">
+
+    <div class="column box"><h2 class="title profile-label">User Profile</h2></div>
+
+<div id="profileForm">
+
+
+    <div class="columns">
+        <div class="column " id="profile-follow" th:if="${!#authentication.getName().equals(user.email)}">
+            <button class="button is-success is-outlined is-pulled-right">Follow</button>
+            <button class="button is-success is-outlined is-pulled-right">UnFollow</button>
+        </div>
+    </div>
+        <div class="columns" >
+
+            <div class="column is-4">
+                <figure class="image">
+                    <!--                    <img  th:src="@{/resources/static/images/no-image.jpg}" />-->
+<!--                    <img th:alt="${user.name}"-->
+<!--                            th:src="${(user.imageUrl != null) ? user.imageUrl.substring(user.imageUrl.indexOf('8080/')+4) : '/images/no-image.jpg'}"/>-->
+                                          <img th:src="${user.imageUrl.substring(user.imageUrl.indexOf('8080/')+4)}"  th:alt="${user.name}"/>
+
+                </figure>
+            </div>
+            <div class="column is-8" id="profile-data">
+                <div class="columns">
+                    <div class="column is-3"> <label class="label profile-label">Name:</label></div>
+                    <div class="column is-9"> <p th:text="${user.name}" ></p></div>
+                </div>
+                <div class="columns">
+                    <div class="column is-3"><label class="label profile-label"> Email:</label></div>
+                    <div class="column is-9"> <p th:text="${user.email}"></p></div>
+                </div>
+                <div class="columns">
+                    <div class="column is-3"> <label class="label profile-label">Location:</label></div>
+                    <div class="column is-9"> <p th:text="${user.location}"></p></div>
+                </div>
+                <div class="columns">
+                    <div class="column is-3"> <label class="label profile-label">Gender:</label></div>
+                    <div class="column is-9"> <p th:text="${user.gender}"></p></div>
+                </div>
+                <div class="columns">
+                    <div class="column is-3"> <label class="label profile-label">Date Of Birth:</label></div>
+                    <div class="column is-9"> <p th:text="${user.dateOfBirth}"></p></div>
+                </div>
+                <div class="columns" th:if="${#authentication.getName().equals(user.email)}">
+<!--                    <form th:action="@{/user/editProfile(email=${#authentication.getName()})}" >-->
+                    <form th:action="@{/user/editProfile}" method="post">
+                        <input hidden type="text" th:name="email" th:value="${#authentication.getName()}"/>
+                        <button class="button is-success" type="submit">EDIT</button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+</div>
+
+    </div>
+</body>
+</html>
