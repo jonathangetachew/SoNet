@@ -1,0 +1,115 @@
+<!DOCTYPE HTML>
+<html
+        xmlns:layout="http://www.w3.org/1999/xhtml"
+        layout:decorate="~{fragments/main_layout}"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:th="https://www.thymeleaf.org"
+>
+<head>
+    <title>Dashboard | Advertisements</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <section class="hero is-primary is-bold">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    Administrator Dashboard
+                </h1>
+                <h2 class="subtitle">
+                    Welcome Admin 😊
+                </h2>
+            </div>
+        </div>
+    </section>
+    <div class="tile is-ancestor" style="background-color: #fafafa;">
+        <div class="tile is-parent is-2" style="padding: 3rem 2rem 0;">
+            <aside class="tile menu is-child">
+                <p class="menu-label">
+                    Administration
+                </p>
+                <ul class="menu-list">
+                    <li><a href="/admin/dashboard"
+                           th:href="@{/admin/dashboard}"
+                           th:classappend="${#httpServletRequest.getRequestURI() == '/admin/dashboard' ? 'is-active':''}">
+                        Notifications</a></li>
+                    <li><a href="/admin/dashboard/advertisements"
+                           th:href="@{/admin/dashboard/advertisements}"
+                           th:classappend="${#httpServletRequest.getRequestURI() == '/admin/dashboard/advertisements' ? 'is-active':''}">
+                        Advertisements</a></li>
+                    <li><a href="/admin/dashboard/claims"
+                           th:href="@{/admin/dashboard/claims}"
+                           th:classappend="${#httpServletRequest.getRequestURI() == '/admin/dashboard/claims' ? 'is-active':''}">
+                        User Claims</a></li>
+                    <li><a href="/admin/dashboard/unhealthy-contents"
+                           th:href="@{/admin/dashboard/unhealthy-contents}"
+                           th:classappend="${#httpServletRequest.getRequestURI() == '/admin/dashboard/unhealthy-contents' ? 'is-active':''}">
+                        Unhealthy Content</a></li>
+                </ul>
+            </aside>
+        </div>
+        <div class="tile is-parent is-10"
+             style="height: 65vh; overflow-x: hidden; overflow-y: auto; background-color: #fff; padding: 3rem 2rem 0;">
+            <article class="tile is-child" style="max-width: 100%;">
+                <div style="margin: 1rem 0;">
+                    <span style="font-size: 3em;">Advertisements</span>
+                    <span style="float:right; margin-top: 1rem;">
+                        <a th:href="@{'/admin/dashboard/advertisements/add'}">
+                            <button class="button is-success">
+                                <span class="icon is-small">
+                                  <i class="fa fa-plus"></i>
+                                </span>
+                                <span>Add Advertisement</span>
+                            </button>
+                        </a>
+                    </span>
+                </div>
+                <table class="table is-striped">
+                    <thead>
+                        <tr class="is-selected">
+                            <th>#</th>
+                            <th>Text</th>
+                            <th>Content URL</th>
+                            <th>AD URL</th>
+                            <th>Target Location</th>
+                            <th>Target Age</th>
+                            <th>Target Gender</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr class="is-selected">
+                            <th>#</th>
+                            <th>Text</th>
+                            <th>Content URL</th>
+                            <th>AD URL</th>
+                            <th>Target Location</th>
+                            <th>Target Age</th>
+                            <th>Target Gender</th>
+                            <th>Actions</th>
+                    </tr>
+                    </tfoot>
+                    <tbody>
+                        <tr th:each="ad, i : ${advertisements}">
+                            <th scope="row" th:text="${i.count}">1</th>
+                            <th th:text="${ad.text}">Text</th>
+                            <th th:text="${#strings.substring(ad.contentUrl, 0, 77)} + '...'">Content URL</th>
+                            <th th:text="${ad.adUrl}">AD URL</th>
+                            <th th:text="${ad.targetLocation}">Target Location</th>
+                            <th th:text="${ad.targetAge}">Target Age</th>
+                            <th th:text="${ad.targetGender}">Target Gender</th>
+                            <td>
+                                <a th:href="@{'/admin/dashboard/advertisements/' + ${ad.id} + '/delete'}"
+                                   title="Delete">
+                                    <button class="delete"></button>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </article>
+        </div>
+    </div>
+</div>
+</body>
+</html>

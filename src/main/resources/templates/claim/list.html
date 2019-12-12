@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html
+        xmlns:layout="http://www.w3.org/1999/xhtml"
+        layout:decorate="~{fragments/main_layout}"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:th="https://www.thymeleaf.org"
+>
+<head>
+    <title>Dashboard | Claims</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <section class="hero is-primary is-bold">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    Administrator Dashboard
+                </h1>
+                <h2 class="subtitle">
+                    Welcome Admin 😊
+                </h2>
+            </div>
+        </div>
+    </section>
+    <div class="tile is-ancestor" style="background-color: #fafafa;">
+        <div class="tile is-parent is-2" style="padding: 3rem 2rem 0;">
+            <aside class="tile menu is-child">
+                <p class="menu-label">
+                    Administration
+                </p>
+                <ul class="menu-list">
+                    <li><a href="/admin/dashboard"
+                           th:href="@{/admin/dashboard}"
+                           th:classappend="${#httpServletRequest.getRequestURI() == '/admin/dashboard' ? 'is-active':''}">
+                        Notifications</a></li>
+                    <li><a href="/admin/dashboard/advertisements"
+                           th:href="@{/admin/dashboard/advertisements}"
+                           th:classappend="${#httpServletRequest.getRequestURI() == '/admin/dashboard/advertisements' ? 'is-active':''}">
+                        Advertisements</a></li>
+                    <li><a href="/admin/dashboard/claims"
+                           th:href="@{/admin/dashboard/claims}"
+                           th:classappend="${#httpServletRequest.getRequestURI() == '/admin/dashboard/claims' ? 'is-active':''}">
+                        User Claims</a></li>
+                    <li><a href="/admin/dashboard/unhealthy-contents"
+                           th:href="@{/admin/dashboard/unhealthy-contents}"
+                           th:classappend="${#httpServletRequest.getRequestURI() == '/admin/dashboard/unhealthy-contents' ? 'is-active':''}">
+                        Unhealthy Content</a></li>
+                </ul>
+            </aside>
+        </div>
+        <div class="tile is-parent is-10"
+             style="height: 65vh; overflow-x: hidden; overflow-y: auto; background-color: #fff; padding: 3rem 2rem 0;">
+            <article class="tile is-child">
+                <p class="title">Claims</p>
+                <p class="subtitle">Claims go here...</p>
+            </article>
+        </div>
+    </div>
+</div>
+</body>
+</html>
