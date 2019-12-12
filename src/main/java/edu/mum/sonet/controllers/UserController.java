@@ -34,7 +34,6 @@ public class UserController {
 		User user = userService.findByEmail(email);
 		if(user != null){
 			model.addAttribute("user",user);
-			System.out.println(">>> return user: "+user.getEmail()+" "+user.getImageUrl());
 			return "user/userProfile";
 		}else{
 			return "/";
@@ -43,7 +42,6 @@ public class UserController {
 
 	@PostMapping(value = "/editProfile")
 	public  String editProfile(@RequestParam(value="email") String email, Model model) {
-		System.out.println(">>>>> edit Profile for: "+email);
 		User user = userService.findByEmail(email);
 		if(user != null){
 			user.setPassword(null);
@@ -57,7 +55,6 @@ public class UserController {
 	@PostMapping(value = "/saveProfileChanges")
 	public  String saveProfileChanges(User user, HttpServletRequest request) {
 		String rootDirectory = request.getSession().getServletContext().getRealPath("/");
-		System.out.println(">>>> save profile CHanges"+user.getEmail());
 		 user = userService.saveProfileChanges(user,rootDirectory+"profileImages/");
 		 return "redirect:/user/showProfile?email="+user.getEmail();
 	}

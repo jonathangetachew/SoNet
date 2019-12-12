@@ -7,10 +7,15 @@
     <title>Login</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet"> -->
-    <link href="https://fonts.googleapis.com/css?family=Questrial&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Questrial&display=swap" rel="stylesheet" />
     <!-- Bulma Version 0.8.x-->
     <link rel="stylesheet" href="https://unpkg.com/bulma@0.8.0/css/bulma.min.css"/>
+    <!-- Bulma-Social -->
+    <link rel="stylesheet" href="/css/bulma-social.min.css" />
+    <!-- Custom CSS-->
     <link rel="stylesheet" href="/css/main.css" th:href="@{/css/main.css}"/>
+    <!-- Font Awesome -->
+    <script defer src="https://use.fontawesome.com/releases/v5.11.2/js/all.js"></script>
 </head>
 <body>
 <section class="hero is-primary is-fullheight">
@@ -35,18 +40,18 @@
                                 <input type="email" id="email" name="email" placeholder="e.g. johndoe@gmail.com"
                                        class="input" required>
                                 <span class="icon is-small is-left">
-                  <i class="fa fa-envelope"></i>
-                </span>
-                            </div>
-                        </div>
-                        <div class="field">
-                            <label for="password" class="label">Password</label>
-                            <div class="control has-icons-left">
-                                <input type="password" id="password" name="password" placeholder="*******" class="input"
-                                       required>
-                                <span class="icon is-small is-left">
-                  <i class="fa fa-lock"></i>
-                </span>
+                          <i class="fa fa-envelope"></i>
+                        </span>
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label for="password" class="label">Password</label>
+                                    <div class="control has-icons-left">
+                                        <input type="password" id="password" name="password" placeholder="*******" class="input"
+                                               required>
+                                        <span class="icon is-small is-left">
+                          <i class="fa fa-lock"></i>
+                        </span>
                             </div>
                         </div>
                         <div class="field">
@@ -60,6 +65,16 @@
                                 Login
                             </button>
                             <a th:href="@{signup}">Sign Up</a>
+                        </div>
+                        <hr class="hr-text" data-content="OR">
+                        <div class="login-social">
+                            <!-- Google Button -->
+                            <a href="/oauth2/authorize/google" class="button is-large is-google">
+                                <span class="icon">
+                                  <i class="fab fa-google"></i>
+                                </span>
+                                <span>Google</span>
+                            </a>
                         </div>
                     </form>
                 </div>

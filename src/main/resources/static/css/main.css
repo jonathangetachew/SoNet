@@ -11,7 +11,7 @@ html,body {
     box-shadow: none;
 }
 .box {
-    margin-top: 5rem;
+    /*margin-top: 5rem;*/
 }
 .avatar {
     margin-top: -70px;
@@ -34,8 +34,59 @@ p.subtitle {
     padding-top: 1rem;
 }
 
+/*
+    Advertisement
+ */
+#add-advertisement {
+    background-color: #F2F2F2;
+    width: 100vw;
+}
+
+.select {
+    width: 100%;
+    /*margin: 1rem 0 2rem;*/
+}
+
+/*
+    Login
+*/
+
 .login-hr{
     border-bottom: 1px solid black;
+}
+
+.hr-text {
+    line-height: 1em;
+    position: relative;
+    outline: 0;
+    border: 0;
+    color: black;
+    text-align: center;
+    height: 1.5em;
+    opacity: .5;
+}
+.hr-text:before {
+    content: '';
+    background: linear-gradient(to right, transparent, #818078, transparent);
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    height: 1px;
+}
+.hr-text:after {
+    content: attr(data-content);
+    position: relative;
+    display: inline-block;
+    color: black;
+    padding: 0 .5em;
+    line-height: 1.5em;
+    color: #818078;
+    background-color: #fcfcfa;
+}
+
+.login-social > a {
+    width: 100%;
 }
 
 .has-text-black{
@@ -51,7 +102,7 @@ p.subtitle {
 }
 
 body {
-    font-family: sans;
+    font-family: sans-serif, Arial;
     font-size: 1em;
 }
 
@@ -64,7 +115,7 @@ div.logout {
     float: right;
 }
 
-#select-div, #gender{
+#select-div, #gender {
     width: 100%;
 }
 

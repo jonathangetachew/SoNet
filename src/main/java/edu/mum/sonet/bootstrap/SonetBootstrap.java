@@ -2,10 +2,12 @@ package edu.mum.sonet.bootstrap;
 
 import edu.mum.sonet.models.*;
 import edu.mum.sonet.models.enums.Gender;
+import edu.mum.sonet.models.enums.Role;
 import edu.mum.sonet.repositories.*;
 import edu.mum.sonet.services.UserService;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -23,6 +25,8 @@ import java.util.Arrays;
 @Component
 public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent> {
 
+	private final UserRepository userRepository;
+
 	private final AdvertisementRepository advertisementRepository;
 
 	private final ClaimRepository claimRepository;
@@ -33,17 +37,21 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 
 	private final PostRepository postRepository;
 
-	private final UserService userService;
 
-	public SonetBootstrap(AdvertisementRepository advertisementRepository, ClaimRepository claimRepository,
-	                      CommentRepository commentRepository, NotificationRepository notificationRepository,
-	                      PostRepository postRepository, UserService userService) {
+	private final PasswordEncoder passwordEncoder;
+
+	public SonetBootstrap(UserRepository userRepository, AdvertisementRepository advertisementRepository,
+	                      ClaimRepository claimRepository, CommentRepository commentRepository,
+	                      NotificationRepository notificationRepository, PostRepository postRepository,
+	                      PasswordEncoder passwordEncoder) {
+		this.userRepository = userRepository;
 		this.advertisementRepository = advertisementRepository;
 		this.claimRepository = claimRepository;
 		this.commentRepository = commentRepository;
 		this.notificationRepository = notificationRepository;
 		this.postRepository = postRepository;
-		this.userService = userService;
+		this.passwordEncoder = passwordEncoder;
+
 	}
 
 	@Override
@@ -117,7 +125,31 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 		post2.setIsHealthy(false);
 		post2.addComment(comment3);
 
-		postRepository.saveAll(Arrays.asList(post, post2));
+		///> Add Users
+		User user = new User();
+		user.setName("Admin");
+		user.setEmail("admin@sonet.com");
+		user.setPassword(passwordEncoder.encode("admin"));
+		user.setImageUrl("https://www.google.com/url?sa=i&source=images&cd=&ved=2ahUKEwiZqOS1qK7mAhWpGDQIHVgsDFEQjRx6BAgBEAQ&url=http%3A%2F%2Fwww.iconarchive.com%2Fshow%2Ffree-large-boss-icons-by-aha-soft%2Fadmin-icon.html&psig=AOvVaw24tJMsiKmpscIQBzUEqU30&ust=1576178438949212");
+		user.setGender(Gender.FEMALE);
+		user.setLocation("Fairfield, IA");
+		user.setDateOfBirth(LocalDate.of(2000, 1, 1));
+		user.setRole(Role.ADMIN);
+
+		User user2 = new User();
+		user2.setName("User");
+		user2.setEmail("user@sonet.com");
+		user2.setPassword(passwordEncoder.encode("user"));
+		user2.setImageUrl("https://www.google.com/url?sa=i&source=images&cd=&cad=rja&uact=8&ved=2ahUKEwjirsGzqa7mAhVzGDQIHfijBQAQjRx6BAgBEAQ&url=https%3A%2F%2Fwww.shutterstock.com%2Fsearch%2Fuser%2Bicon&psig=AOvVaw1yGp9HJM6KGjbphW9mAxYv&ust=1576178700805099");
+		user2.setGender(Gender.OTHER);
+		user2.setLocation("San Francisco, CA");
+		user2.setDateOfBirth(LocalDate.of(2005, 1, 1));
+		user2.addPost(post);
+		user2.addPost(post2);
+		user2.addClaim(claim);
+		user2.addClaim(claim2);
+
+		userRepository.saveAll(Arrays.asList(user, user2));
 
 		///> Add Notifications
 		Notification notification = new Notification();
@@ -130,14 +162,5 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 
 		notificationRepository.saveAll(Arrays.asList(notification, notification2));
 
-		User user1 = new User();
-		user1.setName("Mahmoud");
-		user1.setLocation("Fairfield");
-		user1.setGender(Gender.MALE);
-		user1.setEmail("mahmoud@gmail.com");
-		user1.setPassword("m");
-		user1.setImageUrl("/tmp/tomcat-docbase.13474198551271694409.8080/profileImages/images/test case (Failing test)-1576046052.png");
-
-		userService.register(user1);
 	}
 }

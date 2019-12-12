@@ -60,7 +60,6 @@ public class MainController {
 
     @RequestMapping("/login-error")
     public String loginError(Model model) {
-        System.out.println(">>>> show /login-error");
         model.addAttribute("loginError", true);
         return "login";
     }
