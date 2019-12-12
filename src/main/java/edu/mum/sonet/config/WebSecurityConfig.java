@@ -1,4 +1,5 @@
 package edu.mum.sonet.config;
+import edu.mum.sonet.models.enums.Role;
 import edu.mum.sonet.security.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -71,6 +72,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                                     .antMatchers("/login").permitAll()
                                     .antMatchers("/signup").permitAll()
                                     .antMatchers("/register").permitAll()
+                                    ///> Admin specific route
+                                    .antMatchers("/admin/**").hasAuthority(Role.ADMIN.toString())
+                                    ///> User specific route
+//                                    .antMatchers("/user/**").hasAuthority(Role.USER.toString())
                                     .anyRequest().authenticated()
                                     .and()
                                     .formLogin()
@@ -157,11 +162,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         try {
 
             //Success handler invoked after successful authentication
-
-
-            for (GrantedAuthority authority : auth.getAuthorities()) {
-                System.out.println(authority.getAuthority());
-            }
             String token = jwtTokenProvider.createToken(auth);
             System.out.println("----- success login ----"+auth.getName() + "   token : " + token);
 
@@ -173,7 +173,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                                        HttpSession session = req.getSession(true);
 //                                        session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, sc);
 //                                        res.sendRedirect("/user/index");
-            redirectStrategy.sendRedirect(req, res, "/user/index"); // Redirect user to index/home page
+
+            ///> If user is an Admin -> redirect to admin dashboard
+            String userRole = Role.USER.toString();
+
+            for (GrantedAuthority authority : auth.getAuthorities()) {
+                userRole = authority.getAuthority();
+                System.out.println(userRole);
+                if ( userRole.equals(Role.ADMIN.toString())) break;
+            }
+
+            redirectStrategy.sendRedirect(req, res, userRole.equals(Role.ADMIN.toString()) ? "/admin/dashboard" : "/user/index"); // Redirect user
         }catch (IOException e){
             e.printStackTrace();
         }

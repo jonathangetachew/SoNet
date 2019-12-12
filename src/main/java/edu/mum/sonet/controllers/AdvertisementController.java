@@ -1,7 +1,6 @@
 package edu.mum.sonet.controllers;
 
 import edu.mum.sonet.models.Advertisement;
-import edu.mum.sonet.models.User;
 import edu.mum.sonet.services.AdvertisementService;
 import edu.mum.sonet.services.FileService;
 import org.springframework.stereotype.Controller;
@@ -9,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 /**
  * Created by Jonathan on 12/10/2019.
@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping(value = AdvertisementController.BASE_URL)
 public class AdvertisementController {
 
-	public static final String BASE_URL = "/advertisements";
+	public static final String BASE_URL = "admin/dashboard/advertisements";
 
 	private final AdvertisementService advertisementService;
 
@@ -33,22 +33,31 @@ public class AdvertisementController {
 	 *
 	 * Get Mappings
 	 *
-	 * @param advertisement
-	 * @return
 	 */
+
+	@GetMapping(value = {"/", ""})
+	public String getAllAdvertisements(Model model) {
+		model.addAttribute("advertisements", advertisementService.findAll());
+
+		return "advertisement/list";
+	}
 
 	@GetMapping("/add")
 	public String addAdvertisementForm(@ModelAttribute("newAdvertisement") Advertisement advertisement) {
 		return "advertisement/add";
 	}
 
+	@GetMapping("/{id}/delete")
+	public String deleteAdvertisementById(@PathVariable @Valid Long id) {
+		advertisementService.deleteById(id);
+
+		return "redirect:/" + AdvertisementController.BASE_URL;
+	}
+
 	/**
 	 *
 	 * Post mappings
 	 *
-	 * @param advertisement
-	 * @param request
-	 * @return
 	 */
 	@PostMapping("/add")
 	public String addAdvertisement(@ModelAttribute("newAdvertisement") Advertisement advertisement, HttpServletRequest request) {
