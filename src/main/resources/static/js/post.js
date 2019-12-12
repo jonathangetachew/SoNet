@@ -102,9 +102,28 @@ function initializeVue() {
     return vueApp;
 }
 
+function clear(e) {
+    //e.firstElementChild can be used.
+    let child = e.lastElementChild;
+    while (child) {
+        e.removeChild(child);
+        child = e.lastElementChild;
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     const vueApp = initializeVue();
-    const textArea = document.querySelectorAll("form>textarea[name='text']");
+    const textArea = document.querySelector("textarea[name='text']");
+    textArea.addEventListener('input', () => {
+        let textLn = textArea.value.length;
+        if (textLn > 0) {
+            const parent = textArea.parentNode;
+            clear(parent);
+            parent.appendChild(textArea);
+            textArea.focus();
+            textArea.classList.remove('is-danger');
+        }
+    });
     const submit = document.querySelector("#submit.button");
 
     submit.addEventListener('click', async (e) => {
@@ -115,7 +134,21 @@ document.addEventListener('DOMContentLoaded', function () {
         const response = await postData('./post', {data});
 
         if (response.errorType) {
+            if (response.errorType === 'validation') {
+                response.errors.forEach(({field, message}) => {
+                    const el = document.querySelector(`form [name='${field}']`);
+                    el.classList.add('is-danger');
+                    const hasErrorEl = Array.prototype.slice.call(el.parentNode.childNodes).find(node => node.title === "error");
 
+                    if (!hasErrorEl) {
+                        const p = document.createElement("p");
+                        p.setAttribute("title", "error");
+                        p.classList.add('is-danger');
+                        p.appendChild(document.createTextNode(message));
+                        el.parentNode.appendChild(p);
+                    }
+                });
+            }
         } else {
             vueApp.posts.unshift({
                 id: 4,

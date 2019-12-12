@@ -1,6 +1,7 @@
 package edu.mum.sonet.controllers.rest;
 
 import edu.mum.sonet.models.Post;
+import edu.mum.sonet.models.User;
 import edu.mum.sonet.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +27,11 @@ public class PostController {
     @PostMapping(value = "/post")
     public Post save(@Valid @RequestBody Post post) {
         post.setCreationDate(LocalDate.now());
+
+//        User user = new User();
+//        user.setEmail("user@email.com");
+//        user.setName("Yadir");
+//        user.addPost(post);
 
         return postService.save(post);
     }
