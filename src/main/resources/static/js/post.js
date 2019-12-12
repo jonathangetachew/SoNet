@@ -5,8 +5,8 @@ const posts = [
         id: 1,
         author: {
             name: 'James',
-            handle: '@jokerjames',
-            imageURL: 'https://semantic-ui.com/images/avatar2/large/matthew.png',
+            email: '@jokerjames',
+            imageUrl: 'https://semantic-ui.com/images/avatar2/large/matthew.png',
         },
         text: "If you don't succeed, dust yourself off and try again.",
         likes: 10,
@@ -15,8 +15,8 @@ const posts = [
         id: 2,
         author: {
             name: 'Fatima',
-            handle: '@fantasticfatima',
-            imageURL: 'https://semantic-ui.com/images/avatar2/large/molly.png',
+            email: '@fantasticfatima',
+            imageUrl: 'https://semantic-ui.com/images/avatar2/large/molly.png',
         },
         text: 'Better late than never but never late is better.',
         likes: 12,
@@ -25,8 +25,8 @@ const posts = [
         id: 3,
         author: {
             name: 'Xin',
-            handle: '@xeroxin',
-            imageURL: 'https://semantic-ui.com/images/avatar2/large/elyse.png',
+            email: '@xeroxin',
+            imageUrl: 'https://semantic-ui.com/images/avatar2/large/elyse.png',
         },
         text: 'Beauty in the struggle, ugliness in the success.',
         likes: 18,
@@ -38,13 +38,13 @@ const template = `
   <article class="media">
     <div class="media-left">
       <figure class="image is-64x64">
-        <img :src="post.author.imageURL" alt="Image">
+        <img :src="post.author.imageUrl" alt="Image">
       </figure>
     </div>
     <div class="media-content">
       <div class="content">
         <p>
-          <strong>{{post.author.name}}</strong> <small>{{post.author.handle}}</small>
+          <strong>{{post.author.name}}</strong> <small>{{post.author.email}}</small>
           <br>
           {{post.text}}
         </p>
@@ -90,8 +90,10 @@ function initializeVue() {
             }
         },
         methods: {
-            getInitialPost() {
-                this.posts.push(...posts);
+            async getInitialPost() {
+                const response = await fetch(`${window.location.origin}/posts`);
+                const result = await response.json();
+                this.posts.push(...result);
             }
         },
         beforeMount() {
@@ -131,7 +133,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const data = formToJSON(document.querySelector("form"));
 
-        const response = await postData('./post', {data});
+        const response = await postData('post', {data});
 
         if (response.errorType) {
             if (response.errorType === 'validation') {
@@ -150,16 +152,17 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
             }
         } else {
-            vueApp.posts.unshift({
-                id: 4,
-                author: {
-                    name: 'Yadir',
-                    handle: '@yadirhb',
-                    imageURL: 'https://semantic-ui.com/images/avatar2/large/matthew.png',
-                },
-                text: 'Beauty in the struggle, ugliness in the success.',
-                likes: 200,
-            });
+            // const post = {
+            //     id: 4,
+            //     author: {
+            //         name: 'Yadir',
+            //         email: '@yadirhb',
+            //         imageUrl: 'https://semantic-ui.com/images/avatar2/large/matthew.png',
+            //     },
+            //     text: 'Beauty in the struggle, ugliness in the success.',
+            //     likes: 200,
+            // };
+            vueApp.posts.unshift(response);
 
             // Clear the elements
             const els = document.querySelectorAll("textarea[name='text']");

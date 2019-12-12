@@ -130,7 +130,7 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 		user.setName("Admin");
 		user.setEmail("admin@sonet.com");
 		user.setPassword(passwordEncoder.encode("admin"));
-		user.setImageUrl("https://www.google.com/url?sa=i&source=images&cd=&ved=2ahUKEwiZqOS1qK7mAhWpGDQIHVgsDFEQjRx6BAgBEAQ&url=http%3A%2F%2Fwww.iconarchive.com%2Fshow%2Ffree-large-boss-icons-by-aha-soft%2Fadmin-icon.html&psig=AOvVaw24tJMsiKmpscIQBzUEqU30&ust=1576178438949212");
+		user.setImageUrl("https://semantic-ui.com/images/avatar2/large/molly.png");
 		user.setGender(Gender.FEMALE);
 		user.setLocation("Fairfield, IA");
 		user.setDateOfBirth(LocalDate.of(2000, 1, 1));
@@ -140,7 +140,7 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 		user2.setName("User");
 		user2.setEmail("user@sonet.com");
 		user2.setPassword(passwordEncoder.encode("user"));
-		user2.setImageUrl("https://www.google.com/url?sa=i&source=images&cd=&cad=rja&uact=8&ved=2ahUKEwjirsGzqa7mAhVzGDQIHfijBQAQjRx6BAgBEAQ&url=https%3A%2F%2Fwww.shutterstock.com%2Fsearch%2Fuser%2Bicon&psig=AOvVaw1yGp9HJM6KGjbphW9mAxYv&ust=1576178700805099");
+		user2.setImageUrl("https://semantic-ui.com/images/avatar2/large/matthew.png");
 		user2.setGender(Gender.OTHER);
 		user2.setLocation("San Francisco, CA");
 		user2.setDateOfBirth(LocalDate.of(2005, 1, 1));

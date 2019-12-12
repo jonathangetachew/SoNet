@@ -3,10 +3,11 @@ package edu.mum.sonet.models;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,10 +25,12 @@ public class Post extends BaseEntity {
 	private Integer likeCount = 0;
 	private Integer commentCount = 0;
 	private Boolean isHealthy = true;
-	private LocalDate creationDate;
+
+	@CreationTimestamp
+	private LocalDateTime creationDate;
 
 	@ManyToOne
-	@JoinColumn(name = "user_id")
+	@JoinColumn(name = "author_id")
 	@JsonIgnoreProperties(value = {"posts"})
 	private User author;
 
