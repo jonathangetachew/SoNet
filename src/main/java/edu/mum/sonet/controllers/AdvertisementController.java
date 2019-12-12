@@ -65,6 +65,6 @@ public class AdvertisementController {
 		String imageUrl = fileService.saveFile(advertisement.getImageFile(),rootDirectory+"adImages/");
 		advertisement.setContentUrl(imageUrl);
 		advertisementService.save(advertisement);
-		return "redirect:" + AdvertisementController.BASE_URL;
+		return "redirect:/" + AdvertisementController.BASE_URL;
 	}
 }

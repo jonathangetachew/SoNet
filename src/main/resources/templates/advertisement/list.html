@@ -98,7 +98,7 @@
                             <th th:text="${ad.targetLocation}">Target Location</th>
                             <th th:text="${ad.targetAge}">Target Age</th>
                             <th th:text="${ad.targetGender}">Target Gender</th>
-                            <td>
+                            <td class="has-text-centered">
                                 <a th:href="@{'/admin/dashboard/advertisements/' + ${ad.id} + '/delete'}"
                                    title="Delete">
                                     <button class="delete"></button>
