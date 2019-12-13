@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Controller
-@RequestMapping("/post")
+@RequestMapping("/posts")
 public class PostController {
 
     private PostService postService;

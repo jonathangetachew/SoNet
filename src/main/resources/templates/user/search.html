@@ -11,7 +11,7 @@
 </head>
 <body>
 <div layout:fragment="content" class="container">
-    <form th:action="@{/post/search}">
+    <form th:action="@{/posts/search}">
     <div class="panel-block" id="search-form">
         <p class="control has-icons-left">
 
@@ -41,13 +41,13 @@
     <div th:if="${postPage?.totalPages > 1}">
     <nav class="pagination is-rounded" role="navigation" aria-label="pagination">
 <!--        <a class="pagination-previous"-->
-<!--           th:href="@{/post/search(size=${postPage.size}, page=${pageNumber-1}, searchInput=${searchInput})}">Previous</a>-->
+<!--           th:href="@{/posts/search(size=${postPage.size}, page=${pageNumber-1}, searchInput=${searchInput})}">Previous</a>-->
 <!--        <a class="pagination-next"-->
-<!--           th:href="@{/post/search(size=${postPage.size}, page=${pageNumber+1}, searchInput=${searchInput})}">Next page</a>-->
+<!--           th:href="@{/posts/search(size=${postPage.size}, page=${pageNumber+1}, searchInput=${searchInput})}">Next page</a>-->
         <ul class="pagination-list">
 
       <li th:each="pageNumber : ${pageNumbers}">
-          <a th:href="@{/post/search(size=${postPage.size}, page=${pageNumber}, searchInput=${searchInput})}"
+          <a th:href="@{/posts/search(size=${postPage.size}, page=${pageNumber}, searchInput=${searchInput})}"
            th:text=${pageNumber}
            class="pagination-link " th:classappend="${pageNumber==postPage.number + 1} ? is-current">
           </a></li>

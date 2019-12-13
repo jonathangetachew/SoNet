@@ -102,24 +102,6 @@ public class UserController {
 		return "/login";
 	}
 
-	@GetMapping(value = "/claim")
-	public String claim(@RequestParam("text")String text, Model model){
-		authentication = SecurityContextHolder.getContext().getAuthentication();
-		System.out.println(">>> asking for aclaim:  "+authentication.getName());
-
-		User user = userService.findByEmail(authentication.getName());
-		if(user != null){
-			Claim claim = new Claim();
-			claim.setClaimDate(LocalDate.now());
-			claim.setMessage(text);
-			claim.setUser(user);
-			claimService.save(claim);
-			model.addAttribute("message","it will take about two days");
-		}else{
-			model.addAttribute("message","something went wrong please try to login again");
-		}
-		return "/login";
-	}
 
 
 
