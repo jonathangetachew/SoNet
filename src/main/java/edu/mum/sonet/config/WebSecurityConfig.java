@@ -64,6 +64,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests(authorizeRequests -> {
                         try {
 //                            .authorizeRequests(authorizeRequests ->
+                            // Failure handler invoked after authentication failure
                             authorizeRequests
                                     .antMatchers("/h2-console/**").permitAll()
                                     .antMatchers("/css/**", "/index").permitAll()
@@ -78,6 +79,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                                    .antMatchers("/user/**").hasAuthority(Role.USER.toString())
                                     .anyRequest().authenticated()
                                     .and()
+                                    .exceptionHandling()
+                                        .accessDeniedPage("/error")
+                                    .and()
                                     .formLogin()
                                     .loginPage("/login")
                                     .failureUrl("/login-error")
@@ -85,12 +89,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                                    .loginProcessingUrl("/user/index")
                                     .usernameParameter("email")
                                     .passwordParameter("password")
-                                    .successHandler((req,res,auth)->{
-                                        successAuthenticate(req,res,auth);
-                                    })
-                                    .failureHandler((req,res,exp)->{  // Failure handler invoked after authentication failure
-                                        failAuthenticate(req,res,exp);
-                                    })
+                                    .successHandler(this::successAuthenticate)
+                                    .failureHandler(this::failAuthenticate)
                                     .and()
                                     .logout()
 //                                    .logoutUrl("/signout")   // Specifies the logout URL, default URL is '/logout'
