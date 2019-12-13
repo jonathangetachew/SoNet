@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
 
 @Data
 @NoArgsConstructor
@@ -18,7 +19,7 @@ public class Claim extends BaseEntity {
 
 	private LocalDate claimDate;
 	private String message;
-	private Boolean isAccepted;
+	private Boolean isAccepted = false;
 	
 	
 	@ManyToOne

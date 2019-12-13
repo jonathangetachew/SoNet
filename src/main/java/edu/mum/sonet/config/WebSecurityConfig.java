@@ -1,6 +1,9 @@
 package edu.mum.sonet.config;
+import edu.mum.sonet.models.User;
 import edu.mum.sonet.models.enums.Role;
 import edu.mum.sonet.security.*;
+import edu.mum.sonet.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
@@ -42,6 +45,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
+    @Autowired
+    private UserService userService;
+
     public WebSecurityConfig(JwtTokenProvider jwtTokenProvider, OidcUserService oidcUserService,
                              @Lazy CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler) {
         this.jwtTokenProvider = jwtTokenProvider;
@@ -75,7 +81,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                                     ///> Admin specific route
                                     .antMatchers("/admin/**").hasAuthority(Role.ADMIN.toString())
                                     ///> User specific route
-//                                    .antMatchers("/user/**").hasAuthority(Role.USER.toString())
+                                    .antMatchers("/user/**").hasAuthority(Role.USER.toString())
                                     .anyRequest().authenticated()
                                     .and()
                                     .formLogin()
@@ -183,7 +189,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 if ( userRole.equals(Role.ADMIN.toString())) break;
             }
 
-            redirectStrategy.sendRedirect(req, res, userRole.equals(Role.ADMIN.toString()) ? "/admin/dashboard" : "/user/index"); // Redirect user
+
+            boolean isAdmin = userRole.equals(Role.ADMIN.toString());
+            String userPath = "/user/index";
+            if(!isAdmin){
+                User user = userService.findByEmail(auth.getName());
+                if(user.getBlocked()){
+                    //id will change to unhealthyContent number
+                    userPath = "/user/blocked?num="+user.getId();
+                }
+            }
+            redirectStrategy.sendRedirect(req, res, isAdmin ? "/admin/dashboard" : userPath); // Redirect user
         }catch (IOException e){
             e.printStackTrace();
         }

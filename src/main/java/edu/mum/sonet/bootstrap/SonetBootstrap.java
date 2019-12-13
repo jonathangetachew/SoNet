@@ -173,6 +173,7 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 		user3.setDateOfBirth(LocalDate.of(2005, 1, 1));
 		user3.addPost(post3);
 		user3.addPost(post4);
+		user3.setBlocked(true);
 
 		userRepository.saveAll(Arrays.asList(user, user2, user3));
 

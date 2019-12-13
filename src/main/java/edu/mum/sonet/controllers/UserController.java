@@ -1,9 +1,12 @@
 package edu.mum.sonet.controllers;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import edu.mum.sonet.models.Claim;
 import edu.mum.sonet.models.Post;
+import edu.mum.sonet.services.ClaimService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,23 +20,25 @@ import edu.mum.sonet.services.UserService;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-@RequestMapping("/user")
+
 public class UserController {
 
 	private UserService userService;
 	private Authentication authentication;
+	private ClaimService claimService;
 
 	@Autowired
-	public UserController(UserService userService) {
+	public UserController(UserService userService,ClaimService claimService) {
 		this.userService = userService;
+		this.claimService = claimService;
 	}
 
-	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	@RequestMapping(value = "/user/register", method = RequestMethod.POST)
 	public @ResponseBody User register(@RequestBody User user) {
 		return userService.register(user);
 	}
 
-	@RequestMapping(value = "/showProfile", method = RequestMethod.GET)
+	@RequestMapping(value = "/user/showProfile", method = RequestMethod.GET)
 	public  String showProfile(@RequestParam(value="email") String email, Model model) {
 		authentication = SecurityContextHolder.getContext().getAuthentication();
 		String currentPrincipalName = authentication.getName();
@@ -52,7 +57,7 @@ public class UserController {
 		}
 	}
 
-	@PostMapping(value = "/editProfile")
+	@PostMapping(value = "/user/editProfile")
 	public  String editProfile(@RequestParam(value="email") String email, Model model) {
 		User user = userService.findByEmail(email);
 		if(user != null){
@@ -64,14 +69,14 @@ public class UserController {
 		}
 	}
 
-	@PostMapping(value = "/saveProfileChanges")
+	@PostMapping(value = "/user/saveProfileChanges")
 	public  String saveProfileChanges(User user, HttpServletRequest request) {
 		String rootDirectory = request.getSession().getServletContext().getRealPath("/");
 		 user = userService.saveProfileChanges(user,rootDirectory+"profileImages/");
 		 return "redirect:/user/showProfile?email="+user.getEmail();
 	}
 
-	@GetMapping(value = "/follow")
+	@GetMapping(value = "/user/follow")
 	public String follow(@RequestParam("email") String email){
 		authentication = SecurityContextHolder.getContext().getAuthentication();
 		System.out.println(">>> follow user: "+email);
@@ -81,7 +86,7 @@ public class UserController {
 		return "redirect:/user/showProfile?email="+email;
 	}
 
-	@GetMapping(value = "/unfollow")
+	@GetMapping(value = "/user/unfollow")
 	public String unfollow(@RequestParam("email") String email){
 		authentication = SecurityContextHolder.getContext().getAuthentication();
 		System.out.println(">>> unfollow user: "+email);
@@ -90,6 +95,32 @@ public class UserController {
 		userService.unfollow(currentPrincipalName,email);
 		return "redirect:/user/showProfile?email="+email;
 	}
+
+	@GetMapping(value = "/user/blocked")
+	public String blockedPage(@RequestParam("num") Long unhealthyContetntNumber, Model model){
+		model.addAttribute("number",unhealthyContetntNumber);
+		return "/login";
+	}
+
+	@GetMapping(value = "/claim")
+	public String claim(@RequestParam("text")String text, Model model){
+		authentication = SecurityContextHolder.getContext().getAuthentication();
+		System.out.println(">>> asking for aclaim:  "+authentication.getName());
+
+		User user = userService.findByEmail(authentication.getName());
+		if(user != null){
+			Claim claim = new Claim();
+			claim.setClaimDate(LocalDate.now());
+			claim.setMessage(text);
+			claim.setUser(user);
+			claimService.save(claim);
+			model.addAttribute("message","it will take about two days");
+		}else{
+			model.addAttribute("message","something went wrong please try to login again");
+		}
+		return "/login";
+	}
+
 
 
 
