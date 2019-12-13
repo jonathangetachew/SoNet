@@ -1,6 +1,7 @@
 package edu.mum.sonet.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
  */
 
 @ConfigurationProperties(prefix = "app")
+@EnableAspectJAutoProxy
 public class AppProperties {
 	private final Auth auth = new Auth();
 	private final OAuth2 oAuth2 = new OAuth2();

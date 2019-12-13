@@ -4,7 +4,6 @@ import edu.mum.sonet.models.*;
 import edu.mum.sonet.models.enums.Gender;
 import edu.mum.sonet.models.enums.Role;
 import edu.mum.sonet.repositories.*;
-import edu.mum.sonet.services.UserService;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -110,7 +109,6 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 		///> Add Posts
 		Post post = new Post();
 		post.setText("Amazing Day");
-		post.setContentUrl("https://www.google.com/url?sa=i&url=http%3A%2F%2Fwww.coldplay.com%2Fwatch-the-amazing-day-film%2F&psig=AOvVaw17sr46xbfFBae1hb2NgGdf&ust=1575430915730000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCJiK1dPHmOYCFQAAAAAdAAAAABAD");
 		post.setLikeCount(100);
 		post.setCommentCount(2);
 		post.setIsHealthy(true);
@@ -119,7 +117,7 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 
 		Post post2 = new Post();
 		post2.setText("Enterprise Architecture Course Rocks!");
-		post2.setContentUrl("https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.cbsnews.com%2Fpictures%2Fevolution-of-the-starship-enterprise%2F&psig=AOvVaw3PMmNXbZK0R6iadeOJjrs9&ust=1575432100340000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCIjWr4jMmOYCFQAAAAAdAAAAABAJ");
+		post2.setContentUrl("https://s.ftcdn.net/v2013/pics/all/curated/RKyaEDwp8J7JKeZWQPuOVWvkUjGQfpCx_cover_580.jpg?r=1a0fc22192d0c808b8bb2b9bcfbf4a45b1793687");
 		post2.setLikeCount(1000);
 		post2.setCommentCount(1);
 		post2.setIsHealthy(false);

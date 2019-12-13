@@ -1,80 +1,35 @@
 'use strict';
 
-const posts = [
-    {
-        id: 1,
-        author: {
-            name: 'James',
-            email: '@jokerjames',
-            imageUrl: 'https://semantic-ui.com/images/avatar2/large/matthew.png',
-        },
-        text: "If you don't succeed, dust yourself off and try again.",
-        likes: 10,
-    },
-    {
-        id: 2,
-        author: {
-            name: 'Fatima',
-            email: '@fantasticfatima',
-            imageUrl: 'https://semantic-ui.com/images/avatar2/large/molly.png',
-        },
-        text: 'Better late than never but never late is better.',
-        likes: 12,
-    },
-    {
-        id: 3,
-        author: {
-            name: 'Xin',
-            email: '@xeroxin',
-            imageUrl: 'https://semantic-ui.com/images/avatar2/large/elyse.png',
-        },
-        text: 'Beauty in the struggle, ugliness in the success.',
-        likes: 18,
-    }
-];
-
 const template = `
-<div class="box" style="margin-top: 0px;">
-  <article class="media">
-    <div class="media-left">
-      <figure class="image is-64x64">
-        <img :src="post.author.imageUrl" alt="Image">
-      </figure>
-    </div>
-    <div class="media-content">
-      <div class="content">
-        <p>
-          <strong>{{post.author.name}}</strong> <small>{{post.author.email}}</small>
-          <br>
-          {{post.text}}
-        </p>
+    <div class="card" style="margin-bottom: 10px">
+      <div v-if="!!post.contentUrl" class="card-image">
+        <figure class="image">
+          <object :data="post.contentUrl" width="100%" height="100%" style="min-height:400px; max-height: 400px;"/>
+        </figure>
       </div>
-      <nav class="level is-mobile">
-        <div class="level-left">
-          <a class="level-item" aria-label="reply">
-            <span class="icon is-small">
-              <i class="fa fa-reply" aria-hidden="true"></i>
-            </span>
-          </a>
-          <a class="level-item" aria-label="retweet">
-            <span class="icon is-small">
-              <i class="fa fa-retweet" aria-hidden="true"></i>
-            </span>
-          </a>
-          <a class="level-item" aria-label="like">
-            <span class="icon is-small">
-              <i class="fa fa-heart" aria-hidden="true"></i>
-              <span class="likes">{{post.likes}}</span>
-            </span>
-          </a>
+      <div class="card-content">
+        <div class="media">
+          <div class="media-left">
+            <figure class="image is-48x48">
+              <img :src="post.author.imageUrl" alt="Image">
+            </figure>
+          </div>
+          <div class="media-content">
+            <strong>{{post.author.name}}</strong> <small>{{post.author.email}}</small>
+            <br>
+            <time datetime="2016-1-1">{{post.creationDate | formatDate}}</time>
+          </div>
         </div>
-      </nav>
+    
+        <div class="content">
+        {{post.text}}
+        </div>
+      </div>
     </div>
-  </article>
-</div>
 `;
 
 function initializeVue() {
+    Vue.filter('formatDate', (value) => value ? moment(value).format('MM/DD/YYYY hh:mm') : '');
     Vue.component('post-component', {
         template,
         props: {
@@ -91,7 +46,7 @@ function initializeVue() {
         },
         methods: {
             async getInitialPost() {
-                const response = await fetch(`${window.location.origin}/posts`);
+                const response = await fetch(`${window.location.origin}/user/posts`);
                 const result = await response.json();
                 this.posts.push(...result);
             }
@@ -116,6 +71,7 @@ function clear(e) {
 document.addEventListener('DOMContentLoaded', function () {
     const vueApp = initializeVue();
     const textArea = document.querySelector("textarea[name='text']");
+    const file = document.querySelector("[name='contentFile']");
     textArea.addEventListener('input', () => {
         let textLn = textArea.value.length;
         if (textLn > 0) {
@@ -131,9 +87,17 @@ document.addEventListener('DOMContentLoaded', function () {
     submit.addEventListener('click', async (e) => {
         e.preventDefault();
 
-        const data = formToJSON(document.querySelector("form"));
+        const data = new FormData();
+        data.append("text", textArea.value);
+        if (file.files[0]) {
+            data.append("contentFile", file.files[0]);
+        }
 
-        const response = await postData('post', {data});
+        const request = await fetch(`${window.location.origin}/user/post`, {
+            method: 'POST',
+            body: data
+        });
+        const response = await request.json();
 
         if (response.errorType) {
             if (response.errorType === 'validation') {
@@ -152,16 +116,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
             }
         } else {
-            // const post = {
-            //     id: 4,
-            //     author: {
-            //         name: 'Yadir',
-            //         email: '@yadirhb',
-            //         imageUrl: 'https://semantic-ui.com/images/avatar2/large/matthew.png',
-            //     },
-            //     text: 'Beauty in the struggle, ugliness in the success.',
-            //     likes: 200,
-            // };
             vueApp.posts.unshift(response);
 
             // Clear the elements

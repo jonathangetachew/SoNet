@@ -1,9 +1,11 @@
 package edu.mum.sonet.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -33,6 +35,10 @@ public class Post extends BaseEntity {
 	@JoinColumn(name = "author_id")
 	@JsonIgnoreProperties(value = {"posts"})
 	private User author;
+
+	@Transient
+	@JsonIgnore
+	private MultipartFile contentFile;
 
 	@OneToMany
 	@JoinTable(name = "post_comment",
