@@ -1,17 +1,22 @@
 <!DOCTYPE HTML>
 <html
-        xmlns:layout="http://www.w3.org/1999/xhtml"
+        xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml"
         layout:decorate="~{fragments/main_layout}"
         xmlns="http://www.w3.org/1999/xhtml"
-        xmlns:th="https://www.thymeleaf.org"
 >
 <head>
-    <title>Timeline</title>
+    <title>Landing page</title>
 </head>
 <body>
-<div layout:fragment="content" class="container">
-    <h1>This is a secured page!</h1>
-    <p><a href="/index" th:href="@{/index}">Back to home page</a></p>
+<div layout:fragment="content">
+    <section class="section">
+        <div class="columns is-centered is-vcentered">
+            <div class="column is-desktop is-two-fifths is-centered">
+                <div th:replace="post/form :: form"></div>
+                <div th:replace="post/list :: list"></div>
+            </div>
+        </div>
+    </section>
 </div>
 </body>
 </html>

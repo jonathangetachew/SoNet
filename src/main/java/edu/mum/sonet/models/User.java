@@ -1,15 +1,7 @@
 package edu.mum.sonet.models;
 
-import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import edu.mum.sonet.models.enums.AuthProvider;
 import edu.mum.sonet.models.enums.Gender;
 import edu.mum.sonet.models.enums.Role;
@@ -19,11 +11,17 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
+
 
 @Data
 @NoArgsConstructor
 @Entity
-@EqualsAndHashCode(exclude={"posts", "claims"})
+@EqualsAndHashCode(exclude = {"posts", "claims"})
 public class User extends BaseEntity {
 
 	private String name;
@@ -54,10 +52,10 @@ public class User extends BaseEntity {
 
 	@NotNull
 	@Enumerated(EnumType.STRING)
-	private AuthProvider authProvider= AuthProvider.LOCAL;
+	private AuthProvider authProvider = AuthProvider.LOCAL;
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST ,targetEntity = Post.class)
-	@JsonIgnoreProperties(value = "user")
+	@OneToMany(mappedBy = "author", cascade = CascadeType.PERSIST, targetEntity = Post.class)
+	@JsonIgnoreProperties(value = "author")
 	private Set<Post> posts = new HashSet<>();
 
 	@OneToMany(mappedBy = "user", targetEntity = Claim.class)
@@ -78,7 +76,7 @@ public class User extends BaseEntity {
 	 */
 	public boolean addPost(Post post) {
 		if (posts.add(post)) {
-			post.setUser(this);
+			post.setAuthor(this);
 			return true;
 		}
 		return false;
@@ -86,7 +84,7 @@ public class User extends BaseEntity {
 
 	public boolean removePost(Post post) {
 		if (posts.remove(post)) {
-			post.setUser(null);
+			post.setAuthor(null);
 			return true;
 		}
 		return false;
