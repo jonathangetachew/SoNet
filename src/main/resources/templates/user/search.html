@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html
+        xmlns:layout="http://www.w3.org/1999/xhtml"
+        layout:decorate="~{fragments/main_layout}"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:th="https://www.thymeleaf.org"
+>
+<head>
+    <title>Search</title>
+    <link rel="stylesheet" href="/css/main.css" th:href="@{/css/search.css}"/>
+</head>
+<body>
+<div layout:fragment="content" class="container">
+    <form th:action="@{/post/search}">
+    <div class="panel-block" id="search-form">
+        <p class="control has-icons-left">
+
+                <input class="input is-success" type="text" th:name="searchInput" placeholder="Search">
+
+
+            <span class="icon is-left">
+        <i class="fa fa-search" aria-hidden="true"></i>
+      </span>
+        </p>
+    </div>
+    </form>
+
+
+    <div th:each="post: ${posts}">
+        <p th:text="${post.text}"/>
+    </div>
+
+    <tr th:each="post, iStat : ${postPage?.content}"
+        th:style="${iStat.odd}? 'font-weight: bold;'"
+        th:alt-title="${iStat.even}? 'even' : 'odd'">
+        <td th:text="${post.text}" />
+    </tr>
+
+<!--    <div th:if="${postPage.totalPages > 0}" class="pagination"-->
+<!--         th:each="pageNumber : ${pageNumbers}">-->
+    <div th:if="${postPage?.totalPages > 1}">
+    <nav class="pagination is-rounded" role="navigation" aria-label="pagination">
+<!--        <a class="pagination-previous"-->
+<!--           th:href="@{/post/search(size=${postPage.size}, page=${pageNumber-1}, searchInput=${searchInput})}">Previous</a>-->
+<!--        <a class="pagination-next"-->
+<!--           th:href="@{/post/search(size=${postPage.size}, page=${pageNumber+1}, searchInput=${searchInput})}">Next page</a>-->
+        <ul class="pagination-list">
+
+      <li th:each="pageNumber : ${pageNumbers}">
+          <a th:href="@{/post/search(size=${postPage.size}, page=${pageNumber}, searchInput=${searchInput})}"
+           th:text=${pageNumber}
+           class="pagination-link " th:classappend="${pageNumber==postPage.number + 1} ? is-current">
+          </a></li>
+
+        </ul>
+    </nav>
+</div>
+
+
+</div>
+</body>
+</html>

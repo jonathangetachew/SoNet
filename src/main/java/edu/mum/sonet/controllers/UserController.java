@@ -1,7 +1,9 @@
 package edu.mum.sonet.controllers;
 
+import java.util.List;
 import java.util.Optional;
 
+import edu.mum.sonet.models.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -88,6 +90,8 @@ public class UserController {
 		userService.unfollow(currentPrincipalName,email);
 		return "redirect:/user/showProfile?email="+email;
 	}
+
+
 
 //	@RequestMapping(value = "loginTest", method = RequestMethod.POST)
 //	public @ResponseBody String login(@RequestParam("email") String email, @RequestParam("password") String password) {

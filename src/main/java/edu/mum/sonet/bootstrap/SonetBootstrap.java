@@ -125,6 +125,20 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 		post2.setIsHealthy(false);
 		post2.addComment(comment3);
 
+		Post post3 = new Post();
+		post3.setText("Enterprise Architecture Book!");
+		post3.setContentUrl("https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.cbsnews.com%2Fpictures%2Fevolution-of-the-starship-enterprise%2F&psig=AOvVaw3PMmNXbZK0R6iadeOJjrs9&ust=1575432100340000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCIjWr4jMmOYCFQAAAAAdAAAAABAJ");
+		post3.setLikeCount(1000);
+		post3.setCommentCount(0);
+		post3.setIsHealthy(false);
+
+		Post post4 = new Post();
+		post4.setText("Enterprise Architecture chapter 1!");
+		post4.setContentUrl("https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.cbsnews.com%2Fpictures%2Fevolution-of-the-starship-enterprise%2F&psig=AOvVaw3PMmNXbZK0R6iadeOJjrs9&ust=1575432100340000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCIjWr4jMmOYCFQAAAAAdAAAAABAJ");
+		post4.setLikeCount(1000);
+		post4.setCommentCount(0);
+		post4.setIsHealthy(false);
+
 		///> Add Users
 		User user = new User();
 		user.setName("Admin");
@@ -157,7 +171,8 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 		user3.setGender(Gender.OTHER);
 		user3.setLocation("Fairfield");
 		user3.setDateOfBirth(LocalDate.of(2005, 1, 1));
-
+		user3.addPost(post3);
+		user3.addPost(post4);
 
 		userRepository.saveAll(Arrays.asList(user, user2, user3));
 
