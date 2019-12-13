@@ -23,7 +23,8 @@ public class Post extends BaseEntity {
 	private String contentUrl;
 	private Integer likeCount;
 	private Integer commentCount;
-	private Boolean isHealthy;
+	private Boolean isHealthy = true;
+	private Boolean isDisabled = false;
 	
 	@ManyToOne
 	@JoinColumn(name = "user_id")

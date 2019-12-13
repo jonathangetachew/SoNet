@@ -8,6 +8,8 @@ import edu.mum.sonet.models.Post;
 import edu.mum.sonet.repositories.PostRepository;
 import edu.mum.sonet.services.PostService;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class PostServiceImpl extends GenericServiceImpl<Post> implements PostService{
@@ -20,4 +22,8 @@ public class PostServiceImpl extends GenericServiceImpl<Post> implements PostSer
 		this.postRepository = postRepository;
 	}
 
+	@Override
+	public List<Post> findAllUnhealthyPosts() {
+		return postRepository.findAllByIsHealthyAndIsDisabled(false, false);
+	}
 }

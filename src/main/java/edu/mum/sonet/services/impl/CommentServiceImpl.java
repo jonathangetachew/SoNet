@@ -9,6 +9,8 @@ import edu.mum.sonet.models.Comment;
 import edu.mum.sonet.repositories.CommentRepository;
 import edu.mum.sonet.services.CommentService;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class CommentServiceImpl extends GenericServiceImpl<Comment> implements CommentService {
@@ -22,4 +24,8 @@ public class CommentServiceImpl extends GenericServiceImpl<Comment> implements C
 
 	}
 
+	@Override
+	public List<Comment> findAllUnhealthyComments() {
+		return commentRepository.findAllByIsHealthyAndIsDisabled(false, false);
+	}
 }
