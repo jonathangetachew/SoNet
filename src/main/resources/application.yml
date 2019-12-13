@@ -5,6 +5,13 @@ spring:
   profiles:
     active: dev
 
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2KB
+      max-file-size: 200MB
+      max-request-size: 250MB
+
 # Security Config
   security:
     oauth2:
