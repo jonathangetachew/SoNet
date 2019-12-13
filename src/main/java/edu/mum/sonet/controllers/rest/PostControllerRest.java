@@ -18,14 +18,14 @@ import javax.validation.Valid;
 import java.util.Set;
 
 @RestController
-public class PostController {
+public class PostControllerRest {
 
     private final PostService postService;
     private final UserService userService;
     private final FileService fileService;
 
     @Autowired
-    public PostController(PostService postService, UserService userService, FileService fileService) {
+    public PostControllerRest(PostService postService, UserService userService, FileService fileService) {
         this.postService = postService;
         this.userService = userService;
         this.fileService = fileService;

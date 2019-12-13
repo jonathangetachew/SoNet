@@ -26,9 +26,7 @@
                     <div th:if="${loginError}" class="alert alert-error">
                         Invalid username and password.
                     </div>
-                    <div  class="alert alert-error">
-                        <p th:text="${session.loginMessage}" th:unless="${session == null}">[...]</p>
-                    </div>
+
                     <div th:if="${param.logout}" class="alert alert-success">
                         You have been logged out.
                     </div>
@@ -77,10 +75,32 @@
                             </a>
                         </div>
                     </form>
+
+                    <div class="notification is-danger" th:if="${number}">
+<!--                        <button class="delete"></button>-->
+                      <span>  You are Blocked because your unhealthy content more than 20</span><br>
+                        <form th:action="@{/claim}">
+                            <strong>Ask for a Claim</strong>
+                            <input type="text" id="claim-msg" name="text" placeholder="Give a reasons" class="input"
+                                   required>
+<!--                            <button class="button is-success">Claim</button>-->
+                        </form>
+
+
+                    </div>
+
+                    <div class="notification is-info" th:if="${message}">
+<!--                        <button class="delete"></button>-->
+                        <p th:text="${message}"/>
+
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
+
+<script async type="text/javascript" th:src="@{/js/bulma.js}"></script>
+
 </body>
 </html>

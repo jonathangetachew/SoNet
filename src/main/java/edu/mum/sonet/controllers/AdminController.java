@@ -19,4 +19,8 @@ public class AdminController {
 		return "admin/index";
 	}
 
+	@GetMapping(value = {"/dashboard/claims"})
+	public String claims() {
+		return "claim/list";
+	}
 }
