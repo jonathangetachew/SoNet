@@ -2,28 +2,49 @@
 
 const template = `
     <div class="card" style="margin-bottom: 10px">
+      <div class="content">
+            <div class="media" style="padding-top: 10px;">
+              <div class="media-left" style="margin-right: 0px;">
+                <figure class="image is-48x48">
+                  <img :src="post.author.imageUrl" alt="Image">
+                </figure>
+              </div>
+              <div class="media-content">
+                <strong>{{post.author.name}}</strong> <small>{{post.author.email}}</small>
+                <br>
+                <time datetime="2016-1-1">{{post.creationDate | formatDate}}</time>
+              </div>
+            </div>
+        </div>
       <div v-if="!!post.contentUrl" class="card-image">
         <figure class="image">
           <object :data="post.contentUrl" width="100%" height="100%" style="min-height:400px; max-height: 400px;"/>
         </figure>
       </div>
       <div class="card-content">
-        <div class="media">
-          <div class="media-left">
-            <figure class="image is-48x48">
-              <img :src="post.author.imageUrl" alt="Image">
-            </figure>
-          </div>
-          <div class="media-content">
-            <strong>{{post.author.name}}</strong> <small>{{post.author.email}}</small>
-            <br>
-            <time datetime="2016-1-1">{{post.creationDate | formatDate}}</time>
-          </div>
-        </div>
-    
         <div class="content">
         {{post.text}}
         </div>
+        <nav class="level is-mobile">
+            <div class="level-left">
+              <a class="level-item" aria-label="reply">
+                <span class="icon is-small">
+                  <i class="fa fa-reply" aria-hidden="true"></i>
+                </span>
+              </a>
+              <a class="level-item" aria-label="retweet">
+                <span class="icon is-small">
+                  <i class="fa fa-retweet" aria-hidden="true"></i>
+                </span>
+              </a>
+              <a class="level-item" aria-label="like">
+                <span class="icon is-small">
+                  <i class="fa fa-heart" aria-hidden="true"></i>
+                  <span class="likes">{{post.likes}}</span>
+                </span>
+              </a>
+            </div>
+          </nav>
       </div>
     </div>
 `;
