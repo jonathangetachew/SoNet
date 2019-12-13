@@ -35,21 +35,21 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 
 	private final NotificationRepository notificationRepository;
 
-	private final PostRepository postRepository;
+	private final UnhealthyWordRepository unhealthyWordRepository;
 
 
 	private final PasswordEncoder passwordEncoder;
 
 	public SonetBootstrap(UserRepository userRepository, AdvertisementRepository advertisementRepository,
 	                      ClaimRepository claimRepository, CommentRepository commentRepository,
-	                      NotificationRepository notificationRepository, PostRepository postRepository,
+	                      NotificationRepository notificationRepository, UnhealthyWordRepository unhealthyWordRepository,
 	                      PasswordEncoder passwordEncoder) {
 		this.userRepository = userRepository;
 		this.advertisementRepository = advertisementRepository;
 		this.claimRepository = claimRepository;
 		this.commentRepository = commentRepository;
 		this.notificationRepository = notificationRepository;
-		this.postRepository = postRepository;
+		this.unhealthyWordRepository = unhealthyWordRepository;
 		this.passwordEncoder = passwordEncoder;
 
 	}
@@ -172,5 +172,19 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 
 		notificationRepository.saveAll(Arrays.asList(notification, notification2));
 
+		///> Add Unhealthy Words
+		UnhealthyWord unhealthyWord = new UnhealthyWord();
+		unhealthyWord.setWord("spring");
+		UnhealthyWord unhealthyWord2 = new UnhealthyWord();
+		unhealthyWord2.setWord("security");
+		UnhealthyWord unhealthyWord3 = new UnhealthyWord();
+		unhealthyWord3.setWord("enterprise");
+		UnhealthyWord unhealthyWord4 = new UnhealthyWord();
+		unhealthyWord4.setWord("kill");
+		UnhealthyWord unhealthyWord5 = new UnhealthyWord();
+		unhealthyWord5.setWord("shit");
+
+		unhealthyWordRepository.saveAll(Arrays.asList(unhealthyWord, unhealthyWord2, unhealthyWord3,
+				unhealthyWord4, unhealthyWord5));
 	}
 }
