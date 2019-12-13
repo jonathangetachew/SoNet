@@ -19,7 +19,7 @@ A Social Network application for our Enterprise Architecture course at Maharishi
 ### Frontend
 * [x] Thymeleaf
 * [x] Bulma
-* [ ] VueJS
+* [x] VueJS
 
 # Getting Started
 * Download / Clone the source code locally.

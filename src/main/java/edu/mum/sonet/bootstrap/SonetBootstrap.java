@@ -4,7 +4,6 @@ import edu.mum.sonet.models.*;
 import edu.mum.sonet.models.enums.Gender;
 import edu.mum.sonet.models.enums.Role;
 import edu.mum.sonet.repositories.*;
-import edu.mum.sonet.services.UserService;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -35,21 +34,21 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 
 	private final NotificationRepository notificationRepository;
 
-	private final PostRepository postRepository;
+	private final UnhealthyWordRepository unhealthyWordRepository;
 
 
 	private final PasswordEncoder passwordEncoder;
 
 	public SonetBootstrap(UserRepository userRepository, AdvertisementRepository advertisementRepository,
 	                      ClaimRepository claimRepository, CommentRepository commentRepository,
-	                      NotificationRepository notificationRepository, PostRepository postRepository,
+	                      NotificationRepository notificationRepository, UnhealthyWordRepository unhealthyWordRepository,
 	                      PasswordEncoder passwordEncoder) {
 		this.userRepository = userRepository;
 		this.advertisementRepository = advertisementRepository;
 		this.claimRepository = claimRepository;
 		this.commentRepository = commentRepository;
 		this.notificationRepository = notificationRepository;
-		this.postRepository = postRepository;
+		this.unhealthyWordRepository = unhealthyWordRepository;
 		this.passwordEncoder = passwordEncoder;
 
 	}
@@ -110,7 +109,6 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 		///> Add Posts
 		Post post = new Post();
 		post.setText("Amazing Day");
-		post.setContentUrl("https://www.google.com/url?sa=i&url=http%3A%2F%2Fwww.coldplay.com%2Fwatch-the-amazing-day-film%2F&psig=AOvVaw17sr46xbfFBae1hb2NgGdf&ust=1575430915730000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCJiK1dPHmOYCFQAAAAAdAAAAABAD");
 		post.setLikeCount(100);
 		post.setCommentCount(2);
 		post.setIsHealthy(true);
@@ -119,7 +117,7 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 
 		Post post2 = new Post();
 		post2.setText("Enterprise Architecture Course Rocks!");
-		post2.setContentUrl("https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.cbsnews.com%2Fpictures%2Fevolution-of-the-starship-enterprise%2F&psig=AOvVaw3PMmNXbZK0R6iadeOJjrs9&ust=1575432100340000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCIjWr4jMmOYCFQAAAAAdAAAAABAJ");
+		post2.setContentUrl("https://s.ftcdn.net/v2013/pics/all/curated/RKyaEDwp8J7JKeZWQPuOVWvkUjGQfpCx_cover_580.jpg?r=1a0fc22192d0c808b8bb2b9bcfbf4a45b1793687");
 		post2.setLikeCount(1000);
 		post2.setCommentCount(1);
 		post2.setIsHealthy(false);
@@ -144,7 +142,7 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 		user.setName("Admin");
 		user.setEmail("admin@sonet.com");
 		user.setPassword(passwordEncoder.encode("admin"));
-		user.setImageUrl("https://www.google.com/url?sa=i&source=images&cd=&ved=2ahUKEwiZqOS1qK7mAhWpGDQIHVgsDFEQjRx6BAgBEAQ&url=http%3A%2F%2Fwww.iconarchive.com%2Fshow%2Ffree-large-boss-icons-by-aha-soft%2Fadmin-icon.html&psig=AOvVaw24tJMsiKmpscIQBzUEqU30&ust=1576178438949212");
+		user.setImageUrl("https://semantic-ui.com/images/avatar2/large/molly.png");
 		user.setGender(Gender.FEMALE);
 		user.setLocation("Fairfield, IA");
 		user.setDateOfBirth(LocalDate.of(2000, 1, 1));
@@ -154,7 +152,7 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 		user2.setName("User");
 		user2.setEmail("user@sonet.com");
 		user2.setPassword(passwordEncoder.encode("user"));
-		user2.setImageUrl("https://www.google.com/url?sa=i&source=images&cd=&cad=rja&uact=8&ved=2ahUKEwjirsGzqa7mAhVzGDQIHfijBQAQjRx6BAgBEAQ&url=https%3A%2F%2Fwww.shutterstock.com%2Fsearch%2Fuser%2Bicon&psig=AOvVaw1yGp9HJM6KGjbphW9mAxYv&ust=1576178700805099");
+		user2.setImageUrl("https://semantic-ui.com/images/avatar2/large/matthew.png");
 		user2.setGender(Gender.OTHER);
 		user2.setLocation("San Francisco, CA");
 		user2.setDateOfBirth(LocalDate.of(2005, 1, 1));
@@ -188,5 +186,19 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 
 		notificationRepository.saveAll(Arrays.asList(notification, notification2));
 
+		///> Add Unhealthy Words
+		UnhealthyWord unhealthyWord = new UnhealthyWord();
+		unhealthyWord.setWord("spring");
+		UnhealthyWord unhealthyWord2 = new UnhealthyWord();
+		unhealthyWord2.setWord("security");
+		UnhealthyWord unhealthyWord3 = new UnhealthyWord();
+		unhealthyWord3.setWord("enterprise");
+		UnhealthyWord unhealthyWord4 = new UnhealthyWord();
+		unhealthyWord4.setWord("kill");
+		UnhealthyWord unhealthyWord5 = new UnhealthyWord();
+		unhealthyWord5.setWord("shit");
+
+		unhealthyWordRepository.saveAll(Arrays.asList(unhealthyWord, unhealthyWord2, unhealthyWord3,
+				unhealthyWord4, unhealthyWord5));
 	}
 }
