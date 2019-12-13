@@ -24,13 +24,15 @@ public class Post extends BaseEntity {
 
 	@Lob
 	private String contentUrl;
-	private Integer likeCount = 0;
-	private Integer commentCount = 0;
+  
+	private Integer likeCount;
+	private Integer commentCount;
 	private Boolean isHealthy = true;
+	private Boolean isDisabled = false;
 
 	@CreationTimestamp
 	private LocalDateTime creationDate;
-
+  
 	@ManyToOne
 	@JoinColumn(name = "author_id")
 	@JsonIgnoreProperties(value = {"posts"})

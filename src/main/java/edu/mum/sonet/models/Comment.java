@@ -13,5 +13,6 @@ public class Comment extends BaseEntity {
 
 	@Lob
 	private String text;
-	private Boolean isHealthy;
+	private Boolean isHealthy = true;
+	private Boolean isDisabled = false;
 }

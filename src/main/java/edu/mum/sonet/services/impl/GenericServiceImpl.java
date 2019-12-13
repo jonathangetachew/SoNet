@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 
+import edu.mum.sonet.exceptions.ResourceNotFoundException;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import edu.mum.sonet.services.GenericService;
@@ -28,8 +29,8 @@ public class GenericServiceImpl<T> implements GenericService<T> {
 	}
 
 	@Override
-	public Optional<T> findById(long id) {
-		return repo.findById(id);
+	public T findById(long id) {
+		return repo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Resource Not Found."));
 	}
 
 	@Override
