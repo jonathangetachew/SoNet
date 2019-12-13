@@ -30,16 +30,22 @@ public class User extends BaseEntity {
 
 	@Column(unique = true)
 	private String email;
+
 	@JsonIgnore
 	private String password;
+
 	private String imageUrl;
 
 	@Enumerated(EnumType.STRING)
 	private Gender gender;
 
 	private String location;
+
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate dateOfBirth;
+
+	private Integer unhealthyContentCount = 0;
+
 	private Boolean blocked = false;
 
 	@Enumerated(EnumType.STRING)
