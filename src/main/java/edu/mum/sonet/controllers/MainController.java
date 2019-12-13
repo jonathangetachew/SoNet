@@ -3,7 +3,6 @@ package edu.mum.sonet.controllers;
 import edu.mum.sonet.models.User;
 import edu.mum.sonet.services.FileService;
 import edu.mum.sonet.services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -51,11 +50,6 @@ public class MainController {
     public String loginError(Model model) {
         model.addAttribute("loginError", true);
         return "login";
-    }
-
-    @GetMapping("/not-found")
-    public String notFoundAndUnauthorized() {
-        return "notFound";
     }
 
     /**
