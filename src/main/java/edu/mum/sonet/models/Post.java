@@ -47,7 +47,7 @@ public class Post extends BaseEntity {
 	@JsonIgnore
 	private MultipartFile contentFile;
 
-	@OneToMany
+	@OneToMany(cascade = CascadeType.PERSIST, targetEntity = Comment.class)
 	@JoinTable(name = "post_comment",
 			joinColumns = {@JoinColumn(name = "post_id")},
 			inverseJoinColumns = {@JoinColumn(name = "comment_id")}
