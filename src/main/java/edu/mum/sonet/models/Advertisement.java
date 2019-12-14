@@ -5,6 +5,7 @@ import javax.validation.constraints.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import edu.mum.sonet.models.enums.Gender;
+import edu.mum.sonet.models.enums.TargetLocation;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.URL;
@@ -16,8 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 public class Advertisement extends BaseEntity {
 
 	@Lob
-	@URL
-	@NotBlank
 	private String contentUrl;
 
 	@Transient
@@ -32,7 +31,8 @@ public class Advertisement extends BaseEntity {
 	@NotBlank
 	private String adUrl;
 
-	private String targetLocation;
+	@Enumerated(EnumType.STRING)
+	private TargetLocation targetLocation;
 
 	@NotNull
 	@Min(13)

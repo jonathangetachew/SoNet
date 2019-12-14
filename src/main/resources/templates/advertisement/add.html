@@ -58,7 +58,7 @@
                     <div class="field">
                         <label for="text" class="label" th:text="#{label.advertisement.text}">Text</label>
                         <div class="control has-icons-left">
-                            <input type="name" id="text" name="text"
+                            <input type="text" id="text" name="text"
                                    placeholder="Advertisement Text"
                                    th:placeholder="#{label.advertisement.text}"
                                    class="input" required>
@@ -127,7 +127,7 @@
                             <div class="select">
                                 <select class="select" th:field="*{targetGender}" th:value="*{targetGender}" required>
                                     <option value="" selected
-                                            th:text="#{label.advertisement.targetGender}">Choose Target Gender</option>
+                                            th:text="#{label.advertisement.targetGenderSelect}">Choose Target Gender</option>
                                     <option th:each="targetGenderValue : ${T(edu.mum.sonet.models.enums.Gender).values()}"
                                             th:value="${targetGenderValue.name()}"
                                             th:text="${targetGenderValue.name()}">FEMALE</option>
@@ -140,15 +140,15 @@
                     </div>
 
                     <div class="field">
-                        <label class="label" th:text="#{label.advertisement.teargetLocation}">Target Location</label>
+                        <label class="label" th:text="#{label.advertisement.targetLocation}">Target Location</label>
                         <div class="control">
                             <div class="select">
                                 <select class="select" th:field="*{targetLocation}" th:value="*{targetLocation}" required>
                                     <option value="" selected
-                                            th:text="#{label.advertisement.targetLocation}">Choose Target Location</option>
-                                    <option th:value="'All'" th:text="All">All</option>
-                                    <option th:value="'Fairfield, IA'" th:text="'Fairfield, IA'">Fairfield, IA</option>
-                                    <option th:value="'San Francisco, CA'" th:text="'San Francisco, CA'">San Francisco, CA</option>
+                                            th:text="#{label.advertisement.targetLocationSelect}">Choose Target Location</option>
+                                    <option th:each="targetLocationValue : ${T(edu.mum.sonet.models.enums.TargetLocation).values()}"
+                                            th:value="${targetLocationValue.name()}"
+                                            th:text="${targetLocationValue.name()}">FAIRFIELD</option>
                                 </select>
                             </div>
                         </div>

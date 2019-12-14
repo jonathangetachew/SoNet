@@ -5,9 +5,6 @@ spring:
   profiles:
     active: dev
 
-  messages:
-    basename: messages/messages
-
   servlet:
     multipart:
       enabled: true
