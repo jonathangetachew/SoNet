@@ -5,6 +5,7 @@ import edu.mum.sonet.services.AdvertisementService;
 import edu.mum.sonet.services.FileService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -60,7 +61,14 @@ public class AdvertisementController {
 	 *
 	 */
 	@PostMapping("/add")
-	public String addAdvertisement(@ModelAttribute("newAdvertisement") Advertisement advertisement, HttpServletRequest request) {
+	public String addAdvertisement(@ModelAttribute("newAdvertisement") @Valid Advertisement advertisement,
+	                               BindingResult bindingResult, HttpServletRequest request, Model model) {
+		///> Handle Errors
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("errors", bindingResult.getAllErrors());
+			return "advertisement/add";
+		}
+
 		String rootDirectory = request.getSession().getServletContext().getRealPath("/");
 		String imageUrl = fileService.saveFile(advertisement.getImageFile(),rootDirectory+"adImages/");
 		advertisement.setContentUrl(imageUrl);
