@@ -4,6 +4,7 @@ import edu.mum.sonet.exceptions.UnhealthyContentDetectedException;
 import edu.mum.sonet.models.Comment;
 import edu.mum.sonet.models.Post;
 import edu.mum.sonet.models.User;
+import edu.mum.sonet.models.enums.UserStatus;
 import edu.mum.sonet.services.CommentService;
 import edu.mum.sonet.services.PostService;
 import edu.mum.sonet.services.UnhealthyContentFilterService;
@@ -76,7 +77,7 @@ public class UnhealthyContentFilterAspect {
 
 		if (user.getUnhealthyContentCount() >= 20 ) {
 			// Disable user's account
-			user.setBlocked(true);
+			user.setUserStatus(UserStatus.BLOCKED);
 
 			// TODO: Send email to user ***** DON'T FORGET TO RESET THE COUNT IF ADMIN ACCEPT'S USER'S CLAIM
 		}

@@ -8,6 +8,8 @@ import edu.mum.sonet.models.Claim;
 import edu.mum.sonet.repositories.ClaimRepository;
 import edu.mum.sonet.services.ClaimService;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class ClaimServiceImpl extends GenericServiceImpl<Claim> implements ClaimService {
@@ -20,4 +22,9 @@ public class ClaimServiceImpl extends GenericServiceImpl<Claim> implements Claim
 		this.claimRepository = claimRepository;
 	}
 
+	@Override
+	public List<Claim> findAllActiveClaims() {
+		///> Find all unaccepted claims
+		return claimRepository.findAllByIsActiveOrderByIdDesc(true);
+	}
 }

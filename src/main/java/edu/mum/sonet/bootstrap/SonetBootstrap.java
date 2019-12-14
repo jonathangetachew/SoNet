@@ -3,6 +3,7 @@ package edu.mum.sonet.bootstrap;
 import edu.mum.sonet.models.*;
 import edu.mum.sonet.models.enums.Gender;
 import edu.mum.sonet.models.enums.Role;
+import edu.mum.sonet.models.enums.UserStatus;
 import edu.mum.sonet.repositories.*;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -93,19 +94,6 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 
 		commentRepository.saveAll(Arrays.asList(comment, comment2, comment3));
 
-		///> Add Claims
-		Claim claim = new Claim();
-		claim.setClaimDate(LocalDate.now());
-		claim.setMessage("My post was taken down for no reason!!! :(");
-		claim.setIsAccepted(false);
-
-		Claim claim2 = new Claim();
-		claim2.setClaimDate(LocalDate.now().minusDays(1));
-		claim2.setMessage("This isn't fair ;(");
-		claim2.setIsAccepted(false);
-
-		claimRepository.saveAll(Arrays.asList(claim, claim2));
-
 		///> Add Posts
 		Post post = new Post();
 		post.setText("Amazing Day");
@@ -158,8 +146,6 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 		user2.setDateOfBirth(LocalDate.of(2005, 1, 1));
 		user2.addPost(post);
 		user2.addPost(post2);
-		user2.addClaim(claim);
-		user2.addClaim(claim2);
 
 		User user3 = new User();
 		user3.setName("User2");
@@ -171,9 +157,32 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 		user3.setDateOfBirth(LocalDate.of(2005, 1, 1));
 		user3.addPost(post3);
 		user3.addPost(post4);
-		user3.setBlocked(true);
+		user3.setUserStatus(UserStatus.BLOCKED);
 
-		userRepository.saveAll(Arrays.asList(user, user2, user3));
+		User user4 = new User();
+		user4.setName("User3");
+		user4.setEmail("user3@sonet.com");
+		user4.setPassword(passwordEncoder.encode("user3"));
+		user4.setImageUrl("https://semantic-ui.com/images/avatar2/large/elyse.png");
+		user4.setGender(Gender.MALE);
+		user4.setLocation("Ethiopia");
+		user4.setDateOfBirth(LocalDate.of(1995,6, 12));
+		user4.setUserStatus(UserStatus.BLOCKED);
+
+		userRepository.saveAll(Arrays.asList(user, user2, user3, user4));
+
+		///> Add Claims
+		Claim claim = new Claim();
+		claim.setClaimDate(LocalDate.now());
+		claim.setMessage("My post was taken down for no reason!!! :(");
+		claim.setUser(user3);
+
+		Claim claim2 = new Claim();
+		claim2.setClaimDate(LocalDate.now().minusDays(1));
+		claim2.setMessage("This isn't fair ;(");
+		claim2.setUser(user4);
+
+		claimRepository.saveAll(Arrays.asList(claim, claim2));
 
 		///> Add Notifications
 		Notification notification = new Notification();
