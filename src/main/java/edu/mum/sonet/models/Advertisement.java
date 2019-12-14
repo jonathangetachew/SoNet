@@ -16,8 +16,8 @@ import org.springframework.web.multipart.MultipartFile;
 public class Advertisement extends BaseEntity {
 
 	@Lob
-	@URL(message = "{error.url}")
-	@NotBlank(message = "{error.NotBlank}")
+	@URL
+	@NotBlank
 	private String contentUrl;
 
 	@Transient
@@ -25,21 +25,21 @@ public class Advertisement extends BaseEntity {
 	private MultipartFile imageFile;
 
 	@Lob
-	@NotBlank(message = "{error.NotBlank}")
+	@NotBlank
 	private String text;
 
-	@URL(message = "{error.url}")
-	@NotBlank(message = "{error.NotBlank}")
+	@URL
+	@NotBlank
 	private String adUrl;
 
 	private String targetLocation;
 
-	@NotNull(message = "{error.NotNull}")
+	@NotNull
 	@Min(13)
 	@Max(100)
 	private Integer targetAge;
 
-	@NotNull(message = "{error.NotNull}")
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	private Gender targetGender;
 	
