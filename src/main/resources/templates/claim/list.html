@@ -50,9 +50,67 @@
         </div>
         <div class="tile is-parent is-10"
              style="height: 65vh; overflow-x: hidden; overflow-y: auto; background-color: #fff; padding: 3rem 2rem 0;">
-            <article class="tile is-child">
-                <p class="title">Claims</p>
-                <p class="subtitle">Claims go here...</p>
+            <article class="tile is-child" style="max-width: 100%;">
+                <div style="margin: 1rem 0;">
+                    <span style="font-size: 3em;">User Claims</span>
+                </div>
+                <table class="table is-striped">
+                    <thead>
+                    <tr class="is-selected">
+                        <th>#</th>
+                        <th>Email</th>
+                        <th>Message</th>
+                        <th>Claim Date</th>
+                        <th>Is Active</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+                    <tr class="is-selected">
+                        <th>#</th>
+                        <th>User Email</th>
+                        <th>Message</th>
+                        <th>Claim Date</th>
+                        <th>Is Active</th>
+                        <th>Actions</th>
+                    </tr>
+                    </tfoot>
+                    <tbody>
+                    <tr th:each="claim, i : ${claims}">
+                        <th scope="row" th:text="${i.count}">1</th>
+                        <th th:text="${claim.user.email}">john@sonet.com</th>
+                        <th th:text="${claim.message}">Help</th>
+                        <th th:text="${claim.claimDate}">12/13/2019</th>
+                        <th th:text="${claim.isActive}">true</th>
+                        <td class="has-text-centered">
+                            <div class="buttons">
+                                <a th:href="@{'/admin/dashboard/claims/' + ${claim.id} + '/accept'}"
+                                   title="Delete" style="margin-right: 5px;">
+                                    <button class="button is-success">
+                                        <span class="icon is-small">
+                                              <i class="fa fa-check"></i>
+                                            </span>
+                                        <span>
+                                            Accept
+                                        </span>
+                                    </button>
+                                </a>
+                                <a th:href="@{'/admin/dashboard/claims/' + ${claim.id} + '/reject'}"
+                                   title="Delete">
+                                    <button class="button is-danger">
+                                        <span class="icon is-small">
+                                            <i class="fa fa-ban"></i>
+                                        </span>
+                                        <span>
+                                            Reject
+                                        </span>
+                                    </button>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
             </article>
         </div>
     </div>
