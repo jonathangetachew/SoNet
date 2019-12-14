@@ -97,6 +97,7 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 		///> Add Posts
 		Post post = new Post();
 		post.setText("Amazing Day");
+		post.setContentUrl("https://s.ftcdn.net/v2013/pics/all/curated/RKyaEDwp8J7JKeZWQPuOVWvkUjGQfpCx_cover_580.jpg?r=1a0fc22192d0c808b8bb2b9bcfbf4a45b1793687");
 		post.setLikeCount(100);
 		post.setCommentCount(2);
 		post.setIsHealthy(true);
@@ -129,7 +130,7 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 		User user = new User();
 		user.setName("Admin");
 		user.setEmail("admin@sonet.com");
-		user.setPassword(passwordEncoder.encode("admin"));
+		user.setPassword(passwordEncoder.encode("admin123"));
 		user.setImageUrl("https://semantic-ui.com/images/avatar2/large/molly.png");
 		user.setGender(Gender.FEMALE);
 		user.setLocation("Fairfield, IA");
@@ -139,7 +140,7 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 		User user2 = new User();
 		user2.setName("User");
 		user2.setEmail("user@sonet.com");
-		user2.setPassword(passwordEncoder.encode("user"));
+		user2.setPassword(passwordEncoder.encode("user123"));
 		user2.setImageUrl("https://semantic-ui.com/images/avatar2/large/matthew.png");
 		user2.setGender(Gender.OTHER);
 		user2.setLocation("San Francisco, CA");
@@ -150,7 +151,7 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 		User user3 = new User();
 		user3.setName("User2");
 		user3.setEmail("user2@sonet.com");
-		user3.setPassword(passwordEncoder.encode("user2"));
+		user3.setPassword(passwordEncoder.encode("user21"));
 		user3.setImageUrl("https://www.google.com/url?sa=i&source=images&cd=&cad=rja&uact=8&ved=2ahUKEwjirsGzqa7mAhVzGDQIHfijBQAQjRx6BAgBEAQ&url=https%3A%2F%2Fwww.shutterstock.com%2Fsearch%2Fuser%2Bicon&psig=AOvVaw1yGp9HJM6KGjbphW9mAxYv&ust=1576178700805099");
 		user3.setGender(Gender.OTHER);
 		user3.setLocation("Fairfield");
@@ -162,7 +163,7 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 		User user4 = new User();
 		user4.setName("User3");
 		user4.setEmail("user3@sonet.com");
-		user4.setPassword(passwordEncoder.encode("user3"));
+		user4.setPassword(passwordEncoder.encode("user31"));
 		user4.setImageUrl("https://semantic-ui.com/images/avatar2/large/elyse.png");
 		user4.setGender(Gender.MALE);
 		user4.setLocation("Ethiopia");

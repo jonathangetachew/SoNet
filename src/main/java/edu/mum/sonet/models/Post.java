@@ -5,10 +5,13 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.validator.constraints.URL;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -23,16 +26,19 @@ public class Post extends BaseEntity {
 	private String text;
 
 	@Lob
+	@URL
+	@NotBlank
 	private String contentUrl;
   
-	private Integer likeCount;
-	private Integer commentCount;
+	private Integer likeCount = 0;
+	private Integer commentCount = 0;
 	private Boolean isHealthy = true;
 	private Boolean isDisabled = false;
 
 	@CreationTimestamp
 	private LocalDateTime creationDate;
-  
+
+	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "author_id")
 	@JsonIgnoreProperties(value = {"posts"})

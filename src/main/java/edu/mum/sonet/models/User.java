@@ -13,7 +13,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -25,16 +25,22 @@ import java.util.Set;
 @EqualsAndHashCode(exclude = {"posts", "claims"})
 public class User extends BaseEntity {
 
+	@NotBlank
 	private String name;
 
+	@Email
+	@NotBlank
 	@Column(unique = true)
 	private String email;
 
+	@NotBlank
 	@JsonIgnore
 	private String password;
 
+	@NotBlank
 	private String imageUrl;
 
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	private Gender gender;
 
