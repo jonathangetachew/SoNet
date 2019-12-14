@@ -1,6 +1,6 @@
 'use strict';
 
-const template = `
+const singlePostTemplate = `
     <div class="card" style="margin-bottom: 10px">
       <div class="content">
             <div class="media" style="padding-top: 10px;">
@@ -45,14 +45,15 @@ const template = `
               </a>
             </div>
           </nav>
+          <comment-list v-for="comment in post.comments" :comment="comment"/>
       </div>
     </div>
 `;
 
 function initializeVue() {
     Vue.filter('formatDate', (value) => value ? moment(value).format('MM/DD/YYYY hh:mm') : '');
-    Vue.component('post-component', {
-        template,
+    Vue.component('post-list', {
+        template: singlePostTemplate,
         props: {
             post: Object
         }
