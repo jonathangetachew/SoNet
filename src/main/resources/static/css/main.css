@@ -1,5 +1,5 @@
 html,body {
-    font-family: 'Questrial', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 14px;
     font-weight: 300;
 }
@@ -60,11 +60,6 @@ p.subtitle {
 
 .fa{
     margin-left: 5px;
-}
-
-body {
-    font-family: sans-serif, Arial;
-    font-size: 1em;
 }
 
 p.error {

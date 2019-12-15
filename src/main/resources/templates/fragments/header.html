@@ -8,7 +8,7 @@
         <div class="navbar-brand">
             <a class="navbar-item"
                th:href="${#authorization.expression('hasAuthority(''USER'')') ? '/user/index' : '/admin/dashboard'}">
-                <div style="width: 150px;" class="has-text-centered" >
+                <div style="width: 150px; font-weight: bold; font-size: 1.7rem!important;" class="has-text-centered" >
                     <span class="icon">
                         <i class="fa fa-reddit-alien"></i>
                     </span>
