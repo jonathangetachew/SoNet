@@ -18,31 +18,40 @@
     <div class="login-card">
 
         <div class="card-title">
-            <h1>Login</h1>
+            <h1 th:text="#{label.login}">Login</h1>
         </div>
 
         <div class="content">
             <div class="notification is-danger" th:if="${loginError}">
-                Invalid Username / Password.
+                <span th:text="#{label.login.unsuccessfulLogin}">
+                    Invalid Username / Password.
+                </span>
             </div>
 
             <div class="notification is-info" th:if="${param.logout}">
-                You have been logged out.
+                <span th:text="#{label.login.successfulLogout}">
+                    You have been logged out.
+                </span>
             </div>
 
             <form method="POST" action="/login">
 
-                <input id="email" type="email" name="email" title="email" placeholder="Email" required autofocus>
-                <input id="password" type="password" name="password" title="password" placeholder="Password" required>
+                <input id="email" type="email" name="email" title="email"
+                       placeholder="Email" th:placeholder="#{label.email}" required autofocus>
+                <input id="password" type="password" name="password" title="password"
+                       placeholder="Password" th:placeholder="#{label.password}" required>
 
-                <button type="submit" id="login-button" class="btn btn-primary">Login</button>
+                <button type="submit" id="login-button"
+                        class="btn btn-primary"
+                        th:placeholder="#{label.login}">Login</button>
 
                 <div class="level options">
                     <div class="checkbox level-left">
-                        <span>New here?</span>
+                        <span th:text="#{label.login.linkToSignupInquiry}">New here?</span>
                     </div>
 
-                    <a class="btn btn-link level-right" th:href="@{signup}">Sign up</a>
+                    <a class="btn btn-link level-right"
+                       th:placeholder="#{label.signup}" th:href="@{signup}">Sign up</a>
                 </div>
             </form>
 
@@ -61,11 +70,12 @@
 
 <!--            Claim Form -->
             <div class="notification is-warning" th:if="${number}" id="claimForm">
-                <span>Your Account is Blocked because you published more than 20 inappropriate content.</span><br>
+                <span th:text="#{label.login.claimFormMessage}">Your Account is Blocked...</span><br>
                 <form th:action="@{/claim}">
-                    <strong>File an Appeal</strong>
+                    <strong th:text="#{label.login.claimFormFileAppeal}">File an Appeal</strong>
                     <div class="control has-icons-right">
-                        <input class="input is-medium" type="text" name="text" placeholder="Give a reason" required>
+                        <input class="input is-medium" type="text" name="text"
+                               placeholder="Give a reason" th:placeholder="#{label.login.claimFormReason}" required>
                         <span class="icon is-right">↵</span>
                     </div>
                 </form>

@@ -9,36 +9,143 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Bulma Version 0.8.x-->
     <link rel="stylesheet" href="https://unpkg.com/bulma@0.8.0/css/bulma.min.css"/>
+    <!-- Font Awesome -->
+    <script defer src="https://use.fontawesome.com/releases/v5.11.2/js/all.js"></script>
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/css/main.css" th:href="@{/css/login.css}"/>
 </head>
 
 <body>
 <div id="login">
-    <div class="login-card">
+    <div class="login-card" style="min-width: 500px!important;">
 
         <div class="card-title">
-            <h1>Login</h1>
+            <h1 th:text="#{label.signup}">Sign up</h1>
         </div>
 
         <div class="content">
-            <div class="notification is-danger" th:if="${loginError}">
-                Invalid Username / Password.
-            </div>
 
-            <form method="POST" action="/login">
+            <form th:object="${user}" th:action="@{/signup}" enctype="multipart/form-data" method="POST">
 
-                <input id="email" type="email" name="email" title="email" placeholder="Email" required autofocus>
-                <input id="password" type="password" name="password" title="password" placeholder="Password" required>
+                <div class="field">
+                    <div class="control has-icons-left">
+                        <input type="name" name="name"
+                               placeholder="Full Name"
+                               th:placeholder="#{label.signup.name}"
+                               class="input" required>
+                        <span class="icon is-small is-left">
+                            <i class="fa fa-user"></i>
+                        </span>
+                    </div>
+                    <p class="help is-danger"
+                       th:errors="*{name}"
+                       th:if="${#fields.hasErrors('name')}">Error</p>
+                </div>
+                <div class="field">
+                    <div class="control has-icons-left">
+                        <input type="email" name="email"
+                               placeholder="Email"
+                               th:placeholder="#{label.email}"
+                               class="input" required>
+                        <span class="icon is-small is-left">
+                            <i class="fa fa-envelope"></i>
+                        </span>
+                    </div>
+                    <p class="help is-danger"
+                       th:errors="*{email}"
+                       th:if="${#fields.hasErrors('email')}">Error</p>
+                </div>
+                <div class="field">
+                    <div class="control has-icons-left">
+                        <input type="password" name="password"
+                               placeholder="Password"
+                               th:placeholder="#{label.password}"
+                               class="input" required>
+                        <span class="icon is-small is-left">
+                          <i class="fa fa-lock"></i>
+                        </span>
+                    </div>
+                    <p class="help is-danger"
+                       th:errors="*{password}"
+                       th:if="${#fields.hasErrors('password')}">Error</p>
+                </div>
 
-                <button type="submit" id="login-button" class="btn btn-primary">Login</button>
+                <div class="field">
+                    <div class="control has-icons-left">
+                        <input type="date" name="dateOfBirth"
+                               class="input" th:value="*{dateOfBirth}" th:field="*{dateOfBirth}" required>
+                        <span class="icon is-small is-left">
+                            <i class="fa fa-calendar"></i>
+                        </span>
+                    </div>
+                    <p class="help is-danger"
+                       th:errors="*{dateOfBirth}"
+                       th:if="${#fields.hasErrors('dateOfBirth')}">Error</p>
+                </div>
+
+                <div class="file has-name is-fullwidth field">
+                    <label class="file-label">
+                        <input class="file-input" type="file" name="imageFile" th:field="*{imageFile}" required>
+                        <span class="file-cta">
+                                <span class="file-icon">
+                                 <i class="fas fa-upload"></i>
+                                </span>
+                                <span class="file-label" th:text="#{label.signup.imageUpload}">
+                                    Choose Profile Picture
+                                </span>
+                        </span>
+                        <span class="file-name" th:text="#{label.signup.imageFileName}">
+                            Profile Picture
+                        </span>
+                    </label>
+                    <p class="help is-danger"
+                       th:errors="*{imageFile}"
+                       th:if="${#fields.hasErrors('imageFile')}">Error</p>
+                </div>
+
+                <div class="field">
+                    <div class="control">
+                        <div class="select is-fullwidth">
+                            <select class="select" th:field="*{gender}" th:value="*{gender}" required>
+                                <option value="" selected
+                                        th:text="#{label.signup.genderSelect}">Choose Gender</option>
+                                <option th:each="genderValue : ${T(edu.mum.sonet.models.enums.Gender).values()}"
+                                        th:value="${genderValue.name()}"
+                                        th:text="${genderValue.name()}">FEMALE</option>
+                            </select>
+                        </div>
+                    </div>
+                    <p class="help is-danger"
+                       th:errors="*{gender}"
+                       th:if="${#fields.hasErrors('gender')}">Error</p>
+                </div>
+
+                <div class="field">
+                    <div class="control">
+                        <div class="select is-fullwidth">
+                            <select class="select" th:field="*{location}" th:value="*{location}" required>
+                                <option value="" selected
+                                        th:text="#{label.signup.locationSelect}">Choose Location</option>
+                                <option th:each="locationValue : ${T(edu.mum.sonet.models.enums.Location).values()}"
+                                        th:value="${locationValue.name()}"
+                                        th:text="${locationValue.name()}">FAIRFIELD</option>
+                            </select>
+                        </div>
+                    </div>
+                    <p class="help is-danger"
+                       th:errors="*{location}"
+                       th:if="${#fields.hasErrors('location')}">Error</p>
+                </div>
+
+                <button type="submit" id="login-button" class="btn btn-primary"
+                        th:placeholder="#{label.signup}">Sign up</button>
 
                 <div class="level options">
                     <div class="checkbox level-left">
-                        <span>New here?</span>
+                        <span th:text="#{label.signup.linkToLoginInquiry}">Already have an account?</span>
                     </div>
 
-                    <a class="btn btn-link level-right" th:href="@{signup}">Sign up</a>
+                    <a class="btn btn-link level-right" th:href="@{login}" th:text="#{label.login}">Login</a>
                 </div>
             </form>
 
@@ -54,127 +161,8 @@
                     </button>
                 </a>
             </div>
-
-            <!--            Claim Form -->
-            <div class="notification is-warning" th:if="${number}" id="claimForm">
-                <span>Your Account is Blocked because you published more than 20 inappropriate content.</span><br>
-                <form th:action="@{/claim}">
-                    <strong>File an Appeal</strong>
-                    <div class="control has-icons-right">
-                        <input class="input is-medium" type="text" name="text" placeholder="Give a reason" required>
-                        <span class="icon is-right">↵</span>
-                    </div>
-                </form>
-            </div>
-
-            <div class="notification is-info" id="claimSuccess" th:if="${message}">
-                <p th:text="${message}"></p>
-            </div>
         </div>
     </div>
 </div>
-<section class="hero is-primary is-fullheight">
-    <div class="hero-body">
-        <div class="container">
-            <div class="columns is-centered">
-                <div class="column is-6-tablet is-7-desktop is-4-widescreen">
-
-                    <!--                    <form th:action="@{/login}" method="post" class="box">-->
-                    <form th:object="${user}" th:action="@{/signup}" method="post" class="box" enctype="multipart/form-data">
-
-                        <div class="field">
-                            <label for="name" class="label">Name</label>
-                            <div class="control has-icons-left">
-                                <input type="name" id="name" name="name" placeholder="e.g. John Doe"
-                                       class="input" required>
-                                <span class="icon is-small is-left">
-                                    <i class="fa fa-user"></i>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="field">
-                            <label for="email" class="label">Email</label>
-                            <div class="control has-icons-left">
-                                <input type="email" id="email" name="email" placeholder="e.g. johndoe@gmail.com"
-                                       class="input" required>
-                                <span class="icon is-small is-left">
-                                    <i class="fa fa-envelope"></i>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="field">
-                            <label for="password" class="label">Password</label>
-                            <div class="control has-icons-left">
-                                <input type="password" id="password" name="password" placeholder="*******" class="input"
-                                       required>
-                                <span class="icon is-small is-left">
-                  <i class="fa fa-lock"></i>
-                </span>
-                            </div>
-                        </div>
-
-
-                        <div class="field">
-                            <label for="location" class="label">Location</label>
-                            <div class="control has-icons-left">
-                                <input type="text" id="location" name="location" placeholder="e.g. location"
-                                       class="input">
-                                <span class="icon is-small is-left">
-                                    <i class="fa fa-location-arrow"></i>
-                                </span>
-                            </div>
-                        </div>
-
-                        <div class="field">
-                            <label for="dateOfBirth" class="label">Date Of Birth</label>
-                            <div class="control has-icons-left">
-                                <input type="date" id="dateOfBirth" name="dateOfBirth"
-                                       class="input" th:value="*{dateOfBirth}" th:field="*{dateOfBirth}">
-                                <span class="icon is-small is-left">
-                                    <i class="fa fa-calendar"></i>
-                                </span>
-                            </div>
-                        </div>
-
-                        <div class="file has-name is-fullwidth field">
-                            <label class="file-label">
-                                <input class="file-input" type="file" name="imageFile"  th:field="*{imageFile}">
-                                <span class="file-cta">
-                                <span class="file-icon">
-                                 <i class="fas fa-upload"></i>
-                                </span>
-                                <span class="file-label">
-                                Choose a file…
-                                 </span>
-                                 </span>
-                                <span class="file-name">
-                                ...
-                                </span>
-                            </label>
-                        </div>
-
-                        <div class="field select" id="select-div">
-                            <!--                            <label for="gender" class="label">Gender</label>-->
-                            <div class="control has-icons-left">
-                                <select id="gender"  th:value="*{gender}"  th:field="*{gender}">
-                                    <option th:value="NONE" label="Gender "/>
-                                    <option th:value="MALE" label="Male"/>
-                                    <option th:value="FEMALE" label="Female"/>
-                                    <option th:value="OTHER" label="Other"/>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-actions">
-                            <button class="button is-success">
-                                Sign Up
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 </body>
 </html>

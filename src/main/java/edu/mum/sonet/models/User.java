@@ -37,7 +37,6 @@ public class User extends BaseEntity {
 	@JsonIgnore
 	private String password;
 
-	@NotBlank
 	private String imageUrl;
 
 	@NotNull
@@ -46,6 +45,7 @@ public class User extends BaseEntity {
 
 	private String location;
 
+	@Past
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate dateOfBirth;
 

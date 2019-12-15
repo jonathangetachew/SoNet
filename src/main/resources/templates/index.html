@@ -18,8 +18,14 @@
         <header class="navbar">
             <div class="container">
                 <div class="navbar-brand">
-                    <a class="navbar-item" style="font-weight: bold; font-family: sans-serif; font-size: 2rem;">
-                        SoNet
+                    <a class="navbar-item"
+                       th:href="@{/}">
+                        <div style="width: 150px; font-weight: bold; font-size: 1.7rem!important;" class="has-text-centered" >
+                            <span class="icon">
+                                <i class="fa fa-reddit-alien"></i>
+                            </span>
+                            <span style="margin-left: 10px;" th:text="#{label.applicationName}">SoNet</span>
+                        </div>
                     </a>
                     <span class="navbar-burger burger" data-target="navbarMenuHeroC">
                         <span></span>
@@ -29,12 +35,13 @@
                 </div>
                 <div id="navbarMenuHeroC" class="navbar-menu">
                     <div class="navbar-end">
-                        <a class="navbar-item" href="/login" th:href="@{/login}">
+                        <a class="navbar-item" href="/login" th:href="@{/login}" th:text="#{label.login}">
                             Login
                         </a>
                         <span class="navbar-item">
                           <a href="/signup" th:href="@{/signup}">
-                            <button class="button is-primary is-inverted is-outlined">Get Started</button>
+                            <button class="button is-primary is-inverted is-outlined"
+                                    th:text="#{label.getStarted}">Get Started</button>
                           </a>
                         </span>
                     </div>
@@ -47,9 +54,9 @@
     <div class="hero-body">
         <div class="container has-text-centered">
             <h1 class="title">
-                Welcome to SoNet
+                <span th:text="#{label.welcome}">Welcome</span> to SoNet
             </h1>
-            <h2 class="subtitle">
+            <h2 class="subtitle" th:text="#{label.welcomeMessage} + ' 😊'">
                 A One Stop Location to Chill. 😊
             </h2>
         </div>
@@ -64,7 +71,7 @@
                         <script type="text/javascript">
                             document.write(new Date().getFullYear());
                         </script>
-                         SoNet</a></li>
+                        <span style="margin-left: 5px;" th:text="#{label.applicationName}">SoNet</span></a></li>
                 </ul>
             </div>
         </nav>

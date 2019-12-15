@@ -12,7 +12,7 @@
                     <span class="icon">
                         <i class="fa fa-reddit-alien"></i>
                     </span>
-                    <span style="margin-left: 10px;">SoNet</span>
+                    <span style="margin-left: 10px;" th:text="#{label.applicationName}">SoNet</span>
                 </div>
             </a>
 
@@ -30,19 +30,22 @@
                 <a class="navbar-item"
                    sec:authorize="hasAuthority('USER')"
                    th:href="@{/user/index}"
-                   th:classappend="${#httpServletRequest.getRequestURI() == '/user/index' ? 'is-active':''}">
+                   th:classappend="${#httpServletRequest.getRequestURI() == '/user/index' ? 'is-active':''}"
+                   th:text="#{label.home}">
                     Home
                 </a>
                 <a class="navbar-item"
                    sec:authorize="hasAuthority('USER')"
                    th:href="@{/user/posts/search}"
-                   th:classappend="${#httpServletRequest.getRequestURI() == '/user/posts/search' ? 'is-active':''}">
+                   th:classappend="${#httpServletRequest.getRequestURI() == '/user/posts/search' ? 'is-active':''}"
+                   th:text="#{label.search}">
                     Search
                 </a>
                 <a class="navbar-item"
                    sec:authorize="hasAuthority('ADMIN')"
                    th:href="@{/admin/dashboard}"
-                   th:classappend="${#httpServletRequest.getRequestURI() == '/admin/dashboard' ? 'is-active':''}">
+                   th:classappend="${#httpServletRequest.getRequestURI() == '/admin/dashboard' ? 'is-active':''}"
+                   th:text="#{label.home}">
                     Home
                 </a>
             </div>
@@ -60,11 +63,13 @@
                         <div class="navbar-dropdown">
                             <a th:href="@{/user/showProfile(email=${currentUser.email})}"
                                class="navbar-item"
-                               th:if="${#authorization.expression('hasAuthority(''USER'')')}">
+                               th:if="${#authorization.expression('hasAuthority(''USER'')')}"
+                               th:text="#{label.myProfile}">
                                 My Profile
                             </a>
                             <hr class="navbar-divider" th:if="${#authorization.expression('hasAuthority(''USER'')')}">
-                            <a class="navbar-item" th:href="@{/logout}" style="color: crimson;">
+                            <a class="navbar-item" th:href="@{/logout}" style="color: crimson;"
+                               th:text="#{label.logout}">
                                 Logout
                             </a>
                         </div>

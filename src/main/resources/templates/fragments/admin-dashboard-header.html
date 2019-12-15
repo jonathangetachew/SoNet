@@ -5,11 +5,11 @@
     <section class="hero is-primary is-bold">
         <div class="hero-body">
             <div class="container">
-                <h1 class="title">
+                <h1 class="title" th:text="#{label.admin.dashboard}">
                     Administrator Dashboard
                 </h1>
                 <h2 class="subtitle">
-                    Welcome <span th:text="${currentUser.name}"></span> 😊
+                    <span th:text="#{label.welcome}">Welcome</span> <span th:text="${currentUser.name}"></span> 😊
                 </h2>
             </div>
         </div>
