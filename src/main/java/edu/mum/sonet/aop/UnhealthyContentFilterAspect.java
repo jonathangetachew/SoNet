@@ -6,10 +6,14 @@ import edu.mum.sonet.models.Post;
 import edu.mum.sonet.models.User;
 import edu.mum.sonet.models.AdminNotification;
 import edu.mum.sonet.services.*;
+import edu.mum.sonet.models.enums.UserStatus;
+import edu.mum.sonet.services.CommentService;
+import edu.mum.sonet.services.PostService;
+import edu.mum.sonet.services.UnhealthyContentFilterService;
+import edu.mum.sonet.services.UserService;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
@@ -35,10 +39,11 @@ public class UnhealthyContentFilterAspect {
 		this.adminNotificationService = adminNotificationService;
 	}
 
-	@Around(value = "execution(* edu.mum.sonet.services.CommentService.save(..)) " +
-			"&& execution(* edu.mum.sonet.services.PostService.save(..))")
+	@Around(value = "execution(* edu.mum.sonet.services.PostService.save(..)) || " +
+			"execution(* edu.mum.sonet.services.CommentService.save(..))")
 	public Object filter(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 
+		System.out.println("===== start filter for unhealthy posts");
 		boolean isUnhealthy = false;
 
 		AdminNotification adminNotification = null;
@@ -60,13 +65,14 @@ public class UnhealthyContentFilterAspect {
 			}
 		} else if (proceedingJoinPoint.getTarget() instanceof PostService) {
 			Post post = (Post) args[0];
-
+			System.out.println(">>> filter post text: "+post);
 			if (unhealthyContentFilterService.hasUnhealthyContent(post.getText())) {
 				post.setIsHealthy(false);
 				isUnhealthy = true;
 				///> Change the argument
 				args[0] = post;
 				adminNotification = new AdminNotification("Post",post.getText(),user);
+				System.out.println(">>> filter send to admin: "+post);
 				adminNotificationService.notifyAdmin(adminNotification);
 			}
 		}
@@ -85,7 +91,7 @@ public class UnhealthyContentFilterAspect {
 
 		if (user.getUnhealthyContentCount() >= 20 ) {
 			// Disable user's account
-			user.setBlocked(true);
+			user.setUserStatus(UserStatus.BLOCKED);
 
 			// TODO: Send email to user ***** DON'T FORGET TO RESET THE COUNT IF ADMIN ACCEPT'S USER'S CLAIM
 		}

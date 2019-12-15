@@ -1,6 +1,7 @@
 package edu.mum.sonet.config;
 import edu.mum.sonet.models.User;
 import edu.mum.sonet.models.enums.Role;
+import edu.mum.sonet.models.enums.UserStatus;
 import edu.mum.sonet.security.*;
 import edu.mum.sonet.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -194,7 +195,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             String userPath = "/user/index";
             if(!isAdmin){
                 User user = userService.findByEmail(auth.getName());
-                if(user.getBlocked()){
+                if(user.getUserStatus() == UserStatus.BLOCKED){
                     //id will change to unhealthyContent number
                     userPath = "/user/blocked?num="+user.getId();
                 }

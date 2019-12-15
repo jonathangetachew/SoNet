@@ -1,11 +1,14 @@
 package edu.mum.sonet.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import edu.mum.sonet.models.enums.Gender;
+import edu.mum.sonet.models.enums.TargetLocation;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.URL;
 import org.springframework.web.multipart.MultipartFile;
 
 @Data
@@ -21,12 +24,22 @@ public class Advertisement extends BaseEntity {
 	private MultipartFile imageFile;
 
 	@Lob
+	@NotBlank
 	private String text;
 
-	private String adUrl;;
-	private String targetLocation;
+	@URL
+	@NotBlank
+	private String adUrl;
+
+	@Enumerated(EnumType.STRING)
+	private TargetLocation targetLocation;
+
+	@NotNull
+	@Min(13)
+	@Max(100)
 	private Integer targetAge;
 
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	private Gender targetGender;
 	

@@ -107,11 +107,10 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
 	public void follow(String authenticatedEmail, String targetUserEmail) {
 		User targetUser = findByEmail(targetUserEmail);
 		User authenticatedUser = userRepository.getUserByEmailFetchFollowers(authenticatedEmail);
-		Set<User> followers = authenticatedUser.getFollowers();
-		if(followers == null){
-			followers = new HashSet<>();
-		}
-		followers.add(targetUser);
+
+		///> Following the user adds that user in the following users list
+		authenticatedUser.addFollowingUser(targetUser);
+
 		userRepository.save(authenticatedUser);
 	}
 
@@ -119,10 +118,9 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
 	public void unfollow(String authenticatedEmail, String targetUserEmail) {
 		User targetUser = findByEmail(targetUserEmail);
 		User authenticatedUser = userRepository.getUserByEmailFetchFollowers(authenticatedEmail);
-		Set<User> followers =authenticatedUser.getFollowers();
-		if(followers != null){
-			authenticatedUser.getFollowers().remove(targetUser);;
-		}
+
+		///> UnFollowing a user removes that user from the following users list
+		authenticatedUser.removeFollowingUser(targetUser);
 
 		userRepository.save(authenticatedUser);
 	}

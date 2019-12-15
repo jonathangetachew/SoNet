@@ -4,6 +4,8 @@ server:
 spring:
   profiles:
     active: dev
+  main:
+    lazy-initialization: true
 
   servlet:
     multipart:

@@ -28,4 +28,9 @@ public class CommentServiceImpl extends GenericServiceImpl<Comment> implements C
 	public List<Comment> findAllUnhealthyComments() {
 		return commentRepository.findAllByIsHealthyAndIsDisabled(false, false);
 	}
+
+	@Override
+	public Comment save(Comment entity) {
+		return super.save(entity);
+	}
 }

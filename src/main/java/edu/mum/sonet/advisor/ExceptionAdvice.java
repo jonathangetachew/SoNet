@@ -49,6 +49,7 @@ public class ExceptionAdvice {
         DomainErrors errors = new DomainErrors();
         errors.setErrorType("error");
         errors.setMessage(exception.getMessage());
+        exception.printStackTrace();
         return errors;
     }
 

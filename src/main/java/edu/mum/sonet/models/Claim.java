@@ -3,27 +3,27 @@ package edu.mum.sonet.models;
 import java.time.LocalDate;
 
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import javax.persistence.OneToOne;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
 
 @Data
 @NoArgsConstructor
 @Entity
 public class Claim extends BaseEntity {
 
+	@NotNull
 	private LocalDate claimDate;
+
+	@NotBlank
 	private String message;
-	private Boolean isAccepted = false;
-	
-	
-	@ManyToOne
-	@JoinColumn(name = "user_id")
-	@JsonIgnoreProperties(value= {"claims"})
+
+	private Boolean isActive = true;
+
+	@NotNull
+	@OneToOne
 	private User user;
 }

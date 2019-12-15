@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import edu.mum.sonet.models.enums.AuthProvider;
 import edu.mum.sonet.models.enums.Gender;
 import edu.mum.sonet.models.enums.Role;
+import edu.mum.sonet.models.enums.UserStatus;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -12,7 +13,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -24,16 +25,21 @@ import java.util.Set;
 @EqualsAndHashCode(exclude = {"posts", "claims"})
 public class User extends BaseEntity {
 
+	@NotBlank
 	private String name;
 
+	@Email
+	@NotBlank
 	@Column(unique = true)
 	private String email;
 
+	@NotBlank
 	@JsonIgnore
 	private String password;
 
 	private String imageUrl;
 
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	private Gender gender;
 
@@ -44,7 +50,8 @@ public class User extends BaseEntity {
 
 	private Integer unhealthyContentCount = 0;
 
-	private Boolean blocked = false;
+	@Enumerated(EnumType.STRING)
+	private UserStatus userStatus = UserStatus.ACTIVE;
 
 	@Enumerated(EnumType.STRING)
 	private Role role = Role.USER;
@@ -56,7 +63,6 @@ public class User extends BaseEntity {
 	@Transient
 	private String oldPassword;
 
-	@NotNull
 	@Enumerated(EnumType.STRING)
 	private AuthProvider authProvider = AuthProvider.LOCAL;
 
@@ -64,8 +70,8 @@ public class User extends BaseEntity {
 	@JsonIgnoreProperties(value = "author")
 	private Set<Post> posts = new HashSet<>();
 
-	@OneToMany(mappedBy = "user", targetEntity = Claim.class)
-	private Set<Claim> claims = new HashSet<>();
+	@OneToMany
+	private Set<Comment> comments = new HashSet<>();
 
 	@OneToMany
 	private Set<User> followers = new HashSet<>();
@@ -96,17 +102,42 @@ public class User extends BaseEntity {
 		return false;
 	}
 
-	public boolean addClaim(Claim claim) {
-		if (claims.add(claim)) {
-			claim.setUser(this);
+	public boolean addComment(Comment comment) {
+		if (comments.add(comment)) return true;
+		return false;
+	}
+
+	public boolean removeComment(Comment comment) {
+		if (comments.remove(comment)) return true;
+		return false;
+	}
+
+	public boolean addFollower(User user) {
+		if (followers.add(user)) {
 			return true;
 		}
 		return false;
 	}
 
-	public boolean removeClaim(Claim claim) {
-		if (claims.remove(claim)) {
-			claim.setUser(null);
+	public boolean removeFollower(User user) {
+		if (followers.remove(user)) {
+//			user.removeFollowingUser(this);
+			return true;
+		}
+		return false;
+	}
+
+	public boolean addFollowingUser(User user) {
+		if (followingUsers.add(user)) {
+			user.addFollower(this);
+			return true;
+		}
+		return false;
+	}
+
+	public boolean removeFollowingUser(User user) {
+		if (followingUsers.remove(user)) {
+			user.removeFollower(this);
 			return true;
 		}
 		return false;
