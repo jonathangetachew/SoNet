@@ -5,17 +5,74 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Login - Free Bulma template</title>
+    <title>Sign up | SoNet</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <!-- <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet"> -->
-    <link href="https://fonts.googleapis.com/css?family=Questrial&display=swap" rel="stylesheet">
     <!-- Bulma Version 0.8.x-->
     <link rel="stylesheet" href="https://unpkg.com/bulma@0.8.0/css/bulma.min.css"/>
-    <link rel="stylesheet" href="/css/main.css" th:href="@{/css/main.css}"/>
-
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/main.css" th:href="@{/css/login.css}"/>
 </head>
 
 <body>
+<div id="login">
+    <div class="login-card">
+
+        <div class="card-title">
+            <h1>Login</h1>
+        </div>
+
+        <div class="content">
+            <div class="notification is-danger" th:if="${loginError}">
+                Invalid Username / Password.
+            </div>
+
+            <form method="POST" action="/login">
+
+                <input id="email" type="email" name="email" title="email" placeholder="Email" required autofocus>
+                <input id="password" type="password" name="password" title="password" placeholder="Password" required>
+
+                <button type="submit" id="login-button" class="btn btn-primary">Login</button>
+
+                <div class="level options">
+                    <div class="checkbox level-left">
+                        <span>New here?</span>
+                    </div>
+
+                    <a class="btn btn-link level-right" th:href="@{signup}">Sign up</a>
+                </div>
+            </form>
+
+            <hr class="hr-text" data-content="OR">
+            <div class="login-social">
+                <!-- Google Button -->
+                <a href="/oauth2/authorize/google">
+                    <button id="google" class="button is-large is-rounded is-fullwidth">
+                        <span class="icon is-medium">
+                          <i class="fab fa-google"></i>
+                        </span>
+                        <span>Google</span>
+                    </button>
+                </a>
+            </div>
+
+            <!--            Claim Form -->
+            <div class="notification is-warning" th:if="${number}" id="claimForm">
+                <span>Your Account is Blocked because you published more than 20 inappropriate content.</span><br>
+                <form th:action="@{/claim}">
+                    <strong>File an Appeal</strong>
+                    <div class="control has-icons-right">
+                        <input class="input is-medium" type="text" name="text" placeholder="Give a reason" required>
+                        <span class="icon is-right">↵</span>
+                    </div>
+                </form>
+            </div>
+
+            <div class="notification is-info" id="claimSuccess" th:if="${message}">
+                <p th:text="${message}"></p>
+            </div>
+        </div>
+    </div>
+</div>
 <section class="hero is-primary is-fullheight">
     <div class="hero-body">
         <div class="container">
@@ -119,7 +176,5 @@
         </div>
     </div>
 </section>
-<script async type="text/javascript" th:src="@{/js/bulma.js}"></script>
 </body>
-
 </html>
