@@ -2,9 +2,9 @@ package edu.mum.sonet.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import edu.mum.sonet.models.Notification;
+import edu.mum.sonet.models.UserNotification;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface NotificationRepository extends JpaRepository<Notification, Long>{
+public interface UserNotificationRepository extends JpaRepository<UserNotification, Long>{
 }

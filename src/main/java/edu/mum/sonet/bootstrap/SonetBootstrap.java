@@ -32,7 +32,7 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 
 	private final CommentRepository commentRepository;
 
-	private final NotificationRepository notificationRepository;
+	private final UserNotificationRepository notificationRepository;
 
 	private final UnhealthyWordRepository unhealthyWordRepository;
 
@@ -40,9 +40,9 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 	private final PasswordEncoder passwordEncoder;
 
 	public SonetBootstrap(UserRepository userRepository, AdvertisementRepository advertisementRepository,
-	                      ClaimRepository claimRepository, CommentRepository commentRepository,
-	                      NotificationRepository notificationRepository, UnhealthyWordRepository unhealthyWordRepository,
-	                      PasswordEncoder passwordEncoder) {
+						  ClaimRepository claimRepository, CommentRepository commentRepository,
+						  UserNotificationRepository notificationRepository, UnhealthyWordRepository unhealthyWordRepository,
+						  PasswordEncoder passwordEncoder) {
 		this.userRepository = userRepository;
 		this.advertisementRepository = advertisementRepository;
 		this.claimRepository = claimRepository;
@@ -176,11 +176,11 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 		userRepository.saveAll(Arrays.asList(user, user2, user3));
 
 		///> Add Notifications
-		Notification notification = new Notification();
+		UserNotification notification = new UserNotification();
 		notification.setIsSeen(false);
 		notification.setPost(post);
 
-		Notification notification2 = new Notification();
+		UserNotification notification2 = new UserNotification();
 		notification2.setIsSeen(true);
 		notification2.setPost(post2);
 

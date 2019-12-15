@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @Entity
-public class Notification extends BaseEntity {
+public class UserNotification extends BaseEntity {
 
 	private Boolean isSeen;
 

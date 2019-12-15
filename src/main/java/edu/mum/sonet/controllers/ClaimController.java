@@ -2,15 +2,16 @@ package edu.mum.sonet.controllers;
 
 import edu.mum.sonet.models.Claim;
 import edu.mum.sonet.models.User;
+import edu.mum.sonet.models.AdminNotification;
+import edu.mum.sonet.services.AdminNotificationService;
 import edu.mum.sonet.services.ClaimService;
 import edu.mum.sonet.services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
@@ -25,10 +26,13 @@ public class ClaimController {
 	private UserService userService;
 	private ClaimService claimService;
 	private Authentication authentication;
+	private AdminNotificationService adminNotificationService;
 
-	public ClaimController(UserService userService,ClaimService claimService) {
+
+	public ClaimController(UserService userService,ClaimService claimService, AdminNotificationService adminNotificationService) {
 		this.userService = userService;
 		this.claimService = claimService;
+		this.adminNotificationService = adminNotificationService;
 	}
 
 
@@ -45,6 +49,8 @@ public class ClaimController {
 			claim.setUser(user);
 			claimService.save(claim);
 			model.addAttribute("message","it will take about two days");
+			AdminNotification adminNotification = new AdminNotification("Claim",claim.getMessage(),user);
+			adminNotificationService.notifyAdmin(adminNotification);
 		}else{
 			model.addAttribute("message","something went wrong please try to login again");
 		}

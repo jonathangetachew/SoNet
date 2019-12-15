@@ -7,7 +7,13 @@
 >
 <head>
     <title>Dashboard | SoNet</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.0.3/sockjs.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/stomp.js}"></script>
+    <script type="text/javascript" th:src="@{/js/admin-socket.js}"></script>
+    <link rel="stylesheet" href="/css/main.css" th:href="@{/css/admin.css}"/>
 </head>
+<!--th:onload="'connectCallback2();'"-->
 <body>
 <div layout:fragment="content">
     <section class="hero is-primary is-bold">
@@ -52,7 +58,29 @@
              style="height: 65vh; overflow-x: hidden; overflow-y: auto; background-color: #fff; padding: 3rem 2rem 0;">
             <article class="tile is-child">
                 <p class="title">Notifications</p>
-                <p class="subtitle">Notifications go here...</p>
+<!--                <p class="subtitle">Notifications go here...</p>-->
+                <div  id="result">
+<!--                    th:if="${!notifications.isEmpty()}"-->
+                    <table class="table is-striped" id="notify-table" >
+                        <thead>
+                        <tr class="is-selected">
+<!--                            <th>#</th>-->
+                            <th class="table-column">Type</th>
+                            <th class="table-column">User</th>
+                            <th class="table-column">Text</th>
+                        </tr>
+                        </thead>
+                        <tbody id="table-body">
+                        <tr th:each="notif : ${notifications}">
+                            <!--                            <td scope="row" th:text="1">1</td>-->
+                            <td th:text="${notif.type}"></td>
+                            <td th:text="${notif.user.name}"></td>
+                            <td th:text="${notif.text}"></td>
+
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </article>
         </div>
     </div>
