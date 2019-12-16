@@ -4,6 +4,8 @@ import edu.mum.sonet.exceptions.UnhealthyContentDetectedException;
 import edu.mum.sonet.models.Comment;
 import edu.mum.sonet.models.Post;
 import edu.mum.sonet.models.User;
+import edu.mum.sonet.models.AdminNotification;
+import edu.mum.sonet.services.*;
 import edu.mum.sonet.models.enums.UserStatus;
 import edu.mum.sonet.services.CommentService;
 import edu.mum.sonet.services.PostService;
@@ -28,19 +30,28 @@ public class UnhealthyContentFilterAspect {
 
 	private final UserService userService;
 
-	public UnhealthyContentFilterAspect(UnhealthyContentFilterService unhealthyContentFilterService, UserService userService) {
+	private AdminNotificationService adminNotificationService;
+
+	public UnhealthyContentFilterAspect(UnhealthyContentFilterService unhealthyContentFilterService, UserService userService
+	,AdminNotificationService adminNotificationService) {
 		this.unhealthyContentFilterService = unhealthyContentFilterService;
 		this.userService = userService;
+		this.adminNotificationService = adminNotificationService;
 	}
 
-	@Around(value = "execution(* edu.mum.sonet.services.CommentService.save(..)) " +
-			"&& execution(* edu.mum.sonet.services.PostService.save(..))")
+	@Around(value = "execution(* edu.mum.sonet.services.PostService.save(..)) || " +
+			"execution(* edu.mum.sonet.services.CommentService.save(..))")
 	public Object filter(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 
+		System.out.println("===== start filter for unhealthy posts");
 		boolean isUnhealthy = false;
 
-		Object[] args = proceedingJoinPoint.getArgs();
+		AdminNotification adminNotification = null;
+		String email = SecurityContextHolder.getContext().getAuthentication().getName();
 
+		User user = userService.findByEmail(email);
+
+		Object[] args = proceedingJoinPoint.getArgs();
 		if ( proceedingJoinPoint.getTarget() instanceof CommentService) {
 			Comment comment = (Comment) args[0];
 
@@ -49,22 +60,25 @@ public class UnhealthyContentFilterAspect {
 				isUnhealthy = true;
 				///> Change the argument
 				args[0] = comment;
+				adminNotification = new AdminNotification("Comment",comment.getText(),user);
+				adminNotificationService.notifyAdmin(adminNotification);
 			}
 		} else if (proceedingJoinPoint.getTarget() instanceof PostService) {
 			Post post = (Post) args[0];
-
+			System.out.println(">>> filter post text: "+post);
 			if (unhealthyContentFilterService.hasUnhealthyContent(post.getText())) {
 				post.setIsHealthy(false);
 				isUnhealthy = true;
 				///> Change the argument
 				args[0] = post;
+				adminNotification = new AdminNotification("Post",post.getText(),user);
+				System.out.println(">>> filter send to admin: "+post);
+				adminNotificationService.notifyAdmin(adminNotification);
 			}
 		}
 
 		///> Get Current User
-		String email = SecurityContextHolder.getContext().getAuthentication().getName();
 
-		User user = userService.findByEmail(email);
 
 		if ( user == null ) {
 			throw new UsernameNotFoundException("Unable to find User in Principal");

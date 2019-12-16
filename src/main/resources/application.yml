@@ -4,6 +4,15 @@ server:
 spring:
   profiles:
     active: dev
+  main:
+    lazy-initialization: true
+#    allow-bean-definition-overriding: true
+#  rabbitmq:
+#    host: localhost
+#    port: 5672
+#    username: guest
+#    password: guest
+
 
   servlet:
     multipart:

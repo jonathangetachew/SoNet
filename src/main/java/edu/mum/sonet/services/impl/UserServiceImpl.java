@@ -100,7 +100,7 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
 
 	@Override
 	public Boolean isAuthenticatedUserFollowUser(String authenticatedEmail, User targetUser) {
-	return userRepository.existsByEmailAndFollowers(authenticatedEmail, targetUser);
+	return userRepository.existsByEmailAndFollowingUsers(authenticatedEmail, targetUser);
 	}
 
 	@Override

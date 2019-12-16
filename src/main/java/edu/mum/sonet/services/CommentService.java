@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface CommentService extends GenericService<Comment>{
 	List<Comment> findAllUnhealthyComments();
+	Comment save(Comment comment);
 }

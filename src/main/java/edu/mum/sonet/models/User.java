@@ -22,7 +22,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @Entity
-@EqualsAndHashCode(exclude = {"posts", "claims"})
+@EqualsAndHashCode(exclude = {"posts", "claims","SSSfollowers","followingUsers"})
 public class User extends BaseEntity {
 
 	@NotBlank
@@ -64,11 +64,10 @@ public class User extends BaseEntity {
 	@Transient
 	private String oldPassword;
 
-	@NotNull
 	@Enumerated(EnumType.STRING)
 	private AuthProvider authProvider = AuthProvider.LOCAL;
 
-	@OneToMany(mappedBy = "author", cascade = CascadeType.PERSIST, targetEntity = Post.class)
+	@OneToMany(mappedBy = "author", cascade = CascadeType.PERSIST, targetEntity = Post.class,fetch = FetchType.LAZY)
 	@JsonIgnoreProperties(value = "author")
 	private Set<Post> posts = new HashSet<>();
 
@@ -144,5 +143,6 @@ public class User extends BaseEntity {
 		}
 		return false;
 	}
-	
+
+
 }

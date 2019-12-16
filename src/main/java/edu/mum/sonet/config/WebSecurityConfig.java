@@ -14,6 +14,7 @@ import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -63,10 +64,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
                 .csrf().ignoringAntMatchers().disable()
-                .headers().frameOptions().disable()
+//                .headers().frameOptions().disable()
 //                .and().sessionManagement()
 //                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
+//                .and()
                 .csrf().disable()
                 .authorizeRequests(authorizeRequests -> {
                         try {
@@ -81,6 +82,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                                     .antMatchers("/login-error").permitAll()
                                     .antMatchers("/signup").permitAll()
                                     .antMatchers("/register").permitAll()
+                                    .antMatchers("/gkz-stomp-endpoint").permitAll()
+                                    .antMatchers("/gkz-stomp-endpoint/**").permitAll()
+                                    .antMatchers("/notifications/**").permitAll()
                                     ///> Admin specific route
                                     .antMatchers("/admin/**").hasAuthority(Role.ADMIN.toString())
                                     ///> User specific route

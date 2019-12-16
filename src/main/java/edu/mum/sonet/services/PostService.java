@@ -13,4 +13,5 @@ public interface PostService extends GenericService<Post>{
 
     Page<Post> search(String searchInput, Pageable pageable);
 	List<Post> findAllUnhealthyPosts();
+	Post save(Post post);
 }

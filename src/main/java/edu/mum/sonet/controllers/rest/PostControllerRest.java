@@ -46,9 +46,12 @@ public class PostControllerRest {
             consumes = {"multipart/form-data"})
     public Post save(@Valid Post post, HttpServletRequest request) {
         String rootDirectory = request.getSession().getServletContext().getRealPath("/");
-        String contentUrl = fileService.saveFile(post.getContentFile(), rootDirectory + "post/");
-        contentUrl = contentUrl.substring(contentUrl.lastIndexOf("post/"));
-        post.setContentUrl("/" + contentUrl);
+        if(post.getContentFile() != null) {
+            String contentUrl = fileService.saveFile(post.getContentFile(), rootDirectory + "post/");
+            contentUrl = contentUrl.substring(contentUrl.lastIndexOf("post/"));
+            post.setContentUrl("/" + contentUrl);
+        }
+
         getCurrentUser().addPost(post);
         return postService.save(post);
     }

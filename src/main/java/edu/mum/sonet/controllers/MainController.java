@@ -1,7 +1,9 @@
 package edu.mum.sonet.controllers;
 
 import edu.mum.sonet.models.User;
+import edu.mum.sonet.models.UserNotification;
 import edu.mum.sonet.services.FileService;
+import edu.mum.sonet.services.UserNotificationService;
 import edu.mum.sonet.services.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.List;
 
 
 @Controller
@@ -17,10 +20,12 @@ public class MainController {
 
     private final UserService userService;
     private final FileService fileService;
+    private final UserNotificationService userNotificationService;
 
-    public MainController(UserService userService, FileService fileService) {
+    public MainController(UserService userService, FileService fileService, UserNotificationService userNotificationService) {
         this.userService = userService;
         this.fileService = fileService;
+        this.userNotificationService = userNotificationService;
     }
 
     /**
@@ -34,7 +39,11 @@ public class MainController {
     }
 
     @GetMapping("/user/index")
-    public String userIndex() {
+    public String userIndex(Model model) {
+        List<UserNotification> notifications = userNotificationService.findAllOrderByIdDesc();
+        model.addAttribute("notifications",notifications);
+        model.addAttribute("notificationsNumber",notifications.size());
+        System.out.println(">>>> show user home page <<<<");
         return "user/index";
     }
 

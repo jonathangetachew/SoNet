@@ -6,7 +6,9 @@ import java.util.Optional;
 
 import edu.mum.sonet.models.Claim;
 import edu.mum.sonet.models.Post;
+import edu.mum.sonet.models.UserNotification;
 import edu.mum.sonet.services.ClaimService;
+import edu.mum.sonet.services.UserNotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,14 +25,16 @@ import javax.servlet.http.HttpServletRequest;
 
 public class UserController {
 
-	private UserService userService;
+	private final UserService userService;
+	private final ClaimService claimService;
+	private final UserNotificationService userNotificationService;
 	private Authentication authentication;
-	private ClaimService claimService;
 
 	@Autowired
-	public UserController(UserService userService,ClaimService claimService) {
+	public UserController(UserService userService,ClaimService claimService, UserNotificationService userNotificationService) {
 		this.userService = userService;
 		this.claimService = claimService;
+		this.userNotificationService = userNotificationService;
 	}
 
 	@RequestMapping(value = "/user/register", method = RequestMethod.POST)
@@ -40,6 +44,9 @@ public class UserController {
 
 	@RequestMapping(value = "/user/showProfile", method = RequestMethod.GET)
 	public  String showProfile(@RequestParam(value="email") String email, Model model) {
+		List<UserNotification> notifications = userNotificationService.findAllOrderByIdDesc();
+		model.addAttribute("notifications",notifications);
+		model.addAttribute("notificationsNumber",notifications.size());
 		authentication = SecurityContextHolder.getContext().getAuthentication();
 		String currentPrincipalName = authentication.getName();
 		User targetUser = userService.findByEmail(email);
@@ -59,6 +66,9 @@ public class UserController {
 
 	@PostMapping(value = "/user/editProfile")
 	public  String editProfile(@RequestParam(value="email") String email, Model model) {
+		List<UserNotification> notifications = userNotificationService.findAllOrderByIdDesc();
+		model.addAttribute("notifications",notifications);
+		model.addAttribute("notificationsNumber",notifications.size());
 		User user = userService.findByEmail(email);
 		if(user != null){
 			user.setPassword(null);

@@ -35,4 +35,9 @@ public class PostServiceImpl extends GenericServiceImpl<Post> implements PostSer
 	public List<Post> findAllUnhealthyPosts() {
 		return postRepository.findAllByIsHealthyAndIsDisabled(false, false);
 	}
+
+	@Override
+	public Post save(Post entity) {
+		return super.save(entity);
+	}
 }

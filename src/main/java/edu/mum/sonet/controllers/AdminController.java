@@ -1,7 +1,8 @@
 package edu.mum.sonet.controllers;
 
+import edu.mum.sonet.models.AdminNotification;
+import edu.mum.sonet.services.AdminNotificationService;
 import edu.mum.sonet.models.Claim;
-import edu.mum.sonet.models.Comment;
 import edu.mum.sonet.models.User;
 import edu.mum.sonet.models.enums.UserStatus;
 import edu.mum.sonet.services.ClaimService;
@@ -11,7 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import java.util.List;
 import javax.validation.Valid;
 
 /**
@@ -24,17 +25,22 @@ public class AdminController {
 
 	public static final String BASE_URL = "/admin";
 
+	private AdminNotificationService adminNotificationService;
+
 	private final ClaimService claimService;
 
 	private final UserService userService;
 
-	public AdminController(ClaimService claimService, UserService userService) {
+	public AdminController(ClaimService claimService, UserService userService,AdminNotificationService adminNotificationService) {
 		this.claimService = claimService;
 		this.userService = userService;
+			this.adminNotificationService = adminNotificationService;
 	}
 
 	@GetMapping("/dashboard")
-	public String index() {
+	public String index(Model model) {
+		List<AdminNotification> notifications = adminNotificationService.findAllOrderByIdDesc();
+		model.addAttribute("notifications",notifications);
 		return "admin/index";
 	}
 
