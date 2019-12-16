@@ -22,23 +22,23 @@ public class AdminNotificationServiceImpl extends GenericServiceImpl<AdminNotifi
     private SimpMessagingTemplate template;
 //    private RabbitTemplate rabbitTemplate;
 
+//    @Autowired
+//    private AmqpTemplate rabbitTemplate;
+//
+//    @Value("javainuse.exchange")
+//    private String exchange;
+//
+////    @Value("${javainuse.rabbitmq.routingkey}")
+//@Value("javainuse.routingkey")
+//    private String routingkey;
+
+
     @Autowired
-    private AmqpTemplate rabbitTemplate;
-
-    @Value("javainuse.exchange")
-    private String exchange;
-
-//    @Value("${javainuse.rabbitmq.routingkey}")
-@Value("javainuse.routingkey")
-    private String routingkey;
-
-
-    @Autowired
-    public AdminNotificationServiceImpl(AdminNotificationRepository adminNotificationRepository,SimpMessagingTemplate template,AmqpTemplate rabbitTemplate) {
+    public AdminNotificationServiceImpl(AdminNotificationRepository adminNotificationRepository,SimpMessagingTemplate template) {
         super(adminNotificationRepository);
         this.adminNotificationRepository = adminNotificationRepository;
         this.template = template;
-        this.rabbitTemplate = rabbitTemplate;
+//        this.rabbitTemplate = rabbitTemplate;
     }
 
 
@@ -46,8 +46,7 @@ public class AdminNotificationServiceImpl extends GenericServiceImpl<AdminNotifi
     public void notifyAdmin(AdminNotification adminNotification) {
         adminNotificationRepository.save(adminNotification);
         System.out.println(">>>> notifyAdmin with: "+adminNotification.getType());
-//        rabbitTemplate.convertAndSend(exchange, routingkey, adminNotification);
-        template.convertAndSend("/notifications/admin",adminNotification);
+        template.convertAndSend("/topicnotify",adminNotification);
 //        rabbitTemplate.convertAndSend("/topic/public", adminNotification);
     }
 
