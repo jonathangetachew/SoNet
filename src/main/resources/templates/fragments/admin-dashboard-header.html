@@ -1,0 +1,17 @@
+<header th:fragment="admin-header"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:th="https://www.thymeleaf.org">
+    <!-- Static header -->
+    <section class="hero is-primary is-bold">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title" th:text="#{label.admin.dashboard}">
+                    Administrator Dashboard
+                </h1>
+                <h2 class="subtitle">
+                    <span th:text="#{label.welcome}">Welcome</span> <span th:text="${currentUser.name}"></span> 😊
+                </h2>
+            </div>
+        </div>
+    </section>
+</header>

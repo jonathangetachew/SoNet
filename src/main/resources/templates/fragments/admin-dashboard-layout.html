@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{fragments/main_layout}">
+<head>
+
+</head>
+<body>
+<div layout:fragment="content">
+
+    <!-- Admin Header -->
+    <div th:replace="fragments/admin-dashboard-header :: header"></div>
+
+    <!-- Admin Content -->
+    <div class="tile is-ancestor" style="background-color: #fafafa;">
+
+        <!-- Admin Sidebar -->
+        <div th:replace="fragments/admin-dashboard-sidebar :: div"></div>
+
+        <!-- Admin Content -->
+        <div layout:fragment="admin-dashboard-content"
+             class="tile is-parent is-10"
+             style="height: 65vh; overflow-x: auto; overflow-y: auto; background-color: #fff; padding: 3rem 2rem 0;">
+        </div>
+
+    </div>
+
+</div>
+</body>
+</html>

@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html
         xmlns:layout="http://www.w3.org/1999/xhtml"
-        layout:decorate="~{fragments/main_layout}"
+        layout:decorate="~{fragments/admin-dashboard-layout}"
         xmlns="http://www.w3.org/1999/xhtml"
         xmlns:th="https://www.thymeleaf.org"
 >
@@ -9,168 +9,128 @@
     <title>Dashboard | Advertisements</title>
 </head>
 <body>
-<div layout:fragment="content">
-    <section class="hero is-primary is-bold">
-        <div class="hero-body">
-            <div class="container">
-                <h1 class="title">
-                    Administrator Dashboard
-                </h1>
-                <h2 class="subtitle">
-                    Welcome Admin 😊
-                </h2>
+<div layout:fragment="admin-dashboard-content">
+
+    <article class="tile is-child">
+        <form th:object="${newAdvertisement}"
+              th:action="@{/admin/dashboard/advertisements/add}"
+              method="post" enctype="multipart/form-data">
+
+            <div class="field">
+                <label for="text" class="label" th:text="#{label.advertisement.text}">Text</label>
+                <div class="control has-icons-left">
+                    <input type="text" id="text" name="text"
+                           placeholder="Advertisement Text"
+                           th:placeholder="#{label.advertisement.text}"
+                           class="input" required>
+                    <span class="icon is-small is-left">
+                        <i class="fa fa-user"></i>
+                    </span>
+                    <p class="help is-danger"
+                       th:errors="*{text}"
+                       th:if="${#fields.hasErrors('text')}"></p>
+                </div>
             </div>
-        </div>
-    </section>
-    <div class="tile is-ancestor" style="background-color: #fafafa;">
-        <div class="tile is-parent is-2" style="padding: 3rem 2rem 0;">
-            <aside class="tile menu is-child">
-                <p class="menu-label">
-                    Administration
-                </p>
-                <ul class="menu-list">
-                    <li><a href="/admin/dashboard"
-                           th:href="@{/admin/dashboard}"
-                           th:classappend="${#httpServletRequest.getRequestURI() == '/admin/dashboard' ? 'is-active':''}">
-                        Notifications</a></li>
-                    <li><a href="/admin/dashboard/advertisements"
-                           th:href="@{/admin/dashboard/advertisements}"
-                           th:classappend="${#httpServletRequest.getRequestURI() == '/admin/dashboard/advertisements' ? 'is-active':''}">
-                        Advertisements</a></li>
-                    <li><a href="/admin/dashboard/claims"
-                           th:href="@{/admin/dashboard/claims}"
-                           th:classappend="${#httpServletRequest.getRequestURI() == '/admin/dashboard/claims' ? 'is-active':''}">
-                        User Claims</a></li>
-                    <li><a href="/admin/dashboard/unhealthy-contents"
-                           th:href="@{/admin/dashboard/unhealthy-contents}"
-                           th:classappend="${#httpServletRequest.getRequestURI() == '/admin/dashboard/unhealthy-contents' ? 'is-active':''}">
-                        Unhealthy Content</a></li>
-                </ul>
-            </aside>
-        </div>
-        <div class="tile is-parent is-10"
-             style="height: 65vh; overflow-x: hidden; overflow-y: auto; background-color: #fff; padding: 3rem 2rem 0;">
-            <article class="tile is-child">
-                <form th:object="${newAdvertisement}"
-                      th:action="@{/admin/dashboard/advertisements/add}"
-                      method="post" enctype="multipart/form-data">
 
-                    <div class="field">
-                        <label for="text" class="label" th:text="#{label.advertisement.text}">Text</label>
-                        <div class="control has-icons-left">
-                            <input type="text" id="text" name="text"
-                                   placeholder="Advertisement Text"
-                                   th:placeholder="#{label.advertisement.text}"
-                                   class="input" required>
-                            <span class="icon is-small is-left">
-                                <i class="fa fa-user"></i>
-                            </span>
-                            <p class="help is-danger"
-                               th:errors="*{text}"
-                               th:if="${#fields.hasErrors('text')}"></p>
-                        </div>
-                    </div>
+            <div class="field">
+                <label for="adUrl" class="label" th:text="#{label.advertisement.adUrl}">Advertisement URL</label>
+                <div class="control has-icons-left">
+                    <input type="url" id="adUrl" name="adUrl"
+                           placeholder="Advertisement URL" th:placeholder="#{label.advertisement.adUrl}"
+                           class="input" th:value="*{adUrl}" th:field="*{adUrl}" required>
+                    <span class="icon is-small is-left">
+                        <i class="fa fa-link"></i>
+                    </span>
+                </div>
+                <p class="help is-danger"
+                   th:errors="*{adUrl}"
+                   th:if="${#fields.hasErrors('adUrl')}"></p>
+            </div>
 
-                    <div class="field">
-                        <label for="adUrl" class="label" th:text="#{label.advertisement.adUrl}">Advertisement URL</label>
-                        <div class="control has-icons-left">
-                            <input type="url" id="adUrl" name="adUrl"
-                                   placeholder="Advertisement URL" th:placeholder="#{label.advertisement.adUrl}"
-                                   class="input" th:value="*{adUrl}" th:field="*{adUrl}" required>
-                            <span class="icon is-small is-left">
-                                <i class="fa fa-link"></i>
-                            </span>
-                        </div>
-                        <p class="help is-danger"
-                           th:errors="*{adUrl}"
-                           th:if="${#fields.hasErrors('adUrl')}"></p>
-                    </div>
+            <div class="field">
+                <label for="targetAge" class="label" th:text="#{label.advertisement.targetAge}">Target Age</label>
+                <div class="control has-icons-left">
+                    <input type="number" id="targetAge" name="targetAge"
+                       class="input" th:value="*{targetAge}" th:field="*{targetAge}"
+                       placeholder="Target Age" th:placeholder="#{label.advertisement.targetAge}" required>
+                    <span class="icon is-small is-left">
+                        <i class="fa fa-calendar"></i>
+                    </span>
+                </div>
+                <p class="help is-danger"
+                   th:errors="*{targetAge}"
+                   th:if="${#fields.hasErrors('targetAge')}"></p>
+            </div>
 
-                    <div class="field">
-                        <label for="targetAge" class="label" th:text="#{label.advertisement.targetAge}">Target Age</label>
-                        <div class="control has-icons-left">
-                            <input type="number" id="targetAge" name="targetAge"
-                               class="input" th:value="*{targetAge}" th:field="*{targetAge}"
-                               placeholder="Target Age" th:placeholder="#{label.advertisement.targetAge}" required>
-                            <span class="icon is-small is-left">
-                                <i class="fa fa-calendar"></i>
-                            </span>
-                        </div>
-                        <p class="help is-danger"
-                           th:errors="*{targetAge}"
-                           th:if="${#fields.hasErrors('targetAge')}"></p>
-                    </div>
+            <div class="file has-name is-fullwidth field">
+                <label class="file-label">
+                    <input class="file-input" type="file" name="imageFile" th:field="*{imageFile}" required>
+                    <span class="file-cta">
+                        <span class="file-icon">
+                            <i class="fa fa-upload"></i>
+                        </span>
+                        <span class="file-label" th:text="#{label.advertisement.imageUpload}">
+                            Choose Ad Image
+                        </span>
+                    </span>
+                    <span class="file-name" th:text="#{label.advertisement.imageFileName}">
+                        Advertisement Poster Image
+                    </span>
+                </label>
+                <p class="help is-danger"
+                   th:errors="*{imageFile}"
+                   th:if="${#fields.hasErrors('imageFile')}">Error</p>
+            </div>
 
-                    <div class="file has-name is-fullwidth field">
-                        <label class="file-label">
-                            <input class="file-input" type="file" name="imageFile" th:field="*{imageFile}" required>
-                            <span class="file-cta">
-                                <span class="file-icon">
-                                    <i class="fa fa-upload"></i>
-                                </span>
-                                <span class="file-label" th:text="#{label.advertisement.imageUpload}">
-                                    Choose Ad Image
-                                </span>
-                            </span>
-                            <span class="file-name" th:text="#{label.advertisement.imageFileName}">
-                                Advertisement Poster Image
-                            </span>
-                        </label>
-                        <p class="help is-danger"
-                           th:errors="*{imageFile}"
-                           th:if="${#fields.hasErrors('imageFile')}">Error</p>
+            <div class="field">
+                <label class="label" th:text="#{label.advertisement.targetGender}">Target Gender</label>
+                <div class="control">
+                    <div class="select">
+                        <select class="select" th:field="*{targetGender}" th:value="*{targetGender}" required>
+                            <option value="" selected
+                                    th:text="#{label.advertisement.targetGenderSelect}">Choose Target Gender</option>
+                            <option th:each="targetGenderValue : ${T(edu.mum.sonet.models.enums.Gender).values()}"
+                                    th:value="${targetGenderValue.name()}"
+                                    th:text="${targetGenderValue.name()}">FEMALE</option>
+                        </select>
                     </div>
+                </div>
+                <p class="help is-danger"
+                   th:errors="*{targetGender}"
+                   th:if="${#fields.hasErrors('targetGender')}">Error</p>
+            </div>
 
-                    <div class="field">
-                        <label class="label" th:text="#{label.advertisement.targetGender}">Target Gender</label>
-                        <div class="control">
-                            <div class="select">
-                                <select class="select" th:field="*{targetGender}" th:value="*{targetGender}" required>
-                                    <option value="" selected
-                                            th:text="#{label.advertisement.targetGenderSelect}">Choose Target Gender</option>
-                                    <option th:each="targetGenderValue : ${T(edu.mum.sonet.models.enums.Gender).values()}"
-                                            th:value="${targetGenderValue.name()}"
-                                            th:text="${targetGenderValue.name()}">FEMALE</option>
-                                </select>
-                            </div>
-                        </div>
-                        <p class="help is-danger"
-                           th:errors="*{targetGender}"
-                           th:if="${#fields.hasErrors('targetGender')}">Error</p>
+            <div class="field">
+                <label class="label" th:text="#{label.advertisement.location}">Target Location</label>
+                <div class="control">
+                    <div class="select">
+                        <select class="select" th:field="*{location}" th:value="*{location}" required>
+                            <option value="" selected
+                                    th:text="#{label.advertisement.targetLocationSelect}">Choose Target Location</option>
+                            <option th:each="targetLocationValue : ${T(edu.mum.sonet.models.enums.Location).values()}"
+                                    th:value="${targetLocationValue.name()}"
+                                    th:text="${targetLocationValue.name()}">FAIRFIELD</option>
+                        </select>
                     </div>
+                </div>
+                <p class="help is-danger"
+                   th:errors="*{location}"
+                   th:if="${#fields.hasErrors('location')}">Error</p>
+            </div>
 
-                    <div class="field">
-                        <label class="label" th:text="#{label.advertisement.targetLocation}">Target Location</label>
-                        <div class="control">
-                            <div class="select">
-                                <select class="select" th:field="*{targetLocation}" th:value="*{targetLocation}" required>
-                                    <option value="" selected
-                                            th:text="#{label.advertisement.targetLocationSelect}">Choose Target Location</option>
-                                    <option th:each="targetLocationValue : ${T(edu.mum.sonet.models.enums.TargetLocation).values()}"
-                                            th:value="${targetLocationValue.name()}"
-                                            th:text="${targetLocationValue.name()}">FAIRFIELD</option>
-                                </select>
-                            </div>
-                        </div>
-                        <p class="help is-danger"
-                           th:errors="*{targetLocation}"
-                           th:if="${#fields.hasErrors('targetLocation')}">Error</p>
-                    </div>
+            <div class="field is-grouped is-grouped-right form-actions">
+                <div class="control">
+                    <button class="button is-success" type="submit"
+                            th:text="#{label.advertisement.submitButton}">Submit</button>
+                </div>
+                <div class="control">
+                    <button class="button is-link is-light" type="reset"
+                            th:text="#{label.advertisement.resetButton}">Reset</button>
+                </div>
+            </div>
+        </form>
+    </article>
 
-                    <div class="field is-grouped is-grouped-right form-actions">
-                        <div class="control">
-                            <button class="button is-success" type="submit"
-                                    th:text="#{label.advertisement.submitButton}">Submit</button>
-                        </div>
-                        <div class="control">
-                            <button class="button is-link is-light" type="reset"
-                                    th:text="#{label.advertisement.resetButton}">Reset</button>
-                        </div>
-                    </div>
-                </form>
-            </article>
-        </div>
-    </div>
 </div>
 </body>
 </html>

@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html
         xmlns:layout="http://www.w3.org/1999/xhtml"
-        layout:decorate="~{fragments/main_layout}"
+        layout:decorate="~{fragments/admin-dashboard-layout}"
         xmlns="http://www.w3.org/1999/xhtml"
         xmlns:th="https://www.thymeleaf.org"
 >
@@ -9,168 +9,128 @@
     <title>Dashboard | Unhealthy Contents</title>
 </head>
 <body>
-<div layout:fragment="content">
-    <section class="hero is-primary is-bold">
-        <div class="hero-body">
-            <div class="container">
-                <h1 class="title">
-                    Administrator Dashboard
-                </h1>
-                <h2 class="subtitle">
-                    Welcome Admin 😊
-                </h2>
-            </div>
+<div layout:fragment="admin-dashboard-content">
+
+    <article class="tile is-child" style="max-width: 100%;">
+        <div style="margin: 1rem 0;">
+            <span style="font-size: 3em;">Unhealthy Posts</span>
         </div>
-    </section>
-    <div class="tile is-ancestor" style="background-color: #fafafa;">
-        <div class="tile is-parent is-2" style="padding: 3rem 2rem 0;">
-            <aside class="tile menu is-child">
-                <p class="menu-label">
-                    Administration
-                </p>
-                <ul class="menu-list">
-                    <li><a href="/admin/dashboard"
-                           th:href="@{/admin/dashboard}"
-                           th:classappend="${#httpServletRequest.getRequestURI() == '/admin/dashboard' ? 'is-active':''}">
-                        Notifications</a></li>
-                    <li><a href="/admin/dashboard/advertisements"
-                           th:href="@{/admin/dashboard/advertisements}"
-                           th:classappend="${#httpServletRequest.getRequestURI() == '/admin/dashboard/advertisements' ? 'is-active':''}">
-                        Advertisements</a></li>
-                    <li><a href="/admin/dashboard/claims"
-                           th:href="@{/admin/dashboard/claims}"
-                           th:classappend="${#httpServletRequest.getRequestURI() == '/admin/dashboard/claims' ? 'is-active':''}">
-                        User Claims</a></li>
-                    <li><a href="/admin/dashboard/unhealthy-contents"
-                           th:href="@{/admin/dashboard/unhealthy-contents}"
-                           th:classappend="${#httpServletRequest.getRequestURI() == '/admin/dashboard/unhealthy-contents' ? 'is-active':''}">
-                        Unhealthy Content</a></li>
-                </ul>
-            </aside>
+        <table class="table is-striped">
+            <thead>
+            <tr class="is-selected">
+                <th>#</th>
+                <th>Text</th>
+                <th>Content URL</th>
+                <th>Is Healthy</th>
+                <th>Is Disabled</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tfoot>
+            <tr class="is-selected">
+                <th>#</th>
+                <th>Text</th>
+                <th>Content URL</th>
+                <th>Is Healthy</th>
+                <th>Is Disabled</th>
+                <th>Actions</th>
+            </tr>
+            </tfoot>
+            <tbody>
+            <tr th:each="post, i : ${unhealthyPosts}">
+                <th scope="row" th:text="${i.count}">1</th>
+                <th th:text="${post.text}">Text</th>
+                <th th:text="${#strings.substring(post.contentUrl, 0, 77)} + '...'">Content URL</th>
+                <th th:text="${post.isHealthy}">Is Healthy</th>
+                <th th:text="${post.isDisabled}">Is Disabled</th>
+                <td class="has-text-centered">
+                    <div class="buttons">
+                        <a th:href="@{'/admin/dashboard/unhealthy-contents/posts/' + ${post.id} + '/allow'}"
+                           title="Delete" style="margin-right: 5px;">
+                            <button class="button is-success">
+                                <span class="icon is-small">
+                                      <i class="fa fa-check"></i>
+                                    </span>
+                                <span>
+                                    Allow
+                                </span>
+                            </button>
+                        </a>
+                        <a th:href="@{'/admin/dashboard/unhealthy-contents/posts/' + ${post.id} + '/disable'}"
+                           title="Delete">
+                            <button class="button is-warning">
+                                <span class="icon is-small">
+                                    <i class="fa fa-ban"></i>
+                                </span>
+                                <span>
+                                    Ignore
+                                </span>
+                            </button>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div style="margin: 1rem 0;">
+            <span style="font-size: 3em;">Unhealthy Comments</span>
         </div>
-        <div class="tile is-parent is-10"
-             style="height: 65vh; overflow-x: hidden; overflow-y: auto; background-color: #fff; padding: 3rem 2rem 0;">
-            <article class="tile is-child" style="max-width: 100%;">
-                <div style="margin: 1rem 0;">
-                    <span style="font-size: 3em;">Unhealthy Posts</span>
-                </div>
-                <table class="table is-striped">
-                    <thead>
-                    <tr class="is-selected">
-                        <th>#</th>
-                        <th>Text</th>
-                        <th>Content URL</th>
-                        <th>Is Healthy</th>
-                        <th>Is Disabled</th>
-                        <th>Actions</th>
-                    </tr>
-                    </thead>
-                    <tfoot>
-                    <tr class="is-selected">
-                        <th>#</th>
-                        <th>Text</th>
-                        <th>Content URL</th>
-                        <th>Is Healthy</th>
-                        <th>Is Disabled</th>
-                        <th>Actions</th>
-                    </tr>
-                    </tfoot>
-                    <tbody>
-                    <tr th:each="post, i : ${unhealthyPosts}">
-                        <th scope="row" th:text="${i.count}">1</th>
-                        <th th:text="${post.text}">Text</th>
-                        <th th:text="${#strings.substring(post.contentUrl, 0, 77)} + '...'">Content URL</th>
-                        <th th:text="${post.isHealthy}">Is Healthy</th>
-                        <th th:text="${post.isDisabled}">Is Disabled</th>
-                        <td class="has-text-centered">
-                            <div class="buttons">
-                                <a th:href="@{'/admin/dashboard/unhealthy-contents/posts/' + ${post.id} + '/allow'}"
-                                   title="Delete" style="margin-right: 5px;">
-                                    <button class="button is-success">
-                                        <span class="icon is-small">
-                                              <i class="fa fa-check"></i>
-                                            </span>
-                                        <span>
-                                            Allow
-                                        </span>
-                                    </button>
-                                </a>
-                                <a th:href="@{'/admin/dashboard/unhealthy-contents/posts/' + ${post.id} + '/disable'}"
-                                   title="Delete">
-                                    <button class="button is-warning">
-                                        <span class="icon is-small">
-                                            <i class="fa fa-ban"></i>
-                                        </span>
-                                        <span>
-                                            Ignore
-                                        </span>
-                                    </button>
-                                </a>
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-                <div style="margin: 1rem 0;">
-                    <span style="font-size: 3em;">Unhealthy Comments</span>
-                </div>
-                <table class="table is-striped">
-                    <thead>
-                    <tr class="is-selected">
-                        <th>#</th>
-                        <th>Text</th>
-                        <th>Is Healthy</th>
-                        <th>Is Disabled</th>
-                        <th>Actions</th>
-                    </tr>
-                    </thead>
-                    <tfoot>
-                    <tr class="is-selected">
-                        <th>#</th>
-                        <th>Text</th>
-                        <th>Is Healthy</th>
-                        <th>Is Disabled</th>
-                        <th>Actions</th>
-                    </tr>
-                    </tfoot>
-                    <tbody>
-                    <tr th:each="comment, i : ${unhealthyComments}">
-                        <th scope="row" th:text="${i.count}">1</th>
-                        <th th:text="${comment.text}">Text</th>
-                        <th th:text="${comment.isHealthy}">Is Healthy</th>
-                        <th th:text="${comment.isDisabled}">Is Disabled</th>
-                        <td class="has-text-centered">
-                            <div class="buttons">
-                                <a th:href="@{'/admin/dashboard/unhealthy-contents/comments/' + ${comment.id} + '/allow'}"
-                                   title="Delete" style="margin-right: 5px;">
-                                    <button class="button is-success">
-                                        <span class="icon is-small">
-                                              <i class="fa fa-check"></i>
-                                            </span>
-                                        <span>
-                                            Allow
-                                        </span>
-                                    </button>
-                                </a>
-                                <a th:href="@{'/admin/dashboard/unhealthy-contents/comments/' + ${comment.id} + '/disable'}"
-                                   title="Delete">
-                                    <button class="button is-warning">
-                                        <span class="icon is-small">
-                                            <i class="fa fa-ban"></i>
-                                        </span>
-                                        <span>
-                                            Ignore
-                                        </span>
-                                    </button>
-                                </a>
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </article>
-        </div>
-    </div>
+        <table class="table is-striped">
+            <thead>
+            <tr class="is-selected">
+                <th>#</th>
+                <th>Text</th>
+                <th>Is Healthy</th>
+                <th>Is Disabled</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tfoot>
+            <tr class="is-selected">
+                <th>#</th>
+                <th>Text</th>
+                <th>Is Healthy</th>
+                <th>Is Disabled</th>
+                <th>Actions</th>
+            </tr>
+            </tfoot>
+            <tbody>
+            <tr th:each="comment, i : ${unhealthyComments}">
+                <th scope="row" th:text="${i.count}">1</th>
+                <th th:text="${comment.text}">Text</th>
+                <th th:text="${comment.isHealthy}">Is Healthy</th>
+                <th th:text="${comment.isDisabled}">Is Disabled</th>
+                <td class="has-text-centered">
+                    <div class="buttons">
+                        <a th:href="@{'/admin/dashboard/unhealthy-contents/comments/' + ${comment.id} + '/allow'}"
+                           title="Delete" style="margin-right: 5px;">
+                            <button class="button is-success">
+                                <span class="icon is-small">
+                                      <i class="fa fa-check"></i>
+                                    </span>
+                                <span>
+                                    Allow
+                                </span>
+                            </button>
+                        </a>
+                        <a th:href="@{'/admin/dashboard/unhealthy-contents/comments/' + ${comment.id} + '/disable'}"
+                           title="Delete">
+                            <button class="button is-warning">
+                                <span class="icon is-small">
+                                    <i class="fa fa-ban"></i>
+                                </span>
+                                <span>
+                                    Ignore
+                                </span>
+                            </button>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </article>
+
 </div>
 </body>
 </html>
