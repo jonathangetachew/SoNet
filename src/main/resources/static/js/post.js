@@ -9,7 +9,9 @@ const singleCommentTemplate = `
                 </figure>
             </div>
             <div class="media-content">
-                <strong>{{comment.author.name}}</strong>
+                <a :href="'./showProfile?email='+comment.author.email">
+                    <strong>{{comment.author.name}}</strong>
+                </a>
                 <time datetime="2016-1-1">
                     {{comment.creationDate | formatDate }}
                 </time>
@@ -31,7 +33,9 @@ const singlePostTemplate = `
                 </figure>
               </div>
               <div class="media-content">
+                <a :href="'./showProfile?email='+post.author.email">
                 <strong>{{post.author.name}}</strong> <small>{{post.author.email}}</small>
+                </a>
                 <br>
                 <time datetime="2016-1-1">{{post.creationDate | formatDate}}</time>
               </div>
