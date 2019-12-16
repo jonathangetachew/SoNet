@@ -2,8 +2,8 @@ package edu.mum.sonet.bootstrap;
 
 import edu.mum.sonet.models.*;
 import edu.mum.sonet.models.enums.Gender;
+import edu.mum.sonet.models.enums.Location;
 import edu.mum.sonet.models.enums.Role;
-import edu.mum.sonet.models.enums.TargetLocation;
 import edu.mum.sonet.models.enums.UserStatus;
 import edu.mum.sonet.repositories.*;
 import org.springframework.context.ApplicationListener;
@@ -66,7 +66,7 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 		advertisement.setContentUrl("https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.amazon.co.uk%2FAmazon-com-Amazon-Prime-Video%2Fdp%2FB00N28818A&psig=AOvVaw14IXNAXReitViuvytdxJUw&ust=1575429321572000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCLi-79rBmOYCFQAAAAAdAAAAABAD");
 		advertisement.setText("Amazon Prime Video");
 		advertisement.setAdUrl("https://www.amazon.com/Prime-Video/");
-		advertisement.setTargetLocation(TargetLocation.FAIRFIELD);
+		advertisement.setLocation(Location.FAIRFIELD);
 		advertisement.setTargetAge(20);
 		advertisement.setTargetGender(Gender.NONE);
 
@@ -74,7 +74,7 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 		advertisement2.setContentUrl("https://www.google.com/url?sa=i&url=https%3A%2F%2Fmedium.com%2F%40RyanJosephHill%2Fwhy-spotify-is-one-of-my-favorite-products-93fa4dff850a&psig=AOvVaw2TjV5sAqmD9xn9bGPO0Q6q&ust=1575430150604000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCOiq2-bEmOYCFQAAAAAdAAAAABAD");
 		advertisement2.setText("Spotify");
 		advertisement2.setAdUrl("https://www.spotify.com/");
-		advertisement2.setTargetLocation(TargetLocation.SANFRANCISCO);
+		advertisement2.setLocation(Location.SANFRANCISCO);
 		advertisement2.setTargetAge(30);
 		advertisement2.setTargetGender(Gender.NONE);
 

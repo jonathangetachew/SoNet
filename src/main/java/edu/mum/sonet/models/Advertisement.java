@@ -5,7 +5,7 @@ import javax.validation.constraints.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import edu.mum.sonet.models.enums.Gender;
-import edu.mum.sonet.models.enums.TargetLocation;
+import edu.mum.sonet.models.enums.Location;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.URL;
@@ -32,7 +32,7 @@ public class Advertisement extends BaseEntity {
 	private String adUrl;
 
 	@Enumerated(EnumType.STRING)
-	private TargetLocation targetLocation;
+	private Location location;
 
 	@NotNull
 	@Min(13)

@@ -1,0 +1,32 @@
+<div th:fragment="admin-sidebar"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:th="https://www.thymeleaf.org"
+     class="tile is-parent is-2" style="padding: 3rem 2rem 0;">
+        <aside class="tile menu is-child">
+            <p class="menu-label" th:text="#{label.admin.administration}">
+                Administration
+            </p>
+            <ul class="menu-list">
+                <li><a href="/admin/dashboard"
+                       th:href="@{/admin/dashboard}"
+                       th:classappend="${#httpServletRequest.getRequestURI() == '/admin/dashboard' ? 'is-active':''}"
+                       th:text="#{label.admin.notifications}">
+                    Notifications</a></li>
+                <li><a href="/admin/dashboard/advertisements"
+                       th:href="@{/admin/dashboard/advertisements}"
+                       th:classappend="${#httpServletRequest.getRequestURI() == '/admin/dashboard/advertisements' ? 'is-active':''}"
+                       th:text="#{label.admin.advertisements}">
+                    Advertisements</a></li>
+                <li><a href="/admin/dashboard/claims"
+                       th:href="@{/admin/dashboard/claims}"
+                       th:classappend="${#httpServletRequest.getRequestURI() == '/admin/dashboard/claims' ? 'is-active':''}"
+                       th:text="#{label.admin.userClaims}">
+                    User Claims</a></li>
+                <li><a href="/admin/dashboard/unhealthy-contents"
+                       th:href="@{/admin/dashboard/unhealthy-contents}"
+                       th:classappend="${#httpServletRequest.getRequestURI() == '/admin/dashboard/unhealthy-contents' ? 'is-active':''}"
+                       th:text="#{label.admin.unhealthyContent}">
+                    Unhealthy Content</a></li>
+            </ul>
+        </aside>
+</div>

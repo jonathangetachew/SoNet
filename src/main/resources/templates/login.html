@@ -4,103 +4,89 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Login</title>
+    <title>Login | SoNet</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <!-- <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet"> -->
-    <link href="https://fonts.googleapis.com/css?family=Questrial&display=swap" rel="stylesheet" />
     <!-- Bulma Version 0.8.x-->
     <link rel="stylesheet" href="https://unpkg.com/bulma@0.8.0/css/bulma.min.css"/>
-    <!-- Bulma-Social -->
-    <link rel="stylesheet" href="/css/bulma-social.min.css" />
-    <!-- Custom CSS-->
-    <link rel="stylesheet" href="/css/main.css" th:href="@{/css/main.css}"/>
     <!-- Font Awesome -->
     <script defer src="https://use.fontawesome.com/releases/v5.11.2/js/all.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/main.css" th:href="@{/css/login.css}"/>
 </head>
 <body>
-<section class="hero is-primary is-fullheight">
-    <div class="hero-body">
-        <div class="container">
-            <div class="columns is-centered">
-                <div class="column is-5-tablet is-4-desktop is-3-widescreen">
-                    <div th:if="${loginError}" class="alert alert-error">
-                        Invalid username and password.
+<div id="login">
+    <div class="login-card">
+
+        <div class="card-title">
+            <h1 th:text="#{label.login}">Login</h1>
+        </div>
+
+        <div class="content">
+            <div class="notification is-danger" th:if="${loginError}">
+                <span th:text="#{label.login.unsuccessfulLogin}">
+                    Invalid Username / Password.
+                </span>
+            </div>
+
+            <div class="notification is-info" th:if="${param.logout}">
+                <span th:text="#{label.login.successfulLogout}">
+                    You have been logged out.
+                </span>
+            </div>
+
+            <form method="POST" action="/login">
+
+                <input id="email" type="email" name="email" title="email"
+                       placeholder="Email" th:placeholder="#{label.email}" required autofocus>
+                <input id="password" type="password" name="password" title="password"
+                       placeholder="Password" th:placeholder="#{label.password}" required>
+
+                <button type="submit" id="login-button"
+                        class="btn btn-primary"
+                        th:placeholder="#{label.login}">Login</button>
+
+                <div class="level options">
+                    <div class="checkbox level-left">
+                        <span th:text="#{label.login.linkToSignupInquiry}">New here?</span>
                     </div>
 
-                    <div th:if="${param.logout}" class="alert alert-success">
-                        You have been logged out.
-                    </div>
-<!--                    <form th:action="@{/login}" method="post" class="box">-->
-                    <form action="/login" method="post"  class="box">
-                        <div class="field">
-                            <label for="email" class="label">Email</label>
-                            <div class="control has-icons-left">
-                                <input type="email" id="email" name="email" placeholder="e.g. johndoe@gmail.com"
-                                       class="input" required>
-                                <span class="icon is-small is-left">
-                          <i class="fa fa-envelope"></i>
-                        </span>
-                                    </div>
-                                </div>
-                                <div class="field">
-                                    <label for="password" class="label">Password</label>
-                                    <div class="control has-icons-left">
-                                        <input type="password" id="password" name="password" placeholder="*******" class="input"
-                                               required>
-                                        <span class="icon is-small is-left">
-                          <i class="fa fa-lock"></i>
-                        </span>
-                            </div>
-                        </div>
-                        <div class="field">
-                            <label for="" class="checkbox">
-                                <input type="checkbox">
-                                Remember me
-                            </label>
-                        </div>
-                        <div class="form-actions">
-                            <button class="button is-success">
-                                Login
-                            </button>
-                            <a th:href="@{signup}">Sign Up</a>
-                        </div>
-                        <hr class="hr-text" data-content="OR">
-                        <div class="login-social">
-                            <!-- Google Button -->
-                            <a href="/oauth2/authorize/google" class="button is-large is-google">
-                                <span class="icon">
-                                  <i class="fab fa-google"></i>
-                                </span>
-                                <span>Google</span>
-                            </a>
-                        </div>
-                    </form>
-
-                    <div class="notification is-danger" th:if="${number}">
-<!--                        <button class="delete"></button>-->
-                      <span>  You are Blocked because your unhealthy content more than 20</span><br>
-                        <form th:action="@{/claim}">
-                            <strong>Ask for a Claim</strong>
-                            <input type="text" id="claim-msg" name="text" placeholder="Give a reasons" class="input"
-                                   required>
-<!--                            <button class="button is-success">Claim</button>-->
-                        </form>
-
-
-                    </div>
-
-                    <div class="notification is-info" th:if="${message}">
-<!--                        <button class="delete"></button>-->
-                        <p th:text="${message}"/>
-
-                    </div>
+                    <a class="btn btn-link level-right"
+                       th:placeholder="#{label.signup}" th:href="@{signup}">Sign up</a>
                 </div>
+            </form>
+
+            <hr class="hr-text" data-content="OR">
+            <div class="login-social">
+                <!-- Google Button -->
+                <a href="/oauth2/authorize/google">
+                    <button id="google" class="button is-large is-rounded is-fullwidth">
+                        <span class="icon is-medium">
+                          <i class="fab fa-google"></i>
+                        </span>
+                        <span>Google</span>
+                    </button>
+                </a>
+            </div>
+
+<!--            Claim Form -->
+            <div class="notification is-warning" th:if="${number}" id="claimForm">
+                <span th:text="#{label.login.claimFormMessage}">Your Account is Blocked...</span><br>
+                <form th:action="@{/claim}">
+                    <strong th:text="#{label.login.claimFormFileAppeal}">File an Appeal</strong>
+                    <div class="control has-icons-right">
+                        <input class="input is-medium" type="text" name="text"
+                               placeholder="Give a reason" th:placeholder="#{label.login.claimFormReason}" required>
+                        <span class="icon is-right">↵</span>
+                    </div>
+                </form>
+            </div>
+
+            <div class="notification is-info" id="claimSuccess" th:if="${message}">
+                <p th:text="${message}"></p>
             </div>
         </div>
     </div>
-</section>
-
-<script async type="text/javascript" th:src="@{/js/bulma.js}"></script>
+</div>
 
 </body>
 </html>

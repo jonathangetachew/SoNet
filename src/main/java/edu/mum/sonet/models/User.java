@@ -22,7 +22,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @Entity
-@EqualsAndHashCode(exclude = {"posts", "claims"})
+@EqualsAndHashCode(exclude = {"posts", "claims","SSSfollowers","followingUsers"})
 public class User extends BaseEntity {
 
 	@NotBlank
@@ -45,6 +45,7 @@ public class User extends BaseEntity {
 
 	private String location;
 
+	@Past
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate dateOfBirth;
 

@@ -14,7 +14,7 @@ public interface UserRepository extends JpaRepository<User,Long>{
 
     Optional<User> findByEmail(String email);
     Boolean existsByEmail(String email);
-    Boolean existsByEmailAndFollowers(String email,User user);
+    Boolean existsByEmailAndFollowingUsers(String email,User user);
 
     @Query("select u from User u left join fetch u.followers f where u.email =:email")
     User getUserByEmailFetchFollowers(@Param("email") String email);

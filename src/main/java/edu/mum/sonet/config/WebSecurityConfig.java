@@ -78,6 +78,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                                     .antMatchers("/js/**", "/index").permitAll()
                                     .antMatchers("/").permitAll()
                                     .antMatchers("/login").permitAll()
+                                    .antMatchers("/login-error").permitAll()
                                     .antMatchers("/signup").permitAll()
                                     .antMatchers("/register").permitAll()
                                     .antMatchers("/notifications/**").permitAll()
@@ -103,9 +104,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                                     .logout()
 //                                    .logoutUrl("/signout")   // Specifies the logout URL, default URL is '/logout'
                                     .logoutSuccessHandler((req,res,auth)->{   // Logout handler called after successful logout
-                                        System.out.println("==== logout ====");
                                         req.getSession().removeAttribute("token");
-                                        res.sendRedirect("/login"); // Redirect user to login page with message.
+                                        res.sendRedirect("/login?logout"); // Redirect user to login page with message.
                                     })
                                     .permitAll() // Allow access to any URL associate to logout()
                                     .and()

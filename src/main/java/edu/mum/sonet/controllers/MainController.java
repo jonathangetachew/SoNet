@@ -5,9 +5,11 @@ import edu.mum.sonet.services.FileService;
 import edu.mum.sonet.services.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 
 @Controller
@@ -59,7 +61,14 @@ public class MainController {
      */
 
     @PostMapping("/signup")
-    public String doSignup(User user, HttpServletRequest request) {
+    public String doSignup(@Valid User user, BindingResult bindingResult, Model model, HttpServletRequest request) {
+
+        ///> Handle Errors
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("errors", bindingResult.getAllErrors());
+            return "signup";
+        }
+
         String rootDirectory = request.getSession().getServletContext().getRealPath("/");
         String imageUrl = fileService.saveFile(user.getImageFile(),rootDirectory+"profileImages/");
         user.setImageUrl(imageUrl);
