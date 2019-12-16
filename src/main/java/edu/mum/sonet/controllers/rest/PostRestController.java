@@ -12,12 +12,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 @RestController
 public class PostRestController {
@@ -49,9 +49,12 @@ public class PostRestController {
             consumes = {"multipart/form-data"})
     public Post save(@Valid Post post, HttpServletRequest request) {
         String rootDirectory = request.getSession().getServletContext().getRealPath("/");
-        String contentUrl = fileService.saveFile(post.getContentFile(), rootDirectory + "post/");
-        contentUrl = contentUrl.substring(contentUrl.lastIndexOf("post/"));
-        post.setContentUrl("/" + contentUrl);
+        MultipartFile file = post.getContentFile();
+        if (file != null) {
+            String contentUrl = fileService.saveFile(file, rootDirectory + "post/");
+            contentUrl = contentUrl.substring(contentUrl.lastIndexOf("post/"));
+            post.setContentUrl("/" + contentUrl);
+        }
         getCurrentUser().addPost(post);
         return postService.save(post);
     }
