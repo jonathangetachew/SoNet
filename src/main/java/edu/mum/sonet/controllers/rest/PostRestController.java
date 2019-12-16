@@ -9,6 +9,7 @@ import edu.mum.sonet.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
@@ -65,7 +66,7 @@ public class PostRestController {
         int currentPage = (page == null) ? 1 : page < 0 ? 1 : page;
         int pageSize = (size == null) ? DEFAULT_PAGE_SIZE : size < 0 ? 1 : size;
 
-        Page<Post> resultPage = postService.loadMorePosts(getCurrentUser(), PageRequest.of(currentPage - 1, pageSize));
+        Page<Post> resultPage = postService.loadMorePosts(getCurrentUser(), PageRequest.of(currentPage - 1, pageSize, Sort.by("creation_date").descending()));
         Map<String, Object> map = new HashMap<>();
         map.put("nextPage", currentPage + 1);
         map.put("data", resultPage.toSet());
