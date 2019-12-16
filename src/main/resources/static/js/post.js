@@ -25,26 +25,34 @@ const singleCommentTemplate = `
 const singlePostTemplate = `
 <div v-if="loaded">
     <div class="card" style="margin-bottom: 10px">
-      <div class="content" style="margin-bottom: 5px;">
-            <div class="media" style="padding-top: 10px;">
-              <div class="media-left" style="margin-right: 0px;">
-                <figure class="image is-48x48">
-                  <img class="is-rounded" :src="post.author.imageUrl" alt="Image">
-                </figure>
-              </div>
-              <div class="media-content">
-                <a :href="'./showProfile?email='+post.author.email">
-                <strong>{{post.author.name}}</strong> <small>{{post.author.email}}</small>
-                </a>
-                <br>
-                <time datetime="2016-1-1">{{post.creationDate | formatDate}}</time>
-              </div>
-              <div v-if="showDetailsLink" class="media-right" style="margin: 1rem;">
-                <a v-bind:href="'post/' + post.id">Details</a>
-              </div>
+      <nav class="card-header navbar" role="navigation" style="box-shadow: 0 0 0 transparent;">
+         <div class="navbar-brand" style="flex: 1;">
+            <div class="media" style="padding: 1.5rem; flex: 1; margin-bottom: 0px;">
+                <div class="media-left">
+                    <figure class="image is-48x48">
+                        <img class="is-rounded" :src="post.author.imageUrl" alt="Image">
+                    </figure>
+                </div>
+                <div class="media-content">
+                    <a :href="'./showProfile?email='+post.author.email">
+                        <strong>{{post.author.name}}</strong> <small>{{post.author.email}}</small>
+                    </a>
+                    <br>
+                    <time datetime="2016-1-1">{{post.creationDate | formatDate}}</time>
+                </div>
             </div>
+         </div>
+         <div class="navbar-end">
+            <div v-if="showDetailsLink" class="navbar-item has-dropdown is-hoverable">
+                <a class="navbar-link"></a>
+                <div class="navbar-dropdown">
+                    <a class="navbar-item" v-bind:href="'post/' + post.id">Details</a>
+                </div>
+            </div>  
         </div>
-      <div v-if="!!post.contentUrl" class="card-image">
+      </nav>
+      <div class="content" style="margin-bottom: 5px;">
+            <div v-if="!!post.contentUrl" class="card-image">
         <figure class="image">
           <object :data="post.contentUrl" width="100%" height="100%" style="min-height:400px; max-height: 400px;"/>
         </figure>
@@ -54,6 +62,7 @@ const singlePostTemplate = `
         {{post.text}}
         </div>
       </div>
+        </div>
       <footer class="card-footer">
         <a class="card-footer-item" aria-label="reply">
                 <span class="icon is-small">
@@ -213,7 +222,6 @@ function clear(e) {
 document.addEventListener('DOMContentLoaded', function () {
     const vueApp = initializeVue();
     const textArea = document.querySelector("textarea[name='text']");
-    const file = document.querySelector("[name='contentFile']");
     if (textArea) {
         textArea.addEventListener('input', () => {
             let textLn = textArea.value.length;
@@ -229,11 +237,14 @@ document.addEventListener('DOMContentLoaded', function () {
     const submit = document.querySelector("#submit.button");
 
     if (submit) {
+        const notifyFollowers = document.querySelector("input[name='notifyFollowers']");
+        const file = document.querySelector("[name='contentFile']");
         submit.addEventListener('click', async (e) => {
             e.preventDefault();
 
             const data = new FormData();
             data.append("text", textArea.value);
+            data.append("notifyFollowers", notifyFollowers.checked);
             if (file.files[0]) {
                 data.append("contentFile", file.files[0]);
             }

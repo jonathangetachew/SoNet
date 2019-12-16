@@ -6,6 +6,7 @@ import edu.mum.sonet.models.User;
 import edu.mum.sonet.services.FileService;
 import edu.mum.sonet.services.PostService;
 import edu.mum.sonet.services.UserService;
+import edu.mum.sonet.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -48,13 +50,17 @@ public class PostRestController {
 
     @RequestMapping(value = "/api/v1/user/post", method = {RequestMethod.POST, RequestMethod.PUT},
             consumes = {"multipart/form-data"})
-    public Post save(@Valid Post post, HttpServletRequest request) {
+    public Post save(@Valid Post post, @RequestParam("notifyFollowers") Boolean notifyFollowers, HttpServletRequest request) {
         String rootDirectory = request.getSession().getServletContext().getRealPath("/");
         MultipartFile file = post.getContentFile();
         if (file != null) {
             String contentUrl = fileService.saveFile(file, rootDirectory + "post/");
             contentUrl = contentUrl.substring(contentUrl.lastIndexOf("post/"));
             post.setContentUrl("/" + contentUrl);
+        } else {
+            List<String> extractedUrls = StringUtils.extractUrls(post.getText());
+
+            if (!extractedUrls.isEmpty()) post.setContentUrl(extractedUrls.get(0));
         }
         getCurrentUser().addPost(post);
         return postService.save(post);

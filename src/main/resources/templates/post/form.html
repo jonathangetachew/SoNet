@@ -7,17 +7,17 @@
         </p>
         <div class="panel-block">
             <p class="control">
-                <textarea class="textarea modal-trigger" placeholder="Textarea"
+                <textarea class="textarea modal-trigger" style="resize: none;" placeholder="Textarea"
                           data-target="modal-post"
-                          rows="2"
+                          rows="1"
                           th:placeholder="#{label.addContent}"></textarea>
             </p>
         </div>
     </nav>
     <form method="post" th:object="${post}" action="#">
-        <div class="modal" id="modal-post">
+        <div class="modal" id="modal-post" style="top: 10px;">
             <div class="modal-background"></div>
-            <div class="modal-card">
+            <div class="modal-card" style="position: absolute; top:50px;">
                 <header class="modal-card-head">
                     <p class="modal-card-title" th:text="#{title.create.post}">Create</p>
                     <a class="delete" aria-label="close"></a>
@@ -33,10 +33,11 @@
                                     name="text"></textarea>
                         </div>
                     </div>
-                    <div class="file has-name">
-                        <label class="file-label">
-                            <input class="file-input" type="file" name="contentFile">
-                            <span class="file-cta">
+                    <div style="display: flex; flex: 1; justify-content: space-between;">
+                        <div class="file has-name">
+                            <label class="file-label">
+                                <input class="file-input" type="file" name="contentFile">
+                                <span class="file-cta">
                               <span class="file-icon">
                                 <i class="fa fa-upload"></i>
                               </span>
@@ -44,6 +45,11 @@
                                 Choose a file…
                               </span>
                             </span>
+                            </label>
+                        </div>
+                        <label class="checkbox" style="padding: 10px;">
+                            <input name="notifyFollowers" checked type="checkbox">
+                            Notify followers?
                         </label>
                     </div>
                 </section>
