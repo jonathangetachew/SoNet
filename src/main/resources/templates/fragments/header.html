@@ -2,6 +2,10 @@
         xmlns="http://www.w3.org/1999/xhtml"
         xmlns:th="https://www.thymeleaf.org"
         xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+
+
     <!-- Static navbar -->
     <nav class="navbar" role="navigation" aria-label="main navigation"
          th:classappend="${#authorization.expression('hasAuthority(''USER'')') ? 'is-primary' : ''}">
@@ -58,24 +62,37 @@
                         <a class=" navbar-link is-arrowless noti-icon">
                             <!--                            <i class="fa fa-circle fa-stack-2x"></i>-->
                             <i style="font-size: 24px" class="fa fa-bell"></i>
-                            <span class="badge">3</span>
+                            <span class="badge" th:text="${notificationsNumber}">0</span>
 
                         </a>
 
 
 
                         <div class="navbar-dropdown">
-                            <a th:href="@{/user/showProfile(email=${currentUser.email})}"
-                               class="navbar-item"
-                               th:if="${#authorization.expression('hasAuthority(''USER'')')}"
-                               th:text="#{label.myProfile}">
-                                My Profile
-                            </a>
+                            <div th:each="noti : ${notifications}">
+                                <a >
+
+                                <a  class="navbar-item" >
+                                    <p style="color: crimson;"
+                                    th:text="${noti?.post?.author?.name}">
+                                    </p> &nbsp;
+                                    <span>add new post</span><br>
+
+                                </a>
+                                <a class="navbar-item" >
+                                    <p th:if="*{noti?.post?.text!=null and #strings.length(noti?.post?.text)>20}">
+                                        <span th:text="${#strings.substring(noti?.post?.text,0,20)}  " ></span>
+                                        <span>...</span>
+                                    </p>
+
+                                    <p  th:if="*{noti?.post?.text!=null and #strings.length(noti?.post?.text)<=20}"
+                                        th:text="${noti?.post?.text}  "></p>
+                                </a>
+                                </a>
+
                             <hr class="navbar-divider" th:if="${#authorization.expression('hasAuthority(''USER'')')}">
-                            <a class="navbar-item" th:href="@{/logout}" style="color: crimson;"
-                               th:text="#{label.logout}">
-                                Logout
-                            </a>
+
+                            </div>
                         </div>
                     </div>
                 </div>

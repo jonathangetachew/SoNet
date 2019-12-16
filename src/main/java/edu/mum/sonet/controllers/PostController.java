@@ -1,7 +1,9 @@
 package edu.mum.sonet.controllers;
 
 import edu.mum.sonet.models.Post;
+import edu.mum.sonet.models.UserNotification;
 import edu.mum.sonet.services.PostService;
+import edu.mum.sonet.services.UserNotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,10 +26,12 @@ import java.util.stream.IntStream;
 public class PostController {
 
     private PostService postService;
+    private final UserNotificationService userNotificationService;
 
     @Autowired
-    public PostController(PostService postService) {
+    public PostController(PostService postService, UserNotificationService userNotificationService) {
         this.postService = postService;
+        this.userNotificationService = userNotificationService;
     }
 
 
@@ -38,7 +42,7 @@ public class PostController {
 //        int currentPage = page.orElse(1);
 //        int pageSize = size.orElse(1);
         int currentPage = (page == null)?1:page;
-        int pageSize = (size == null)?1:size;
+        int pageSize = (size == null)?1:size;   
         System.out.println(">>>> search: "+searchInput);
         if(searchInput != null) {
             Page<Post> postPage = postService.search(searchInput, PageRequest.of(currentPage - 1, pageSize));
@@ -59,6 +63,9 @@ public class PostController {
             }
         }
 
+        List<UserNotification> notifications = userNotificationService.findAllOrderByIdDesc();
+        model.addAttribute("notifications",notifications);
+        model.addAttribute("notificationsNumber",notifications.size());
         return "/user/search";
     }
 }

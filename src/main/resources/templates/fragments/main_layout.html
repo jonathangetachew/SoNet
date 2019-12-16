@@ -15,8 +15,11 @@
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/vuex"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js" integrity="sha256-4iQZ6BVL4qNKlQ27TExEhBN1HFPvAvAMbFavKKosSWQ=" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/user-notification.js}"></script>
 </head>
-<body>
+<body th:onload="'userConnect(${currentUser.email});'">
 <!--header.html  that's here  -->
 <div th:replace="fragments/header :: header"></div>
 <div layout:fragment="content"></div>

@@ -3,6 +3,7 @@ package edu.mum.sonet.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.URL;
@@ -19,6 +20,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @Entity
+//@EqualsAndHashCode(exclude = {"contentFile", "author","comments"})
 public class Post extends BaseEntity {
 
 	@Lob
@@ -60,5 +62,18 @@ public class Post extends BaseEntity {
 	public boolean removeComment(Comment comment) {
 		if (comments.remove(comment)) return true;
 		return false;
+	}
+
+
+	@Override
+	public String toString() {
+		return "Post{" +
+				"text='" + text + '\'' +
+				", contentUrl='" + contentUrl + '\'' +
+				", likeCount=" + likeCount +
+				", commentCount=" + commentCount +
+				", isHealthy=" + isHealthy +
+				", isDisabled=" + isDisabled +
+				'}';
 	}
 }

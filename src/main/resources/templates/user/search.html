@@ -11,7 +11,7 @@
 </head>
 <body>
 <div layout:fragment="content" class="container">
-    <form th:action="@{/posts/search}">
+    <form th:action="@{/user/posts/search}">
     <div class="panel-block" id="search-form">
         <p class="control has-icons-left">
 
@@ -47,7 +47,7 @@
         <ul class="pagination-list">
 
       <li th:each="pageNumber : ${pageNumbers}">
-          <a th:href="@{/posts/search(size=${postPage.size}, page=${pageNumber}, searchInput=${searchInput})}"
+          <a th:href="@{/user/posts/search(size=${postPage.size}, page=${pageNumber}, searchInput=${searchInput})}"
            th:text=${pageNumber}
            class="pagination-link " th:classappend="${pageNumber==postPage.number + 1} ? is-current">
           </a></li>
