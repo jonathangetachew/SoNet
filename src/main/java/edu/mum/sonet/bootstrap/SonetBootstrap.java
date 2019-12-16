@@ -169,7 +169,7 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 		user4.setGender(Gender.MALE);
 		user4.setLocation("Ethiopia");
 		user4.setDateOfBirth(LocalDate.of(1995,6, 12));
-		user4.setUserStatus(UserStatus.BLOCKED);
+		user4.setUserStatus(UserStatus.BANNED);
 
 		userRepository.saveAll(Arrays.asList(user, user2, user3, user4));
 
