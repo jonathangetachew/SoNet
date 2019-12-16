@@ -44,9 +44,10 @@ public class AdminNotificationServiceImpl extends GenericServiceImpl<AdminNotifi
 
     @Override
     public void notifyAdmin(AdminNotification adminNotification) {
+        template.convertAndSend("/notifications/admin",adminNotification);
         adminNotificationRepository.save(adminNotification);
         System.out.println(">>>> notifyAdmin with: "+adminNotification.getType());
-        template.convertAndSend("/topicnotify",adminNotification);
+
 //        rabbitTemplate.convertAndSend("/topic/public", adminNotification);
     }
 

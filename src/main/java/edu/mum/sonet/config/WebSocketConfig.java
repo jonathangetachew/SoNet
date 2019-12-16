@@ -6,6 +6,7 @@ import org.springframework.messaging.handler.invocation.HandlerMethodArgumentRes
 import org.springframework.messaging.handler.invocation.HandlerMethodReturnValueHandler;
 import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
+import org.springframework.security.config.annotation.web.socket.AbstractSecurityWebSocketMessageBrokerConfigurer;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
@@ -15,11 +16,12 @@ import java.util.List;
 
 @Configuration
 @EnableWebSocketMessageBroker
+//public class WebSocketConfig extends AbstractSecurityWebSocketMessageBrokerConfigurer {
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
 	@Override
 	public void configureMessageBroker(MessageBrokerRegistry config) {
-		config.enableSimpleBroker("/topicnotify","/user/notifications","/notifications/admin");
+		config.enableSimpleBroker("/notifications","/user/notifications","/notifications/admin");
 		config.setApplicationDestinationPrefixes("/gkz");
 //		config.setApplicationDestinationPrefixes("/app");
 //		config.enableSimpleBroker("/topic");
@@ -47,7 +49,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 	@Override
 	public void configureClientInboundChannel(ChannelRegistration arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override

@@ -13,7 +13,7 @@ function adminConnect() {
 	stompClient.connect({}, function (frame) {
 
 		console.log('>>>> ===== connect topicnotify ===== <<<<<');
-		stompClient.subscribe('/topicnotify', function (message) {
+		stompClient.subscribe('/notifications/admin', function (message) {
 			console.log('>>>> web socket body recieved : ', JSON.parse(message.body));
 			let adminNotification = JSON.parse(message.body);
 
