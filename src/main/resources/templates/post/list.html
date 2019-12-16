@@ -6,10 +6,9 @@
 </head>
 <body>
 <div th:fragment="list">
-    <div id="root" >
-        <post-list v-for="post in posts" :post="post"/>
+    <div id="root">
+        <post-list/>
     </div>
-    <script type="text/javascript" th:src="@{/js/comment.js}"></script>
 </div>
 </body>
 </html>

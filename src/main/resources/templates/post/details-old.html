@@ -1,0 +1,118 @@
+<!DOCTYPE HTML>
+<html
+        xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml"
+        layout:decorate="~{fragments/main_layout}"
+        xmlns="http://www.w3.org/1999/xhtml"
+>
+<head>
+    <title>Details | SoNet</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <section class="section"
+             style="padding-top:0px; height: 75vh; overflow-x: hidden; overflow-y: auto; background-color: #fff;">
+        <div class="columns is-centered is-vcentered">
+            <div class="column is-desktop is-two-fifths is-centered">
+                <div>
+                    <div class="card" style="margin-bottom: 10px">
+                        <div class="content" style="margin-bottom: 5px;">
+                            <div class="media" style="padding-top: 10px;">
+                                <div class="media-left" style="margin-right: 0px;">
+                                    <figure class="image is-48x48">
+                                        <img class="is-rounded" th:src="${post.author.imageUrl}" alt="Image">
+                                    </figure>
+                                </div>
+                                <div class="media-content">
+                                    <strong th:text="${post.author.name}">Author</strong> <small
+                                        th:text="${post.author.email}">user@email</small>
+                                    <br>
+                                    <time datetime="2016-1-1"
+                                          th:text="${#temporals.format(post.creationDate, 'MM/dd/yyyy hh:mm')}">date
+                                    </time>
+                                </div>
+                            </div>
+                        </div>
+                        <th:block th:if="${post.contentUrl}">
+                            <div class="card-image">
+                                <figure class="image">
+                                    <object th:attr="data=${post.contentUrl}" width="100%" height="100%"
+                                            style="min-height:400px; max-height: 400px;"></object>
+                                </figure>
+                            </div>
+                        </th:block>
+                        <div class="card-content" style="padding: 5px 1.5rem;">
+                            <div class="content">
+                                <p th:text="${post.text}"></p>
+                            </div>
+                        </div>
+                        <footer class="card-footer">
+                            <a class="card-footer-item" aria-label="reply">
+                <span class="icon is-small">
+                  <i class="fa fa-reply" aria-hidden="true"></i>
+                </span>
+                            </a>
+                            <a class="card-footer-item" aria-label="retweet">
+                <span class="icon is-small">
+                  <i class="fa fa-retweet" aria-hidden="true"></i>
+                </span>
+                            </a>
+                            <a class="card-footer-item" aria-label="like">
+                <span class="icon is-small">
+                  <i class="fa fa-heart" aria-hidden="true"></i>
+                  <span class="likes" th:text="${post.likeCount}">0</span>
+                </span>
+                            </a>
+                        </footer>
+                        <div class="is-divider" style="margin: 0px;"></div>
+                        <div th:each="comment: ${post.comments}">
+                            <div class="content" style="border-bottom: 1px solid #ececec;">
+                                <div class="media" style="padding-top: 10px;">
+                                    <div class="media-left" style="margin-right: 0px;">
+                                        <figure class="image is-32x32">
+                                            <img class="is-rounded" th:src="${comment.author.imageUrl}" alt="Image">
+                                        </figure>
+                                    </div>
+                                    <div class="media-content">
+                                        <strong th:text="${comment.author.name}">Author</strong>
+                                        <time datetime="2016-1-1"
+                                              th:text="${#temporals.format(comment.creationDate, 'MM/dd/yyyy hh:mm')}">
+                                            date
+                                        </time>
+                                        <br>
+                                        <span th:text="${comment.text}">Text</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content" style="margin-bottom: 10px; background-color:#ececec;">
+                            <form th:action="@{/user/post/__${post.id}__/comment}" method="post" th:object="${comment}">
+                                <div class="media" style="padding: 5px 10px 5px 0px;">
+                                    <div class="media-left" style="margin-right: 0px;">
+                                        <figure class="image is-32x32">
+                                            <img class="is-rounded" th:src="${currentUser.imageUrl}" alt="Image">
+                                        </figure>
+                                    </div>
+                                    <div class="media-content">
+                                        <p class="control">
+                                            <input class="input is-rounded" name="text" type="text"
+                                                   placeholder="Add your comment..."
+                                                   th:classappend="${#fields.hasErrors('text')} ? is-danger : ''">
+                                        <p class="help is-danger" th:if="${#fields.hasErrors('text')}"
+                                           th:errors="*{text}">This email is invalid</p>
+                                    </div>
+                                    <div class="media-right" style="margin-left: 0px;">
+                                        <figure class="image is-32x32">
+                                            <input type="submit" class="button is-rounded" value="Post"/>
+                                        </figure>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+</body>
+</html>

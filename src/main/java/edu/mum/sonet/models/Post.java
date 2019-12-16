@@ -6,13 +6,14 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -47,11 +48,13 @@ public class Post extends BaseEntity {
 	@JsonIgnore
 	private MultipartFile contentFile;
 
-	@OneToMany(cascade = CascadeType.PERSIST, targetEntity = Comment.class)
+	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinTable(name = "post_comment",
 			joinColumns = {@JoinColumn(name = "post_id")},
 			inverseJoinColumns = {@JoinColumn(name = "comment_id")}
 	)
+	@LazyCollection(value = LazyCollectionOption.EXTRA)
+	@JsonIgnore
 	private Set<Comment> comments = new HashSet<>();
 
 	public boolean addComment(Comment comment) {

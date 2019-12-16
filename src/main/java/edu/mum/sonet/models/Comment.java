@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotEmpty;
@@ -24,7 +23,6 @@ public class Comment extends BaseEntity {
 	private Boolean isDisabled = false;
 
 	@ManyToOne
-	@JoinColumn(name = "author_id")
 	@JsonIgnoreProperties(value = {"authProvider", "posts", "oldPassword", "claims", "followers", "followingUsers", "unhealthyContentCount"})
 	private User author;
 
