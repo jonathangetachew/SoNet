@@ -66,7 +66,7 @@ public class User extends BaseEntity {
 	@Enumerated(EnumType.STRING)
 	private AuthProvider authProvider = AuthProvider.LOCAL;
 
-	@OneToMany(mappedBy = "author", cascade = CascadeType.PERSIST, targetEntity = Post.class)
+	@OneToMany(mappedBy = "author", cascade = CascadeType.PERSIST, targetEntity = Post.class,fetch = FetchType.LAZY)
 	@JsonIgnoreProperties(value = "author")
 	private Set<Post> posts = new HashSet<>();
 

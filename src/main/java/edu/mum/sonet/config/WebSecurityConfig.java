@@ -80,6 +80,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                                     .antMatchers("/login").permitAll()
                                     .antMatchers("/signup").permitAll()
                                     .antMatchers("/register").permitAll()
+                                    .antMatchers("/notifications/**").permitAll()
                                     ///> Admin specific route
                                     .antMatchers("/admin/**").hasAuthority(Role.ADMIN.toString())
                                     ///> User specific route

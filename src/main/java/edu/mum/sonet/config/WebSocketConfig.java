@@ -21,7 +21,12 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 	public void configureMessageBroker(MessageBrokerRegistry config) {
 		config.enableSimpleBroker("/notifications");
 		config.setApplicationDestinationPrefixes("/gkz");
+//		config.setApplicationDestinationPrefixes("/app");
+//		config.enableSimpleBroker("/topic");
+//		config.enableStompBrokerRelay("/topic").setRelayPort(61613).setClientLogin("guest")
+//				.setClientPasscode("guest");
 	}
+
 
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
