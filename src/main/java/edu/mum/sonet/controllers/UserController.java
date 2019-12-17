@@ -108,9 +108,21 @@ public class UserController {
 
 	@GetMapping(value = "/user/blocked")
 	public String blockedPage(@RequestParam("num") Long unhealthyContetntNumber, Model model){
-		model.addAttribute("number",unhealthyContetntNumber);
+		authentication = SecurityContextHolder.getContext().getAuthentication();
+		String currentPrincipalName = authentication.getName();
+		System.out.println(" blocked User: "+currentPrincipalName);
+
+		Boolean canClaim = claimService.userHasAClaim(currentPrincipalName);
+		System.out.println("   cain claim:" +canClaim);
+		if(canClaim){
+			model.addAttribute("message","You calim is already under review, thank you for sending again");
+		}else{
+			model.addAttribute("number",unhealthyContetntNumber);
+		}
+
 		return "/login";
 	}
+
 
 
 

@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface ClaimRepository extends JpaRepository<Claim,Long> {
 	List<Claim> findAllByIsActiveOrderByIdDesc(Boolean isAccepted);
+	Boolean existsByUser_Email(String email);
 }

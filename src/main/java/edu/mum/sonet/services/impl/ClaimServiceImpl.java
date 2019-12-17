@@ -27,4 +27,9 @@ public class ClaimServiceImpl extends GenericServiceImpl<Claim> implements Claim
 		///> Find all unaccepted claims
 		return claimRepository.findAllByIsActiveOrderByIdDesc(true);
 	}
+
+	@Override
+	public Boolean userHasAClaim(String email) {
+		return claimRepository.existsByUser_Email(email);
+	}
 }
