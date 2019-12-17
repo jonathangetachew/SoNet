@@ -20,6 +20,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserService;
@@ -31,6 +32,7 @@ import org.springframework.security.web.RedirectStrategy;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @Configuration
@@ -85,6 +87,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                                     .antMatchers("/login-error").permitAll()
                                     .antMatchers("/signup").permitAll()
                                     .antMatchers("/register").permitAll()
+                                    .antMatchers("/user/banned").permitAll()
                                     .antMatchers("/gkz-stomp-endpoint").permitAll()
                                     .antMatchers("/gkz-stomp-endpoint/**").permitAll()
                                     .antMatchers("/notifications/**").permitAll()
@@ -175,6 +178,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         try {
 
+            String userRole = Role.USER.toString();
+            boolean isAdmin = userRole.equals(Role.ADMIN.toString());
+            String userPath = "/user/index";
+            if(!isAdmin){
+                User user = userService.findByEmail(auth.getName());
+                if(user.getUserStatus() == UserStatus.BLOCKED){
+                    //id will change to unhealthyContent number
+                    userPath = "/user/blocked?num="+user.getId();
+                }else if(user.getUserStatus() == UserStatus.BANNED){
+                    HttpSession session= req.getSession(false);
+                    SecurityContextHolder.clearContext();
+                    if(session != null) {
+                        session.invalidate();
+                    }
+                    redirectStrategy.sendRedirect(req, res, "/user/banned"); // Redirect user
+                    return;
+                }
+            }
+            System.out.println(" ====== success login ========");
             //Success handler invoked after successful authentication
             String token = jwtTokenProvider.createToken(auth);
             System.out.println("----- success login ----"+auth.getName() + "   token : " + token);
@@ -189,7 +211,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                                        res.sendRedirect("/user/index");
 
             ///> If user is an Admin -> redirect to admin dashboard
-            String userRole = Role.USER.toString();
+
 
             for (GrantedAuthority authority : auth.getAuthorities()) {
                 userRole = authority.getAuthority();
@@ -198,15 +220,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             }
 
 
-            boolean isAdmin = userRole.equals(Role.ADMIN.toString());
-            String userPath = "/user/index";
-            if(!isAdmin){
-                User user = userService.findByEmail(auth.getName());
-                if(user.getUserStatus() == UserStatus.BLOCKED){
-                    //id will change to unhealthyContent number
-                    userPath = "/user/blocked?num="+user.getId();
-                }
-            }
+
             redirectStrategy.sendRedirect(req, res, isAdmin ? "/admin/dashboard" : userPath); // Redirect user
         }catch (IOException e){
             e.printStackTrace();

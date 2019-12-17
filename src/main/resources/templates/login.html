@@ -81,6 +81,10 @@
                 </form>
             </div>
 
+            <div class="notification is-danger" th:if="${banned}" id="bannedMessage">
+                <span th:text="#{label.login.bannedFormMessage}">Your Account is Banned...</span>
+            </div>
+
             <div class="notification is-info" id="claimSuccess" th:if="${message}">
                 <p th:text="${message}"></p>
             </div>

@@ -131,7 +131,7 @@ button#login-button:focus {
 /*
     Claim
  */
-#claimForm, #claimSuccess {
+#claimForm,#bannedMessage, #claimSuccess {
     margin-top: 2rem;
 }
 
