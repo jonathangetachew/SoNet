@@ -1,8 +1,12 @@
 package edu.mum.sonet.config;
+
 import edu.mum.sonet.models.User;
 import edu.mum.sonet.models.enums.Role;
 import edu.mum.sonet.models.enums.UserStatus;
-import edu.mum.sonet.security.*;
+import edu.mum.sonet.security.CustomAuthenticationSuccessHandler;
+import edu.mum.sonet.security.JwtTokenFilter;
+import edu.mum.sonet.security.JwtTokenFilterConfigurer;
+import edu.mum.sonet.security.JwtTokenProvider;
 import edu.mum.sonet.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -14,7 +18,6 @@ import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -62,9 +65,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
 
-        http
+        http.headers().frameOptions().disable().and() // IS NEEDED TO BE ABLE TO REPRODUCE VIDEOS
                 .csrf().ignoringAntMatchers().disable()
-//                .headers().frameOptions().disable()
+                //.headers().frameOptions().disable()
 //                .and().sessionManagement()
 //                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 //                .and()

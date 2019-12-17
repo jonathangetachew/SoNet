@@ -180,15 +180,9 @@ function initializeVue() {
         template: `<div v-if="posts.length > 0">
             <SinglePost v-for="post in posts" :post="post" v-bind:key="post.id" :loaded="true" :showDetailsLink="true"/>
         </div>`,
-        props: {
-            posts: {
-                type: Array,
-                default: []
-            },
-            loaded: Boolean
-        },
         data() {
             return {
+                posts: [],
                 page: 1
             }
         },
@@ -203,7 +197,7 @@ function initializeVue() {
             }
         },
         beforeMount() {
-            if (!this.loaded) this.loadPostsAsync();
+            this.loadPostsAsync();
         }
     });
 
