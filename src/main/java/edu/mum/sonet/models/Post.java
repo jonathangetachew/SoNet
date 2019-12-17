@@ -3,7 +3,6 @@ package edu.mum.sonet.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.LazyCollection;
@@ -52,7 +51,7 @@ public class Post extends BaseEntity {
 			inverseJoinColumns = {@JoinColumn(name = "comment_id")}
 	)
 	@LazyCollection(value = LazyCollectionOption.EXTRA)
-	@JsonIgnore
+	@JsonIgnoreProperties(value = {"authProvider", "posts", "oldPassword", "claims", "followers", "followingUsers", "unhealthyContentCount"})
 	private Set<Comment> comments = new HashSet<>();
 
 	public boolean addComment(Comment comment) {
