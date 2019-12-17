@@ -19,9 +19,7 @@ import java.util.Arrays;
  */
 
 /**
- *
  * Loads Bootstrap data into the database on startup
- *
  */
 @Component
 public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent> {
@@ -32,23 +30,18 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 
 	private final ClaimRepository claimRepository;
 
-	private final CommentRepository commentRepository;
-
 	private final UserNotificationRepository notificationRepository;
 
 	private final UnhealthyWordRepository unhealthyWordRepository;
 
-
 	private final PasswordEncoder passwordEncoder;
 
 	public SonetBootstrap(UserRepository userRepository, AdvertisementRepository advertisementRepository,
-						  ClaimRepository claimRepository, CommentRepository commentRepository,
-						  UserNotificationRepository notificationRepository, UnhealthyWordRepository unhealthyWordRepository,
-						  PasswordEncoder passwordEncoder) {
+	                      ClaimRepository claimRepository, UserNotificationRepository notificationRepository,
+	                      UnhealthyWordRepository unhealthyWordRepository, PasswordEncoder passwordEncoder) {
 		this.userRepository = userRepository;
 		this.advertisementRepository = advertisementRepository;
 		this.claimRepository = claimRepository;
-		this.commentRepository = commentRepository;
 		this.notificationRepository = notificationRepository;
 		this.unhealthyWordRepository = unhealthyWordRepository;
 		this.passwordEncoder = passwordEncoder;
@@ -63,7 +56,7 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 	private void loadData() {
 		///> Add Advertisements
 		Advertisement advertisement = new Advertisement();
-		advertisement.setContentUrl("https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.amazon.co.uk%2FAmazon-com-Amazon-Prime-Video%2Fdp%2FB00N28818A&psig=AOvVaw14IXNAXReitViuvytdxJUw&ust=1575429321572000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCLi-79rBmOYCFQAAAAAdAAAAABAD");
+		advertisement.setContentUrl("https://images-eu.ssl-images-amazon.com/images/I/411j1k1u9yL.png");
 		advertisement.setText("Amazon Prime Video");
 		advertisement.setAdUrl("https://www.amazon.com/Prime-Video/");
 		advertisement.setLocation(Location.FAIRFIELD);
@@ -71,11 +64,11 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 		advertisement.setTargetGender(Gender.NONE);
 
 		Advertisement advertisement2 = new Advertisement();
-		advertisement2.setContentUrl("https://www.google.com/url?sa=i&url=https%3A%2F%2Fmedium.com%2F%40RyanJosephHill%2Fwhy-spotify-is-one-of-my-favorite-products-93fa4dff850a&psig=AOvVaw2TjV5sAqmD9xn9bGPO0Q6q&ust=1575430150604000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCOiq2-bEmOYCFQAAAAAdAAAAABAD");
+		advertisement2.setContentUrl("https://i.pinimg.com/originals/6a/ae/a1/6aaea1a2f9296fe9fb44bbad0431acad.png");
 		advertisement2.setText("Spotify");
 		advertisement2.setAdUrl("https://www.spotify.com/");
-		advertisement2.setLocation(Location.SANFRANCISCO);
-		advertisement2.setTargetAge(30);
+		advertisement2.setLocation(Location.SAN_FRANCISCO);
+		advertisement2.setTargetAge(18);
 		advertisement2.setTargetGender(Gender.NONE);
 
 		advertisementRepository.saveAll(Arrays.asList(advertisement, advertisement2));
@@ -83,28 +76,28 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 		///> Add Posts
 		Post post = new Post();
 		post.setText("Amazing Day");
-		post.setContentUrl("https://s.ftcdn.net/v2013/pics/all/curated/RKyaEDwp8J7JKeZWQPuOVWvkUjGQfpCx_cover_580.jpg?r=1a0fc22192d0c808b8bb2b9bcfbf4a45b1793687");
+		post.setContentUrl("https://s.ftcdn.net/v2013/pics/all/curated/RKyaEDwp8J7JKeZWQPuOVWvkUjGQfpCx_cover_580.jpg");
 		post.setLikeCount(100);
 		post.setCommentCount(2);
 		post.setIsHealthy(true);
 
 		Post post2 = new Post();
-		post2.setText("Enterprise Architecture Course Rocks!");
-		post2.setContentUrl("https://s.ftcdn.net/v2013/pics/all/curated/RKyaEDwp8J7JKeZWQPuOVWvkUjGQfpCx_cover_580.jpg?r=1a0fc22192d0c808b8bb2b9bcfbf4a45b1793687");
+		post2.setText("Beautiful Scenery");
+		post2.setContentUrl("https://i.pinimg.com/originals/cc/18/8c/cc188c604e58cffd36e1d183c7198d21.jpg");
 		post2.setLikeCount(1000);
 		post2.setCommentCount(1);
-		post2.setIsHealthy(false);
+		post2.setIsHealthy(true);
 
 		Post post3 = new Post();
-		post3.setText("Enterprise Architecture Book!");
-		post3.setContentUrl("https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.cbsnews.com%2Fpictures%2Fevolution-of-the-starship-enterprise%2F&psig=AOvVaw3PMmNXbZK0R6iadeOJjrs9&ust=1575432100340000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCIjWr4jMmOYCFQAAAAAdAAAAABAJ");
+		post3.setText("What an amazing course it's been 😊😊");
+		post3.setContentUrl("https://i.ytimg.com/vi/3Q8u7nKKSiY/maxresdefault.jpg");
 		post3.setLikeCount(1000);
 		post3.setCommentCount(0);
-		post3.setIsHealthy(false);
+		post3.setIsHealthy(true);
 
 		Post post4 = new Post();
-		post4.setText("Enterprise Architecture chapter 1!");
-		post4.setContentUrl("https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.cbsnews.com%2Fpictures%2Fevolution-of-the-starship-enterprise%2F&psig=AOvVaw3PMmNXbZK0R6iadeOJjrs9&ust=1575432100340000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCIjWr4jMmOYCFQAAAAAdAAAAABAJ");
+		post4.setText("I'm a bad post having words like crap and shit. I dare you to remove me! 😜");
+		post4.setContentUrl("https://i.ytimg.com/vi/3Q8u7nKKSiY/maxresdefault.jpg");
 		post4.setLikeCount(1000);
 		post4.setCommentCount(0);
 		post4.setIsHealthy(false);
@@ -116,7 +109,7 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 		user.setPassword(passwordEncoder.encode("admin123"));
 		user.setImageUrl("https://semantic-ui.com/images/avatar2/large/molly.png");
 		user.setGender(Gender.FEMALE);
-		user.setLocation("Fairfield, IA");
+		user.setLocation(Location.FAIRFIELD);
 		user.setDateOfBirth(LocalDate.of(2000, 1, 1));
 		user.setRole(Role.ADMIN);
 
@@ -126,7 +119,7 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 		user2.setPassword(passwordEncoder.encode("user123"));
 		user2.setImageUrl("https://semantic-ui.com/images/avatar2/large/matthew.png");
 		user2.setGender(Gender.OTHER);
-		user2.setLocation("San Francisco, CA");
+		user2.setLocation(Location.ADDIS_ABABA);
 		user2.setDateOfBirth(LocalDate.of(2005, 1, 1));
 		user2.addPost(post);
 		user2.addPost(post2);
@@ -135,9 +128,9 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 		user3.setName("User2");
 		user3.setEmail("user2@sonet.com");
 		user3.setPassword(passwordEncoder.encode("user21"));
-		user3.setImageUrl("https://www.google.com/url?sa=i&source=images&cd=&cad=rja&uact=8&ved=2ahUKEwjirsGzqa7mAhVzGDQIHfijBQAQjRx6BAgBEAQ&url=https%3A%2F%2Fwww.shutterstock.com%2Fsearch%2Fuser%2Bicon&psig=AOvVaw1yGp9HJM6KGjbphW9mAxYv&ust=1576178700805099");
+		user3.setImageUrl("http://www.newsshare.in/wp-content/uploads/2017/04/Miniclip-8-Ball-Pool-Avatar-16.png");
 		user3.setGender(Gender.OTHER);
-		user3.setLocation("Fairfield");
+		user3.setLocation(Location.CAIRO);
 		user3.setDateOfBirth(LocalDate.of(2005, 1, 1));
 		user3.addPost(post3);
 		user3.addPost(post4);
@@ -149,7 +142,7 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 		user4.setPassword(passwordEncoder.encode("user31"));
 		user4.setImageUrl("https://semantic-ui.com/images/avatar2/large/elyse.png");
 		user4.setGender(Gender.MALE);
-		user4.setLocation("Ethiopia");
+		user4.setLocation(Location.HAVANA);
 		user4.setDateOfBirth(LocalDate.of(1995, 6, 12));
 		user4.setUserStatus(UserStatus.BANNED);
 
@@ -159,7 +152,7 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 		nastyUser.setPassword(passwordEncoder.encode("user"));
 		nastyUser.setImageUrl("https://semantic-ui.com/images/avatar2/large/matthew.png");
 		nastyUser.setGender(Gender.OTHER);
-		nastyUser.setLocation("San Francisco, CA");
+		nastyUser.setLocation(Location.SAN_FRANCISCO);
 		nastyUser.setDateOfBirth(LocalDate.of(2005, 1, 1));
 
 		///> Add Comments
@@ -210,11 +203,11 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 
 		///> Add Unhealthy Words
 		UnhealthyWord unhealthyWord = new UnhealthyWord();
-		unhealthyWord.setWord("spring");
+		unhealthyWord.setWord("bad");
 		UnhealthyWord unhealthyWord2 = new UnhealthyWord();
-		unhealthyWord2.setWord("security");
+		unhealthyWord2.setWord("crap");
 		UnhealthyWord unhealthyWord3 = new UnhealthyWord();
-		unhealthyWord3.setWord("enterprise");
+		unhealthyWord3.setWord("fuck");
 		UnhealthyWord unhealthyWord4 = new UnhealthyWord();
 		unhealthyWord4.setWord("kill");
 		UnhealthyWord unhealthyWord5 = new UnhealthyWord();

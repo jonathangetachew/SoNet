@@ -12,7 +12,8 @@
     <link rel="stylesheet" href="/css/main.css" th:href="@{/css/profile.css}"/>
 </head>
 <body>
-<div layout:fragment="content" class="container" style="margin-top: 2rem; margin-bottom: 1rem; padding: 0 2rem;">
+<div layout:fragment="content" class="container"
+     style="margin-top: 2rem; margin-bottom: 6rem; padding: 0 2rem; width: 700px;">
 
     <div class="column box">
         <h2 class="title profile-label" style="color: black;">Edit Profile</h2>
@@ -21,9 +22,9 @@
     <div class="columns" id="profileForm">
         <div class="column is-4" style="margin-left: 2rem;">
             <figure class="image">
-                <img id="img-display" th:src="${user.imageUrl.substring(user.imageUrl.indexOf('8080/')+4)}"
+                <img id="img-display"
+                     th:src="${user.imageUrl}"
                      th:alt="${user.name}"/>
-
             </figure>
         </div>
         <div class="column is-8">
@@ -76,11 +77,14 @@
                     <div class="field-body">
                         <div class="field select">
                             <div class="control">
-                                <select th:value="*{gender}" th:field="*{gender}">
-                                    <option th:value="NONE" label="Gender "/>
-                                    <option th:value="MALE" label="Male"/>
-                                    <option th:value="FEMALE" label="Female"/>
-                                    <option th:value="OTHER" label="Other"/>
+                                <select class="select" th:field="*{gender}" th:value="*{gender}" required>
+                                    <option value="" selected
+                                            th:text="#{label.signup.gender}">Choose Gender
+                                    </option>
+                                    <option th:each="targetGenderValue : ${T(edu.mum.sonet.models.enums.Gender).values()}"
+                                            th:value="${targetGenderValue.name()}"
+                                            th:text="${targetGenderValue.name()}">FEMALE
+                                    </option>
                                 </select>
                             </div>
                         </div>
