@@ -1,7 +1,10 @@
 package edu.mum.sonet.services.impl;
 
+import edu.mum.sonet.models.User;
+import edu.mum.sonet.repositories.UserRepository;
 import edu.mum.sonet.security.JwtTokenProvider;
 import edu.mum.sonet.services.FileService;
+import edu.mum.sonet.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,13 +14,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import edu.mum.sonet.models.User;
-import edu.mum.sonet.repositories.UserRepository;
-import edu.mum.sonet.services.UserService;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @Service
 @Transactional
@@ -100,16 +96,16 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
 
 	@Override
 	public Boolean isAuthenticatedUserFollowUser(String authenticatedEmail, User targetUser) {
-	return userRepository.existsByEmailAndFollowingUsers(authenticatedEmail, targetUser);
+		return userRepository.existsByEmailAndFollowing(authenticatedEmail, targetUser);
 	}
 
 	@Override
 	public void follow(String authenticatedEmail, String targetUserEmail) {
 		User targetUser = findByEmail(targetUserEmail);
-		User authenticatedUser = userRepository.getUserByEmailFetchFollowers(authenticatedEmail);
+		User authenticatedUser = findByEmail(authenticatedEmail);
 
 		///> Following the user adds that user in the following users list
-		authenticatedUser.addFollowingUser(targetUser);
+		authenticatedUser.follow(targetUser);
 
 		userRepository.save(authenticatedUser);
 	}
@@ -117,10 +113,10 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
 	@Override
 	public void unfollow(String authenticatedEmail, String targetUserEmail) {
 		User targetUser = findByEmail(targetUserEmail);
-		User authenticatedUser = userRepository.getUserByEmailFetchFollowers(authenticatedEmail);
+		User authenticatedUser = findByEmail(authenticatedEmail);
 
 		///> UnFollowing a user removes that user from the following users list
-		authenticatedUser.removeFollowingUser(targetUser);
+		authenticatedUser.unfollow(targetUser);
 
 		userRepository.save(authenticatedUser);
 	}

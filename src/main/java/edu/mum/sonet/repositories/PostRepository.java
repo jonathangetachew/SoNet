@@ -20,6 +20,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     @Query(value = "select c from Post p join p.comments c where p.id = :id and c.isHealthy = true")
     Page<Comment> loadMoreCommentsByPostIdIsHealthyOrderById(@Param("id") Long id, Pageable pageable);
 
-    @Query(value = "SELECT P.* FROM POST P INNER JOIN (SELECT ID FROM USER WHERE ID = :id OR ID IN (SELECT FOLLOWING_USERS_ID FROM USER_FOLLOWING_USERS WHERE USER_ID = :id)) U ON P.AUTHOR_ID = U.ID WHERE P.IS_HEALTHY = TRUE ORDER BY P.CREATION_DATE DESC", nativeQuery = true)
+    @Query(value = "SELECT P.* FROM POST P INNER JOIN (SELECT ID FROM USER WHERE ID = :id OR ID IN (SELECT FOLLOWED FROM FOLLOW_RECORD WHERE FOLLOWER = :id)) U ON P.AUTHOR_ID = U.ID WHERE P.IS_HEALTHY = TRUE ORDER BY P.CREATION_DATE DESC", nativeQuery = true)
     Page<Post> loadMorePostIsHealthy(@Param("id") Long id, Pageable pageable);
 }
