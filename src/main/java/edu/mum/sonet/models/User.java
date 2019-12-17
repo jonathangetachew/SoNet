@@ -80,6 +80,7 @@ public class User extends BaseEntity {
 			joinColumns = {@JoinColumn(name = "follower", nullable = false)},
 			inverseJoinColumns = {@JoinColumn(name = "followed", nullable = false)}
 	)
+	@JsonIgnoreProperties(value = {"following","followers"})
 	private Set<User> following = new HashSet<>();
 
 	@ManyToMany
@@ -88,6 +89,7 @@ public class User extends BaseEntity {
 			joinColumns = {@JoinColumn(name = "followed", nullable = false)},
 			inverseJoinColumns = {@JoinColumn(name = "follower", nullable = false)}
 	)
+	@JsonIgnoreProperties(value = {"following","followers"})
 	private Set<User> followers = new HashSet<>();
 
 	/**
@@ -136,5 +138,19 @@ public class User extends BaseEntity {
 		return false;
 	}
 
-
+	@Override
+	public String toString() {
+		return "User{" +
+				"name='" + name + '\'' +
+				", email='" + email + '\'' +
+				", password='" + password + '\'' +
+				", imageUrl='" + imageUrl + '\'' +
+				", gender=" + gender +
+				", location=" + location +
+				", dateOfBirth=" + dateOfBirth +
+				", unhealthyContentCount=" + unhealthyContentCount +
+				", userStatus=" + userStatus +
+				", role=" + role +
+				'}';
+	}
 }

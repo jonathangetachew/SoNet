@@ -44,13 +44,15 @@ public class UserController {
 
 	@RequestMapping(value = "/user/showProfile", method = RequestMethod.GET)
 	public  String showProfile(@RequestParam(value="email") String email, Model model) {
-		List<UserNotification> notifications = userNotificationService.findAllOrderByIdDesc();
-		model.addAttribute("notifications",notifications);
-		model.addAttribute("notificationsNumber",notifications.size());
+
 		authentication = SecurityContextHolder.getContext().getAuthentication();
 		String currentPrincipalName = authentication.getName();
 		User targetUser = userService.findByEmail(email);
 //		User authenticatedUser = userService.findByEmail(currentPrincipalName);
+		System.out.println(">>>> currentPrincipalName-----: "+currentPrincipalName);
+		List<UserNotification> notifications = userNotificationService.getUserNotifications(currentPrincipalName);
+		model.addAttribute("notifications",notifications);
+		model.addAttribute("notificationsNumber",notifications.size());
 
 		if(targetUser != null){
 			if(!targetUser.getEmail().equals(currentPrincipalName)){
@@ -66,7 +68,7 @@ public class UserController {
 
 	@PostMapping(value = "/user/editProfile")
 	public  String editProfile(@RequestParam(value="email") String email, Model model) {
-		List<UserNotification> notifications = userNotificationService.findAllOrderByIdDesc();
+		List<UserNotification> notifications = userNotificationService.getUserNotifications(email);
 		model.addAttribute("notifications",notifications);
 		model.addAttribute("notificationsNumber",notifications.size());
 		User user = userService.findByEmail(email);
