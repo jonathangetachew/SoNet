@@ -10,7 +10,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -19,7 +22,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @Entity
-@EqualsAndHashCode(exclude = {"posts", "claims","SSSfollowers","followingUsers"})
+@EqualsAndHashCode(exclude = {"posts", "claims","followers","following"})
 public class User extends BaseEntity {
 
 	@NotBlank
@@ -64,21 +67,30 @@ public class User extends BaseEntity {
 	@Enumerated(EnumType.STRING)
 	private AuthProvider authProvider = AuthProvider.LOCAL;
 
-	@OneToMany(mappedBy = "author", cascade = CascadeType.PERSIST, targetEntity = Post.class,fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "author", cascade = CascadeType.PERSIST, targetEntity = Post.class, fetch = FetchType.LAZY)
 	@JsonIgnoreProperties(value = "author")
 	private Set<Post> posts = new HashSet<>();
 
 	@OneToMany
 	private Set<Comment> comments = new HashSet<>();
 
-	@OneToMany
+	@ManyToMany
+	@JoinTable(
+			name = "follow_record",
+			joinColumns = {@JoinColumn(name = "follower", nullable = false)},
+			inverseJoinColumns = {@JoinColumn(name = "followed", nullable = false)}
+	)
+	private Set<User> following = new HashSet<>();
+
+	@ManyToMany
+	@JoinTable(
+			name = "follow_record",
+			joinColumns = {@JoinColumn(name = "followed", nullable = false)},
+			inverseJoinColumns = {@JoinColumn(name = "follower", nullable = false)}
+	)
 	private Set<User> followers = new HashSet<>();
 
-	@OneToMany
-	private Set<User> followingUsers = new HashSet<>();
-
 	/**
-	 *
 	 * Added custom add and remove methods to handle relationships
 	 *
 	 * @param post
@@ -110,32 +122,15 @@ public class User extends BaseEntity {
 		return false;
 	}
 
-	public boolean addFollower(User user) {
-		if (followers.add(user)) {
+	public boolean follow(User user) {
+		if (following.add(user)) {
 			return true;
 		}
 		return false;
 	}
 
-	public boolean removeFollower(User user) {
-		if (followers.remove(user)) {
-//			user.removeFollowingUser(this);
-			return true;
-		}
-		return false;
-	}
-
-	public boolean addFollowingUser(User user) {
-		if (followingUsers.add(user)) {
-			user.addFollower(this);
-			return true;
-		}
-		return false;
-	}
-
-	public boolean removeFollowingUser(User user) {
-		if (followingUsers.remove(user)) {
-			user.removeFollower(this);
+	public boolean unfollow(User user) {
+		if (following.remove(user)) {
 			return true;
 		}
 		return false;
