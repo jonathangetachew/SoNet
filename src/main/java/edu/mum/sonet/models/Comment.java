@@ -23,7 +23,7 @@ public class Comment extends BaseEntity {
 	private Boolean isDisabled = false;
 
 	@ManyToOne
-	@JsonIgnoreProperties(value = {"authProvider", "posts", "oldPassword", "claims", "followers", "followingUsers", "unhealthyContentCount"})
+	@JsonIgnoreProperties(value = {"authProvider", "posts", "oldPassword", "claims", "followers", "following", "unhealthyContentCount"})
 	private User author;
 
 	@CreationTimestamp

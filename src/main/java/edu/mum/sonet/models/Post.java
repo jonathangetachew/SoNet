@@ -38,7 +38,7 @@ public class Post extends BaseEntity {
 
 	@ManyToOne
 	@JoinColumn(name = "author_id")
-	@JsonIgnoreProperties(value = {"posts"})
+	@JsonIgnoreProperties(value = {"authProvider", "posts", "oldPassword", "claims", "followers", "following", "unhealthyContentCount"})
 	private User author;
 
 	@Transient
@@ -51,7 +51,6 @@ public class Post extends BaseEntity {
 			inverseJoinColumns = {@JoinColumn(name = "comment_id")}
 	)
 	@LazyCollection(value = LazyCollectionOption.EXTRA)
-	@JsonIgnoreProperties(value = {"authProvider", "posts", "oldPassword", "claims", "followers", "followingUsers", "unhealthyContentCount"})
 	private Set<Comment> comments = new HashSet<>();
 
 	public boolean addComment(Comment comment) {
