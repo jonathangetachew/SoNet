@@ -5,7 +5,7 @@ const singleCommentTemplate = `
         <div class="media" style="padding-top: 10px;">
             <div class="media-left" style="margin-right: 0px;">
                 <figure class="image is-32x32">
-                    <img class="is-rounded" :src="comment.author.imageUrl" alt="Image">
+                    <img class="is-rounded" :src="${comment.author.imageUrl.startsWith('http') ? comment.author.imageUrl : comment.author.imageUrl.substring(comment.author.imageUrl.indexOf('8080/')+4)}" alt="Image">
                 </figure>
             </div>
             <div class="media-content">
