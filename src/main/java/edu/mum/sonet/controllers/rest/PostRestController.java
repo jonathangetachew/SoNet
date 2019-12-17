@@ -88,7 +88,7 @@ public class PostRestController {
     }
 
     @PostMapping("/api/v1/user/post/{id}/comment")
-    public Comment addComment(@PathVariable Long id, @Valid Comment comment) {
+    public Comment addComment( @Valid Comment comment,@PathVariable Long id) {
         return postService.addComment(id, getCurrentUser(), comment);
     }
 
