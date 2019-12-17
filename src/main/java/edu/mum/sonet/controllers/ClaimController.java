@@ -47,10 +47,15 @@ public class ClaimController {
 			claim.setClaimDate(LocalDate.now());
 			claim.setMessage(text);
 			claim.setUser(user);
-			claimService.save(claim);
-			model.addAttribute("message","it will take about two days");
-			AdminNotification adminNotification = new AdminNotification("Claim",claim.getMessage(),user);
-			adminNotificationService.notifyAdmin(adminNotification);
+			if(claimService.userHasAClaim(user.getEmail())){
+				model.addAttribute("message","You calim is already under review, thank you for sending again");
+			}else{
+				claimService.save(claim);
+				model.addAttribute("message","it will take about two days");
+				AdminNotification adminNotification = new AdminNotification("Claim",claim.getMessage(),user);
+				adminNotificationService.notifyAdmin(adminNotification);
+			}
+
 		}else{
 			model.addAttribute("message","something went wrong please try to login again");
 		}
