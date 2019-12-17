@@ -83,21 +83,21 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 
 		Post post2 = new Post();
 		post2.setText("Beautiful Scenery");
-		post2.setContentUrl("https://previews.123rf.com/images/ximagination/ximagination1904/ximagination190400441/120790196-beautiful-scenery-of-green-paddy-field-with-big-tree-in-bali-indonesia.jpg");
+		post2.setContentUrl("https://i.pinimg.com/originals/cc/18/8c/cc188c604e58cffd36e1d183c7198d21.jpg");
 		post2.setLikeCount(1000);
 		post2.setCommentCount(1);
 		post2.setIsHealthy(true);
 
 		Post post3 = new Post();
 		post3.setText("What an amazing course it's been 😊😊");
-		post3.setContentUrl("https://www.wallpapers13.com/wp-content/uploads/2016/05/Beautiful-scenery-Nature-Landscape-from-Norway-HD-Wallpaper2880x1800-915x515.jpg");
+		post3.setContentUrl("https://i.ytimg.com/vi/3Q8u7nKKSiY/maxresdefault.jpg");
 		post3.setLikeCount(1000);
 		post3.setCommentCount(0);
 		post3.setIsHealthy(true);
 
 		Post post4 = new Post();
 		post4.setText("I'm a bad post having words like crap and shit. I dare you to remove me! 😜");
-		post4.setContentUrl("http://wallpapersexpert.com/data/out/2/3271548-beautiful-scenery-wallpapers.jpg");
+		post4.setContentUrl("https://i.ytimg.com/vi/3Q8u7nKKSiY/maxresdefault.jpg");
 		post4.setLikeCount(1000);
 		post4.setCommentCount(0);
 		post4.setIsHealthy(false);
