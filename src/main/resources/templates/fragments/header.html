@@ -1,10 +1,6 @@
 <header th:fragment="header"
         xmlns:th="https://www.thymeleaf.org"
         xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
-
-
-
-
     <!-- Static navbar -->
     <nav class="navbar" role="navigation" aria-label="main navigation"
          th:classappend="${#authorization.expression('hasAuthority(''USER'')') ? 'is-primary' : ''}">
@@ -37,13 +33,13 @@
                    th:text="#{label.home}">
                     Home
                 </a>
-                <a class="navbar-item"
-                   sec:authorize="hasAuthority('USER')"
-                   th:href="@{/user/posts/search}"
-                   th:classappend="${#httpServletRequest.getRequestURI() == '/user/posts/search' ? 'is-active':''}"
-                   th:text="#{label.search}">
-                    Search
-                </a>
+<!--                <a class="navbar-item"-->
+<!--                   sec:authorize="hasAuthority('USER')"-->
+<!--                   th:href="@{/user/posts/search}"-->
+<!--                   th:classappend="${#httpServletRequest.getRequestURI() == '/user/posts/search' ? 'is-active':''}"-->
+<!--                   th:text="#{label.search}">-->
+<!--                    Search-->
+<!--                </a>-->
                 <a class="navbar-item"
                    sec:authorize="hasAuthority('ADMIN')"
                    th:href="@{/admin/dashboard}"
@@ -53,6 +49,18 @@
                 </a>
             </div>
 
+            <div th:if="${#authorization.expression('hasAuthority(''USER'')')}" style="margin:0px auto; width: 50%;">
+                <form th:action="@{/user/posts/search}">
+                    <div class="panel-block" id="search-form">
+                        <p class="control has-icons-left">
+                            <input class="input is-success" type="text" th:name="searchInput" placeholder="Search">
+                            <span class="icon is-left">
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                              </span>
+                        </p>
+                    </div>
+                </form>
+            </div>
 
             <div class="navbar-end">
                 <div class="navbar-item" sec:authorize="hasRole('ROLE_USER')">

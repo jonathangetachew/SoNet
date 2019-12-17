@@ -65,6 +65,6 @@ public class PostController {
         List<UserNotification> notifications = userNotificationService.findAllOrderByIdDesc();
         model.addAttribute("notifications",notifications);
         model.addAttribute("notificationsNumber",notifications.size());
-        return "/user/search";
+        return "/post/search";
     }
 }
