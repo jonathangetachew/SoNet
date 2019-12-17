@@ -29,7 +29,7 @@ public class ClaimController {
 	private AdminNotificationService adminNotificationService;
 
 
-	public ClaimController(UserService userService,ClaimService claimService, AdminNotificationService adminNotificationService) {
+	public ClaimController(UserService userService, ClaimService claimService, AdminNotificationService adminNotificationService) {
 		this.userService = userService;
 		this.claimService = claimService;
 		this.adminNotificationService = adminNotificationService;
@@ -37,12 +37,12 @@ public class ClaimController {
 
 
 	@GetMapping(value = "/claim")
-	public String claim(@RequestParam("text")String text, Model model){
+	public String claim(@RequestParam("text") String text, Model model) {
 		authentication = SecurityContextHolder.getContext().getAuthentication();
-		System.out.println(">>> asking for aclaim:  "+authentication.getName());
+		System.out.println(">>> asking for a claim:  " + authentication.getName());
 
 		User user = userService.findByEmail(authentication.getName());
-		if(user != null){
+		if (user != null) {
 			Claim claim = new Claim();
 			claim.setClaimDate(LocalDate.now());
 			claim.setMessage(text);
@@ -51,13 +51,13 @@ public class ClaimController {
 				model.addAttribute("message","You calim is already under review, thank you for sending again");
 			}else{
 				claimService.save(claim);
-				model.addAttribute("message","it will take about two days");
+				model.addAttribute("message","Your claim was sent Successfully! It might take upto two business days so be patient. Thank you!");
 				AdminNotification adminNotification = new AdminNotification("Claim",claim.getMessage(),user);
 				adminNotificationService.notifyAdmin(adminNotification);
 			}
 
 		}else{
-			model.addAttribute("message","something went wrong please try to login again");
+			model.addAttribute("message","Something went wrong please try to login again");
 		}
 		return "/login";
 	}

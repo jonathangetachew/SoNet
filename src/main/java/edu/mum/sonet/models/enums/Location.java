@@ -5,5 +5,5 @@ package edu.mum.sonet.models.enums;
  */
 
 public enum Location {
-	FAIRFIELD, SANFRANCISCO
+	FAIRFIELD, SAN_FRANCISCO, CHICAGO, CAIRO, ADDIS_ABABA, HAVANA
 }

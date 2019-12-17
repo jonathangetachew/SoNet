@@ -10,7 +10,8 @@
     <!--    <link rel="stylesheet" href="/css/main.css" th:href="@{/css/profile.css}"/>-->
 </head>
 <body>
-<div layout:fragment="content" class="container" style="margin-top: 2rem; margin-bottom: 42vh; padding: 0 2rem;">
+<div layout:fragment="content" class="container"
+     style="margin-top: 2rem; margin-bottom: 47vh; padding: 0 2rem; width: 700px;">
 
     <div class="column box"><h2 class="title profile-label">User Profile</h2></div>
 
@@ -28,12 +29,9 @@
 
             <div class="column is-4" style="margin-left: 2rem;">
                 <figure class="image">
-                    <!--                    <img  th:src="@{/resources/static/images/no-image.jpg}" />-->
-                    <!--                    <img th:alt="${user.name}"-->
-                    <!--                            th:src="${(user.imageUrl != null) ? user.imageUrl.substring(user.imageUrl.indexOf('8080/')+4) : '/images/no-image.jpg'}"/>-->
-                    <img th:src="${(user.imageUrl !=null)?user.imageUrl.substring(user.imageUrl.indexOf('8080/')+4):'/images/no-image.jpg'}"
+                    <img id="img-display"
+                         th:src="${user.imageUrl}"
                          th:alt="${user.name}"/>
-
                 </figure>
             </div>
             <div class="column is-8" id="profile-data" style="padding: 2rem;">
