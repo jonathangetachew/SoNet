@@ -5,20 +5,19 @@
         xmlns="http://www.w3.org/1999/xhtml"
 >
 <head>
-    <title>Timeline | SoNet</title>
-    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
-
+    <title>Details | SoNet</title>
 </head>
-<body th:onload="'userConnect();'">
+<body>
 <div layout:fragment="content">
     <section class="section"
              style="padding-top:10px; height: 88vh; overflow-x: hidden; overflow-y: auto; background-color: #fff;">
         <div class="columns is-centered is-vcentered">
             <div class="column is-desktop is-two-fifths is-centered">
-                <div th:replace="post/form :: form"></div>
-                <div th:replace="post/list :: list"></div>
+                <div id="root">
+                    <single-post :loaded="false" th:attr="'v-bind:post'='{id:' + ${id} + '}'" :showDetailsLink="false"/>
+                </div>
             </div>
+            <script type="text/javascript" th:src="@{/js/post.js}"></script>
         </div>
     </section>
 </div>

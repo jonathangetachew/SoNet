@@ -80,21 +80,6 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 
 		advertisementRepository.saveAll(Arrays.asList(advertisement, advertisement2));
 
-		///> Add Comments
-		Comment comment = new Comment();
-		comment.setText("Hello World");
-		comment.setIsHealthy(true);
-
-		Comment comment2 = new Comment();
-		comment2.setText("Miss Xing is an Amazing YouTube Channel!");
-		comment2.setIsHealthy(true);
-
-		Comment comment3 = new Comment();
-		comment3.setText("I'm a bad word.");
-		comment3.setIsHealthy(false);
-
-		commentRepository.saveAll(Arrays.asList(comment, comment2, comment3));
-
 		///> Add Posts
 		Post post = new Post();
 		post.setText("Amazing Day");
@@ -102,8 +87,6 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 		post.setLikeCount(100);
 		post.setCommentCount(2);
 		post.setIsHealthy(true);
-		post.addComment(comment);
-		post.addComment(comment2);
 
 		Post post2 = new Post();
 		post2.setText("Enterprise Architecture Course Rocks!");
@@ -111,7 +94,6 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 		post2.setLikeCount(1000);
 		post2.setCommentCount(1);
 		post2.setIsHealthy(false);
-		post2.addComment(comment3);
 
 		Post post3 = new Post();
 		post3.setText("Enterprise Architecture Book!");
@@ -168,10 +150,39 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 		user4.setImageUrl("https://semantic-ui.com/images/avatar2/large/elyse.png");
 		user4.setGender(Gender.MALE);
 		user4.setLocation("Ethiopia");
-		user4.setDateOfBirth(LocalDate.of(1995,6, 12));
+		user4.setDateOfBirth(LocalDate.of(1995, 6, 12));
 		user4.setUserStatus(UserStatus.BANNED);
 
-		userRepository.saveAll(Arrays.asList(user, user2, user3, user4));
+		User nastyUser = new User();
+		nastyUser.setName("Nasty User");
+		nastyUser.setEmail("nastyuser@sonet.com");
+		nastyUser.setPassword(passwordEncoder.encode("user"));
+		nastyUser.setImageUrl("https://semantic-ui.com/images/avatar2/large/matthew.png");
+		nastyUser.setGender(Gender.OTHER);
+		nastyUser.setLocation("San Francisco, CA");
+		nastyUser.setDateOfBirth(LocalDate.of(2005, 1, 1));
+
+		///> Add Comments
+		Comment comment = new Comment();
+		comment.setText("Hello World");
+		comment.setIsHealthy(true);
+		comment.setAuthor(user2);
+
+		Comment comment2 = new Comment();
+		comment2.setText("Miss Xing is an Amazing YouTube Channel!");
+		comment2.setIsHealthy(true);
+		comment2.setAuthor(user3);
+
+		Comment comment3 = new Comment();
+		comment3.setText("I'm a bad word.");
+		comment3.setIsHealthy(false);
+		comment3.setAuthor(nastyUser);
+
+		post.addComment(comment);
+		post.addComment(comment2);
+		post2.addComment(comment3);
+
+		userRepository.saveAll(Arrays.asList(user, user2, user3, user4, nastyUser));
 
 		///> Add Claims
 		Claim claim = new Claim();

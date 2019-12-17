@@ -42,7 +42,7 @@ public class ExceptionAdvice {
         return errors;
     }
 
-    @ExceptionHandler(Exception.class)
+    /*@ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
     public DomainErrors handleException(Exception exception) {
@@ -51,7 +51,7 @@ public class ExceptionAdvice {
         errors.setMessage(exception.getMessage());
         exception.printStackTrace();
         return errors;
-    }
+    }*/
 
     @ExceptionHandler(BindException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)

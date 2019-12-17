@@ -1,14 +1,28 @@
-html,body {
+html, body {
     font-family: 'Montserrat', sans-serif;
     font-size: 14px;
     font-weight: 300;
 }
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.main-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
 .menu-list a.is-active {
     background-color: #48c774;
 }
+
 .hero.is-success {
     background: #F2F6FA;
 }
+
 .hero .nav, .hero.is-success .nav {
     -webkit-box-shadow: none;
     box-shadow: none;
