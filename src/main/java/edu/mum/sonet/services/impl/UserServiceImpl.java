@@ -68,16 +68,16 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
 
 	@Override
 	public User findByEmail(String email) {
- 		return userRepository.findByEmail(email).orElse(null);
+		return userRepository.findByEmail(email).orElse(null);
 	}
 
 	@Override
 	public User saveProfileChanges(User user, String imagesDirectory) {
 		User response = null;
 		User originalUser = findByEmail(user.getEmail());
-		if(passwordEncoder.matches(user.getOldPassword(), originalUser.getPassword())) {
+		if (passwordEncoder.matches(user.getOldPassword(), originalUser.getPassword())) {
 			originalUser.setName(user.getName());
-			if (user.getPassword() != null &&user.getPassword().length()>3) {
+			if (user.getPassword() != null && user.getPassword().length() > 3) {
 				String encodedPassword = passwordEncoder.encode(user.getPassword());
 				originalUser.setPassword(encodedPassword);
 			}
@@ -85,12 +85,12 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
 			originalUser.setGender(user.getGender());
 			originalUser.setDateOfBirth(user.getDateOfBirth());
 			originalUser.setLocation(user.getLocation());
-			if(user.getImageFile() != null){
-//				String rootDirectory = originalUser.getImageUrl().substring(0,originalUser.getImageUrl().lastIndexOf("/")+1);
-				String imagePath = fileService.saveFile(user.getImageFile(),imagesDirectory);
-				if(imagePath != null){
+			if (user.getImageFile() != null) {
+				String imagePath = fileService.saveFile(user.getImageFile(), imagesDirectory);
+				imagePath = imagePath.substring(imagePath.lastIndexOf("profileImages/"));
+				if (imagePath != null) {
 					fileService.deleteFile(originalUser.getImageUrl());
-					originalUser.setImageUrl(imagePath);
+					originalUser.setImageUrl("/" + imagePath);
 				}
 			}
 			response = save(originalUser);
@@ -100,7 +100,7 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
 
 	@Override
 	public Boolean isAuthenticatedUserFollowUser(String authenticatedEmail, User targetUser) {
-	return userRepository.existsByEmailAndFollowingUsers(authenticatedEmail, targetUser);
+		return userRepository.existsByEmailAndFollowingUsers(authenticatedEmail, targetUser);
 	}
 
 	@Override

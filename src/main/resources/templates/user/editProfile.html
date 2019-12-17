@@ -22,11 +22,8 @@
     <div class="columns" id="profileForm">
         <div class="column is-4" style="margin-left: 2rem;">
             <figure class="image">
-                <img th:if="${user.imageUrl.startsWith('http')}" id="img-display"
+                <img id="img-display"
                      th:src="${user.imageUrl}"
-                     th:alt="${user.name}"/>
-                <img th:if="${!user.imageUrl.startsWith('http')}" id="img-display"
-                     th:src="${user.imageUrl.substring(user.imageUrl.indexOf('8080/')+4)}"
                      th:alt="${user.name}"/>
             </figure>
         </div>
