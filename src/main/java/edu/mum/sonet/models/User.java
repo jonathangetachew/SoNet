@@ -2,10 +2,7 @@ package edu.mum.sonet.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import edu.mum.sonet.models.enums.AuthProvider;
-import edu.mum.sonet.models.enums.Gender;
-import edu.mum.sonet.models.enums.Role;
-import edu.mum.sonet.models.enums.UserStatus;
+import edu.mum.sonet.models.enums.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -43,7 +40,7 @@ public class User extends BaseEntity {
 	@Enumerated(EnumType.STRING)
 	private Gender gender;
 
-	private String location;
+	private Location location;
 
 	@Past
 	@DateTimeFormat(pattern = "yyyy-MM-dd")

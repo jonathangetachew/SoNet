@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Not Found 🙁 | SoNet</title>
@@ -21,9 +21,9 @@
                 <div></div>
                 <div></div>
             </div>
-            <h1>oops!</h1>
-            <h2>The Page You're Looking For Cannot Be Found. 🙁</h2>
-            <a onclick="goBack()">go back</a>
+            <h1 th:text="#{label.error.title}">oops!</h1>
+            <h2 th:text="#{label.error.message} + ' 🙁'">The Page You're Looking For Cannot Be Found. 🙁</h2>
+            <a onclick="goBack()" th:text="#{label.error.goBackButton}">go back</a>
         </div>
     </div>
 </body>
