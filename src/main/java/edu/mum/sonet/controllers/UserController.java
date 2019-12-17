@@ -112,6 +112,12 @@ public class UserController {
 		return "/login";
 	}
 
+	@GetMapping(value = "/user/banned")
+	public String blockedPage( Model model){
+		model.addAttribute("banned","your account is banned");
+		return "/login";
+	}
+
 
 
 
