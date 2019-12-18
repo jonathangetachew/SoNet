@@ -64,6 +64,14 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 		advertisement.setTargetAge(20);
 		advertisement.setTargetGender(Gender.NONE);
 
+		Advertisement advertisement1 = new Advertisement();
+		advertisement1.setContentUrl("https://www.youtube.com/embed/IhA-EUEjyW0");
+		advertisement1.setText("Amazon Prime Video");
+		advertisement1.setAdUrl("https://www.youtube.com/");
+		advertisement1.setLocation(Location.FAIRFIELD);
+		advertisement1.setTargetAge(18);
+		advertisement1.setTargetGender(Gender.NONE);
+
 		Advertisement advertisement2 = new Advertisement();
 		advertisement2.setContentUrl("https://i.pinimg.com/originals/6a/ae/a1/6aaea1a2f9296fe9fb44bbad0431acad.png");
 		advertisement2.setText("Spotify");
@@ -72,7 +80,7 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 		advertisement2.setTargetAge(18);
 		advertisement2.setTargetGender(Gender.NONE);
 
-		advertisementRepository.saveAll(Arrays.asList(advertisement, advertisement2));
+		advertisementRepository.saveAll(Arrays.asList(advertisement, advertisement1, advertisement2));
 
 		///> Add Posts
 		Post post = new Post();
@@ -119,9 +127,8 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 		user2.setEmail("user@sonet.com");
 		user2.setPassword(passwordEncoder.encode("user123"));
 		user2.setImageUrl("https://semantic-ui.com/images/avatar2/large/matthew.png");
-		user2.setGender(Gender.OTHER);
-		user2.setLocation(Location.ADDIS_ABABA);
-		user2.setDateOfBirth(LocalDate.of(2005, 1, 1));
+		user2.setLocation(Location.FAIRFIELD);
+		user2.setDateOfBirth(LocalDate.of(1994, 1, 1));
 		user2.addPost(post);
 		user2.addPost(post2);
 
