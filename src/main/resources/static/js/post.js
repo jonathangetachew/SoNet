@@ -112,6 +112,31 @@ const singlePostTemplate = `
 </div>
 `;
 
+const welcomeTemplate = `
+<div v-if="canRender" class="card">
+  <div class="content">
+    <div class="card-content">
+      <div class="content" style="padding: 3rem 1rem;" >
+        <h1 style="margin-bottom: 2rem;">Welcome to SoNet 😊</h1>
+        <p>To start your journey, create your first post on the form right above 👆</p>
+        <p>To find other user's posts and connect with friends, use the search bar located on the top of the page.</p>
+        <p>Ones you start following other users, their posts will show up in your Timeline.</p>
+        <p style="margin-top: 2rem;">
+            It's really nice to have you be part of our <strong>community.</strong>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+Vue.component('Welcome', {
+    template: welcomeTemplate,
+    props: {
+        canRender: Boolean,
+    },
+});
+
 Vue.component('SinglePost', {
     template: singlePostTemplate,
     props: {
@@ -179,9 +204,10 @@ function initializeVue() {
     Vue.component('PostList', {
         template: `<div v-if="posts.length > 0">
             <SinglePost v-for="post in posts" :post="post" v-bind:key="post.id" :loaded="true" :showDetailsLink="true"/>
-        </div>`,
+        </div><div v-else><Welcome :canRender="!(posts.length > 0) && !isLoading" /></div>`,
         data() {
             return {
+                isLoading: true,
                 posts: [],
                 page: 1
             }
@@ -194,6 +220,7 @@ function initializeVue() {
                 const response = await fetch(`${window.location.origin}/api/v1/user/posts`);
                 const result = await response.json();
                 this.posts.push(...result.data);
+                this.isLoading = false;
             }
         },
         beforeMount() {
