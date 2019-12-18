@@ -7,9 +7,7 @@ import edu.mum.sonet.models.User;
 import edu.mum.sonet.models.UserNotification;
 import edu.mum.sonet.repositories.CommentRepository;
 import edu.mum.sonet.repositories.PostRepository;
-import edu.mum.sonet.services.FileService;
-import edu.mum.sonet.services.UserNotificationService;
-import edu.mum.sonet.services.UserService;
+import edu.mum.sonet.services.*;
 import edu.mum.sonet.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -30,18 +28,18 @@ import java.util.Map;
 public class PostRestController {
     public static final int DEFAULT_PAGE_SIZE = 5;
 
-    private final PostRepository postRepository;
+    private final PostService postService;
     private final UserService userService;
     private final FileService fileService;
     private final UserNotificationService userNotificationService;
-    private final CommentRepository commentRepository;
+    private final CommentService commentService;
 
     @Autowired
-    public PostRestController(PostRepository postRepository, CommentRepository commentRepository, UserService userService, FileService fileService, UserNotificationService userNotificationService) {
-        this.postRepository = postRepository;
+    public PostRestController(PostService postService, CommentService commentService, UserService userService, FileService fileService, UserNotificationService userNotificationService) {
+        this.postService = postService;
         this.userService = userService;
         this.fileService = fileService;
-        this.commentRepository = commentRepository;
+        this.commentService = commentService;
         this.userNotificationService = userNotificationService;
     }
 
@@ -85,20 +83,22 @@ public class PostRestController {
         if (notifyFollowers) {
             System.out.println(" currentUser ->> followers: " + currentUser.getFollowers());
             UserNotification un = new UserNotification();
-            un.setPost(post);
-            un.setUsers(currentUser.getFollowers());
-            userNotificationService.notifyUser(un);
+            un.setPostId(post.getId());
+            un.setPostOwnerName(post.getAuthor().getName());
+            un.setPostText(post.getText());
+//            un.setUsers(currentUser.getFollowers());
+            userNotificationService.notifyUser(un,currentUser.getFollowers());
         }
-        return postRepository.save(post);
+        return postService.save(post);
     }
 
     @PutMapping(value = "/api/v1/user/post/{id}", consumes = {"multipart/form-data"})
     public Post updatePost(@PathVariable Long postId, @Valid @RequestBody Post postRequest, HttpServletRequest
             request) {
-        return postRepository.findById(postId).map(post -> {
+        return postService.findById(postId).map(post -> {
             String result = getUrl(post, request);
             if (result != null) post.setContentUrl(result);
-            return postRepository.save(post);
+            return postService.save(post);
         }).orElseThrow(() -> new ResourceNotFoundException("PostId " + postId + " not found"));
     }
 
@@ -109,7 +109,7 @@ public class PostRestController {
         int pageSize = (size == null || size < 0) ? DEFAULT_PAGE_SIZE : size;
 
         Map<String, Object> map = new HashMap<>();
-        Page<Post> resultPage = postRepository.loadMorePostIsHealthy(getCurrentUser().getId(), PageRequest.of(currentPage - 1, pageSize, Sort.by("creation_date").descending()));
+        Page<Post> resultPage = postService.loadMorePostIsHealthy(getCurrentUser().getId(), PageRequest.of(currentPage - 1, pageSize, Sort.by("creation_date").descending()));
         boolean hasMore = currentPage * pageSize < resultPage.getTotalElements();
         map.put("data", resultPage.toSet());
         map.put("nextPage", hasMore ? currentPage + 1 : currentPage);
@@ -120,16 +120,16 @@ public class PostRestController {
 
     @GetMapping(value = "/api/v1/user/post/{id}")
     public Post getSinglePost(@PathVariable("id") Long id) {
-        return postRepository.findById(id).get();
+        return postService.findById(id).get();
     }
 
     @PostMapping("/api/v1/user/post/{id}/comment")
     public Comment addComment(@PathVariable Long id, @Valid Comment comment) {
-        return postRepository.findById(id).map(post -> {
+        return postService.findById(id).map(post -> {
             comment.setAuthor(getCurrentUser());
             comment.setId(null);
             comment.setPost(post);
-            return commentRepository.save(comment);
+            return commentService.save(comment);
         }).orElseThrow(() -> new ResourceNotFoundException("PostId " + id + " not found"));
     }
 
@@ -142,7 +142,7 @@ public class PostRestController {
         int pageSize = (size == null || size < 0) ? DEFAULT_PAGE_SIZE : size;
 
         Map<String, Object> map = new HashMap<>();
-        Page<Comment> resultPage = commentRepository.findByPostIdAndIsHealthyOrderByCreationDateDesc(id, true, PageRequest.of(currentPage - 1, pageSize));
+        Page<Comment> resultPage = commentService.findByPostIdAndIsHealthyOrderByCreationDateDesc(id, true, PageRequest.of(currentPage - 1, pageSize));
         map.put("data", resultPage.toSet());
 
         boolean hasMore = currentPage * pageSize < resultPage.getTotalElements();

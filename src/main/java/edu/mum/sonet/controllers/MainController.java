@@ -3,6 +3,7 @@ package edu.mum.sonet.controllers;
 import edu.mum.sonet.models.Advertisement;
 import edu.mum.sonet.models.User;
 import edu.mum.sonet.models.UserNotification;
+import edu.mum.sonet.models.UserNotificationJoin;
 import edu.mum.sonet.services.AdvertisementService;
 import edu.mum.sonet.services.FileService;
 import edu.mum.sonet.services.UserNotificationService;
@@ -61,7 +62,8 @@ public class MainController {
     public String userIndex(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
-        List<UserNotification> notifications = userNotificationService.getUserNotifications(email);
+
+        List<UserNotificationJoin> notifications = userNotificationService.getUserNotifications(email);
         model.addAttribute("notifications", notifications);
         model.addAttribute("notificationsNumber", notifications.size());
         Set<Advertisement> ads = this.advertisementService.getAdsForUser(getCurrentUser(), PageRequest.of(0, 5));

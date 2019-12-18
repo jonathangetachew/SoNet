@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -44,6 +45,17 @@ public class PostServiceImpl extends GenericServiceImpl<Post> implements PostSer
 
 	@Override
 	public Post save(Post entity) {
+		System.out.println(">>> save a Post <<<<");
 		return super.save(entity);
+	}
+
+	@Override
+	public Optional<Post> findById(Long id) {
+		return postRepository.findById(id);
+	}
+
+	@Override
+	public Page<Post> loadMorePostIsHealthy(Long id, Pageable pageable) {
+		return postRepository.loadMorePostIsHealthy(id,pageable);
 	}
 }

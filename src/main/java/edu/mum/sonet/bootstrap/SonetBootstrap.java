@@ -144,6 +144,8 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 		user3.addPost(post4);
 		user3.setUserStatus(UserStatus.BLOCKED);
 
+
+
 		User user4 = new User();
 		user4.setName("User3");
 		user4.setEmail("user3@sonet.com");
@@ -154,6 +156,16 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 		user4.setDateOfBirth(LocalDate.of(1995, 6, 12));
 		user4.setUserStatus(UserStatus.BANNED);
 
+		User user5 = new User();
+		user5.setName("User5");
+		user5.setEmail("user5@sonet.com");
+		user5.setPassword(passwordEncoder.encode("user"));
+		user5.setImageUrl("http://www.newsshare.in/wp-content/uploads/2017/04/Miniclip-8-Ball-Pool-Avatar-16.png");
+		user5.setGender(Gender.OTHER);
+		user5.setLocation(Location.CAIRO);
+		user5.setDateOfBirth(LocalDate.of(2005, 1, 1));
+		user5.setUserStatus(UserStatus.BLOCKED);
+
 		User nastyUser = new User();
 		nastyUser.setName("Nasty User");
 		nastyUser.setEmail("nastyuser@sonet.com");
@@ -163,7 +175,7 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 		nastyUser.setLocation(Location.SAN_FRANCISCO);
 		nastyUser.setDateOfBirth(LocalDate.of(2005, 1, 1));
 
-		userRepository.saveAll(Arrays.asList(user, user2, user3, user4, nastyUser));
+		userRepository.saveAll(Arrays.asList(user, user2, user3, user4,user5, nastyUser));
 
 		///> Add Comments
 		Comment comment = new Comment();
@@ -202,11 +214,11 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 		///> Add Notifications
 		UserNotification notification = new UserNotification();
 		notification.setIsSeen(false);
-		notification.setPost(post);
+//		notification.setPost(post);
 
 		UserNotification notification2 = new UserNotification();
 		notification2.setIsSeen(true);
-		notification2.setPost(post2);
+//		notification2.setPost(post2);
 
 		notificationRepository.saveAll(Arrays.asList(notification, notification2));
 

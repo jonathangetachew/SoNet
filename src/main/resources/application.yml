@@ -4,8 +4,8 @@ server:
 spring:
   profiles:
     active: dev
-  main:
-    lazy-initialization: true
+#  main:
+#    lazy-initialization: true
 #    allow-bean-definition-overriding: true
 #  rabbitmq:
 #    host: localhost
@@ -20,7 +20,7 @@ spring:
       file-size-threshold: 2KB
       max-file-size: 200MB
       max-request-size: 250MB
-
+#
 # Security Config
   security:
     oauth2:
@@ -28,7 +28,7 @@ spring:
         registration:
           google:
             redirect-uri: "http://localhost:8080/oauth2/callback/google"
-
+#
 jwt:
   header: Authorization
   secret: mySecret

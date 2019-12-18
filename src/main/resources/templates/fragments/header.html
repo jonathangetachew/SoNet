@@ -33,13 +33,13 @@
                    th:text="#{label.home}">
                     Home
                 </a>
-<!--                <a class="navbar-item"-->
-<!--                   sec:authorize="hasAuthority('USER')"-->
-<!--                   th:href="@{/user/posts/search}"-->
-<!--                   th:classappend="${#httpServletRequest.getRequestURI() == '/user/posts/search' ? 'is-active':''}"-->
-<!--                   th:text="#{label.search}">-->
-<!--                    Search-->
-<!--                </a>-->
+                <!--                <a class="navbar-item"-->
+                <!--                   sec:authorize="hasAuthority('USER')"-->
+                <!--                   th:href="@{/user/posts/search}"-->
+                <!--                   th:classappend="${#httpServletRequest.getRequestURI() == '/user/posts/search' ? 'is-active':''}"-->
+                <!--                   th:text="#{label.search}">-->
+                <!--                    Search-->
+                <!--                </a>-->
                 <a class="navbar-item"
                    sec:authorize="hasAuthority('ADMIN')"
                    th:href="@{/admin/dashboard}"
@@ -75,33 +75,33 @@
                         <a class=" navbar-link is-arrowless noti-icon">
                             <!--                            <i class="fa fa-circle fa-stack-2x"></i>-->
                             <i style="font-size: 24px" class="fa fa-bell"></i>
-                            <span class="badge" th:text="${notificationsNumber}">0</span>
+                            <span class="badge" id="notification-num" th:text="${notificationsNumber}">0</span>
 
                         </a>
 
-                        <span th:text="${#locale.country}">US</span>
 
-                        <div class="navbar-dropdown">
-                            <div th:each="noti : ${notifications}">
-                                <a>
-
+                        <div class="navbar-dropdown" id="notifications-parent">
+                            <div id="notifications-dialog" th:each="noti : ${notifications}">
+<!--                                <a th:href="/user/post/${noti?.post?.id}>">-->
                                     <a class="navbar-item">
                                         <p style="color: crimson;"
-                                           th:text="${noti?.post?.author?.name}">
+                                           th:text="${noti?.userNotification.postOwnerName}">
+
                                         </p> &nbsp;
                                         <span>add new post</span><br>
 
                                     </a>
                                     <a class="navbar-item">
-                                        <p th:if="*{noti?.post?.text!=null and #strings.length(noti?.post?.text)>20}">
-                                            <span th:text="${#strings.substring(noti?.post?.text,0,20)}  "></span>
+                                        <p th:if="*{noti?.userNotification.postText !=null and #strings.length(noti?.userNotification.postText)>20}">
+                                            <span th:text="${#strings.substring(noti?.userNotification.postText,0,20)}  "></span>
                                             <span>...</span>
                                         </p>
 
-                                        <p th:if="*{noti?.post?.text!=null and #strings.length(noti?.post?.text)<=20}"
-                                           th:text="${noti?.post?.text}  "></p>
+                                        <p th:if="*{noti?.userNotification.postText!=null and #strings.length(noti?.userNotification.postText)<=20}"
+                                           th:text="${noti?.userNotification.postText}  "></p>
                                     </a>
-                                </a>
+<!--                                </a>-->
+
 
                                 <hr class="navbar-divider"
                                     th:if="${#authorization.expression('hasAuthority(''USER'')')}">

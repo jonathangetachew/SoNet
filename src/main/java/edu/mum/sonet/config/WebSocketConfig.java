@@ -21,7 +21,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
 	@Override
 	public void configureMessageBroker(MessageBrokerRegistry config) {
-		config.enableSimpleBroker("/notifications","/user/notifications","/notifications/admin");
+		config.enableSimpleBroker("/notifications","/user/notifications");
 		config.setApplicationDestinationPrefixes("/gkz");
 //		config.setApplicationDestinationPrefixes("/app");
 //		config.enableSimpleBroker("/topic");
@@ -34,39 +34,5 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 		registry.addEndpoint("/gkz-stomp-endpoint").setAllowedOrigins("*").withSockJS();
 	}
 
-	@Override
-	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> arg0) {
-		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
-	public void addReturnValueHandlers(List<HandlerMethodReturnValueHandler> arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void configureClientInboundChannel(ChannelRegistration arg0) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void configureClientOutboundChannel(ChannelRegistration arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public boolean configureMessageConverters(List<MessageConverter> arg0) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void configureWebSocketTransport(WebSocketTransportRegistration arg0) {
-		// TODO Auto-generated method stub
-		
-	}
 }
