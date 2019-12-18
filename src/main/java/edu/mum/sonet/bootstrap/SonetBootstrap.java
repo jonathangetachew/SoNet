@@ -155,27 +155,28 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 		nastyUser.setLocation(Location.SAN_FRANCISCO);
 		nastyUser.setDateOfBirth(LocalDate.of(2005, 1, 1));
 
+		userRepository.saveAll(Arrays.asList(user, user2, user3, user4, nastyUser));
+
 		///> Add Comments
 		Comment comment = new Comment();
 		comment.setText("Hello World");
 		comment.setIsHealthy(true);
 		comment.setAuthor(user2);
+		comment.setPost(post);
 
 		Comment comment2 = new Comment();
 		comment2.setText("Miss Xing is an Amazing YouTube Channel!");
 		comment2.setIsHealthy(true);
 		comment2.setAuthor(user3);
+		comment2.setPost(post);
 
 		Comment comment3 = new Comment();
 		comment3.setText("I'm a bad word.");
 		comment3.setIsHealthy(false);
 		comment3.setAuthor(nastyUser);
+		comment3.setPost(post2);
 
-		post.addComment(comment);
-		post.addComment(comment2);
-		post2.addComment(comment3);
-
-		userRepository.saveAll(Arrays.asList(user, user2, user3, user4, nastyUser));
+		commentRepository.saveAll(Arrays.asList(comment, comment2, comment3));
 
 		///> Add Claims
 		Claim claim = new Claim();

@@ -1,11 +1,13 @@
 package edu.mum.sonet.controllers.rest;
 
+import edu.mum.sonet.exceptions.ResourceNotFoundException;
 import edu.mum.sonet.models.Comment;
 import edu.mum.sonet.models.Post;
 import edu.mum.sonet.models.User;
 import edu.mum.sonet.models.UserNotification;
+import edu.mum.sonet.repositories.CommentRepository;
+import edu.mum.sonet.repositories.PostRepository;
 import edu.mum.sonet.services.FileService;
-import edu.mum.sonet.services.PostService;
 import edu.mum.sonet.services.UserNotificationService;
 import edu.mum.sonet.services.UserService;
 import edu.mum.sonet.util.StringUtils;
@@ -28,16 +30,18 @@ import java.util.Map;
 public class PostRestController {
     public static final int DEFAULT_PAGE_SIZE = 5;
 
-    private final PostService postService;
+    private final PostRepository postRepository;
     private final UserService userService;
     private final FileService fileService;
     private final UserNotificationService userNotificationService;
+    private final CommentRepository commentRepository;
 
     @Autowired
-    public PostRestController(PostService postService, UserService userService, FileService fileService,UserNotificationService userNotificationService) {
-        this.postService = postService;
+    public PostRestController(PostRepository postRepository, CommentRepository commentRepository, UserService userService, FileService fileService, UserNotificationService userNotificationService) {
+        this.postRepository = postRepository;
         this.userService = userService;
         this.fileService = fileService;
+        this.commentRepository = commentRepository;
         this.userNotificationService = userNotificationService;
     }
 
@@ -52,56 +56,81 @@ public class PostRestController {
         return user;
     }
 
-    @RequestMapping(value = "/api/v1/user/post", method = {RequestMethod.POST, RequestMethod.PUT},
-            consumes = {"multipart/form-data"})
-    public Post save(@Valid Post post, @RequestParam("notifyFollowers") Boolean notifyFollowers, HttpServletRequest request) {
+    private String getUrl(Post post, HttpServletRequest request) {
         String rootDirectory = request.getSession().getServletContext().getRealPath("/");
         MultipartFile file = post.getContentFile();
+        String result = null;
         if (file != null) {
             String contentUrl = fileService.saveFile(file, rootDirectory + "post/");
             contentUrl = contentUrl.substring(contentUrl.lastIndexOf("post/"));
-            post.setContentUrl("/" + contentUrl);
+            result = "/" + contentUrl;
         } else {
             List<String> extractedUrls = StringUtils.extractUrls(post.getText());
 
-            if (!extractedUrls.isEmpty()) post.setContentUrl(extractedUrls.get(0));
+            if (!extractedUrls.isEmpty()) result = extractedUrls.get(0);
         }
+
+        return result;
+    }
+
+    @PostMapping(value = "/api/v1/user/post", consumes = {"multipart/form-data"})
+    public Post save(@Valid Post post, @RequestParam("notifyFollowers") Boolean notifyFollowers, HttpServletRequest
+            request) {
+        String result = getUrl(post, request);
+        if (result != null) post.setContentUrl(result);
+
         User currentUser = getCurrentUser();
         currentUser.addPost(post);
-        if(notifyFollowers){
-            System.out.println(" currentUser ->> followers: "+currentUser.getFollowers());
+
+        if (notifyFollowers) {
+            System.out.println(" currentUser ->> followers: " + currentUser.getFollowers());
             UserNotification un = new UserNotification();
             un.setPost(post);
             un.setUsers(currentUser.getFollowers());
             userNotificationService.notifyUser(un);
         }
-        return postService.save(post);
+        return postRepository.save(post);
+    }
+
+    @PutMapping(value = "/api/v1/user/post/{id}", consumes = {"multipart/form-data"})
+    public Post updatePost(@PathVariable Long postId, @Valid @RequestBody Post postRequest, HttpServletRequest
+            request) {
+        return postRepository.findById(postId).map(post -> {
+            String result = getUrl(post, request);
+            if (result != null) post.setContentUrl(result);
+            return postRepository.save(post);
+        }).orElseThrow(() -> new ResourceNotFoundException("PostId " + postId + " not found"));
     }
 
     @GetMapping(value = "/api/v1/user/posts")
     public Map<String, Object> posts(@RequestParam(value = "page", required = false) Integer page,
                                      @RequestParam(value = "size", required = false) Integer size) {
-        int currentPage = (page == null) ? 1 : page < 0 ? 1 : page;
-        int pageSize = (size == null) ? DEFAULT_PAGE_SIZE : size < 0 ? 1 : size;
+        int currentPage = (page == null || page < 1) ? 1 : page;
+        int pageSize = (size == null || size < 0) ? DEFAULT_PAGE_SIZE : size;
 
-        Page<Post> resultPage = postService.loadMorePosts(getCurrentUser(), PageRequest.of(currentPage - 1, pageSize, Sort.by("creation_date").descending()));
         Map<String, Object> map = new HashMap<>();
-        map.put("nextPage", currentPage + 1);
+        Page<Post> resultPage = postRepository.loadMorePostIsHealthy(getCurrentUser().getId(), PageRequest.of(currentPage - 1, pageSize, Sort.by("creation_date").descending()));
+        boolean hasMore = currentPage * pageSize < resultPage.getTotalElements();
         map.put("data", resultPage.toSet());
+        map.put("nextPage", hasMore ? currentPage + 1 : currentPage);
+        map.put("hasMore", hasMore);
 
         return map;
     }
 
     @GetMapping(value = "/api/v1/user/post/{id}")
     public Post getSinglePost(@PathVariable("id") Long id) {
-        Post p = postService.findById(id);
-//        p.setComments((Set<Comment>) getPostComments(p.getId(), 1, 5).get("data"));
-        return p;
+        return postRepository.findById(id).get();
     }
 
     @PostMapping("/api/v1/user/post/{id}/comment")
-    public Comment addComment( @Valid Comment comment,@PathVariable Long id) {
-        return postService.addComment(id, getCurrentUser(), comment);
+    public Comment addComment(@PathVariable Long id, @Valid Comment comment) {
+        return postRepository.findById(id).map(post -> {
+            comment.setAuthor(getCurrentUser());
+            comment.setId(null);
+            comment.setPost(post);
+            return commentRepository.save(comment);
+        }).orElseThrow(() -> new ResourceNotFoundException("PostId " + id + " not found"));
     }
 
     @GetMapping("/api/v1/user/post/{id}/comments")
@@ -109,17 +138,16 @@ public class PostRestController {
     public Map<String, Object> getPostComments(@PathVariable Long id,
                                                @RequestParam(value = "page", required = false) Integer page,
                                                @RequestParam(value = "size", required = false) Integer size) {
-        int currentPage = (page == null) ? 1 : page < 0 ? 1 : page;
-        int pageSize = (size == null) ? DEFAULT_PAGE_SIZE : size < 0 ? 1 : size;
-        int pageCount = postService.findById(id).getComments().size();
-        //if (pageCount > 0 && currentPage > pageCount) {
-        //   currentPage = pageCount;
-        // }
+        int currentPage = (page == null || page < 1) ? 1 : page;
+        int pageSize = (size == null || size < 0) ? DEFAULT_PAGE_SIZE : size;
 
-        Page<Comment> resultPage = postService.loadMoreHealthyCommentsFromPost(id, PageRequest.of(currentPage - 1, pageSize));
         Map<String, Object> map = new HashMap<>();
-        map.put("nextPage", currentPage + 1);
+        Page<Comment> resultPage = commentRepository.findByPostIdAndIsHealthyOrderByCreationDateDesc(id, true, PageRequest.of(currentPage - 1, pageSize));
         map.put("data", resultPage.toSet());
+
+        boolean hasMore = currentPage * pageSize < resultPage.getTotalElements();
+        map.put("nextPage", hasMore ? currentPage + 1 : currentPage);
+        map.put("hasMore", hasMore);
         return map;
     }
 }
