@@ -1,6 +1,5 @@
 package edu.mum.sonet.aop;
 
-import edu.mum.sonet.exceptions.UnhealthyContentDetectedException;
 import edu.mum.sonet.models.Comment;
 import edu.mum.sonet.models.Post;
 import edu.mum.sonet.models.User;
@@ -30,12 +29,15 @@ public class UnhealthyContentFilterAspect {
 
 	private final UserService userService;
 
+	private final EmailService emailService;
+
 	private AdminNotificationService adminNotificationService;
 
 	public UnhealthyContentFilterAspect(UnhealthyContentFilterService unhealthyContentFilterService, UserService userService
-	,AdminNotificationService adminNotificationService) {
+			, EmailService emailService, AdminNotificationService adminNotificationService) {
 		this.unhealthyContentFilterService = unhealthyContentFilterService;
 		this.userService = userService;
+		this.emailService = emailService;
 		this.adminNotificationService = adminNotificationService;
 	}
 
@@ -94,6 +96,7 @@ public class UnhealthyContentFilterAspect {
 			user.setUserStatus(UserStatus.BLOCKED);
 
 			// TODO: Send email to user ***** DON'T FORGET TO RESET THE COUNT IF ADMIN ACCEPT'S USER'S CLAIM
+			emailService.sendEmail(user.getEmail(), "SoNet Account Blocked", "Your account was blocked for posting too many unhealthy content on our systems. Go to the website and file a claim.");
 		}
 
 		Object ret = proceedingJoinPoint.proceed(args);
