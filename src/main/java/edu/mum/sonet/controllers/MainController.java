@@ -64,7 +64,7 @@ public class MainController {
         List<UserNotification> notifications = userNotificationService.getUserNotifications(email);
         model.addAttribute("notifications", notifications);
         model.addAttribute("notificationsNumber", notifications.size());
-        Set<Advertisement> ads = this.advertisementService.getAdsForUser(getCurrentUser(), PageRequest.of(0, 10));
+        Set<Advertisement> ads = this.advertisementService.getAdsForUser(getCurrentUser(), PageRequest.of(0, 5));
         List<Set<Advertisement>> splitSets = StringUtils.split(ads, 2);
         model.addAttribute("ads_left", splitSets.get(0));
         model.addAttribute("ads_right", splitSets.get(1));
