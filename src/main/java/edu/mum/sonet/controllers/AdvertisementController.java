@@ -29,11 +29,8 @@ public class AdvertisementController {
 		this.advertisementService = advertisementService;
 		this.fileService = fileService;
 	}
-
 	/**
-	 *
 	 * Get Mappings
-	 *
 	 */
 
 	@GetMapping(value = {"/", ""})
@@ -56,13 +53,11 @@ public class AdvertisementController {
 	}
 
 	/**
-	 *
 	 * Post mappings
-	 *
 	 */
 	@PostMapping("/add")
 	public String addAdvertisement(@ModelAttribute("newAdvertisement") @Valid Advertisement advertisement,
-	                               BindingResult bindingResult, HttpServletRequest request, Model model) {
+								   BindingResult bindingResult, HttpServletRequest request, Model model) {
 		///> Handle Errors
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("errors", bindingResult.getAllErrors());
@@ -70,7 +65,7 @@ public class AdvertisementController {
 		}
 
 		String rootDirectory = request.getSession().getServletContext().getRealPath("/");
-		String imageUrl = fileService.saveFile(advertisement.getImageFile(),rootDirectory+"adImages/");
+		String imageUrl = fileService.saveFile(advertisement.getImageFile(), rootDirectory + "adImages/");
 		advertisement.setContentUrl(imageUrl);
 		advertisementService.save(advertisement);
 		return "redirect:/" + AdvertisementController.BASE_URL;

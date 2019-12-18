@@ -250,7 +250,7 @@ function initializeVue() {
     });
 
     const vueApp = new Vue({
-        el: '#root',
+        el: '#container',
     });
 
     return vueApp;
