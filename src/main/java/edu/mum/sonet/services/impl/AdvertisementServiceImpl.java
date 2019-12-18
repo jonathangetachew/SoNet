@@ -3,6 +3,7 @@ package edu.mum.sonet.services.impl;
 
 import edu.mum.sonet.models.Advertisement;
 import edu.mum.sonet.models.User;
+import edu.mum.sonet.models.enums.AuthProvider;
 import edu.mum.sonet.repositories.AdvertisementRepository;
 import edu.mum.sonet.services.AdvertisementService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,6 @@ public class AdvertisementServiceImpl extends GenericServiceImpl<Advertisement> 
 
 	@Override
 	public Set<Advertisement> getAdsForUser(@Valid User currentUser, Pageable pageable) {
-		return advertisementRepository.findAdsForUser(currentUser.getLocation(), currentUser.getGender(), LocalDate.now().getYear() - currentUser.getDateOfBirth().getYear(), pageable).toSet();
+		return advertisementRepository.findAdsForUser(currentUser.getLocation(), currentUser.getGender(), currentUser.getAuthProvider().equals(AuthProvider.LOCAL) ? LocalDate.now().getYear() - currentUser.getDateOfBirth().getYear() : 13, pageable).toSet();
 	}
 }

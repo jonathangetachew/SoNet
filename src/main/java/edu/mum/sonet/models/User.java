@@ -44,7 +44,7 @@ public class User extends BaseEntity {
 	private Gender gender = Gender.NONE;
 
 	@Enumerated(EnumType.STRING)
-	private Location location;
+	private Location location = Location.NONE;
 
 	@Past
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
