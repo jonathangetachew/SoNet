@@ -13,7 +13,7 @@
 <div layout:fragment="content" class="container"
      style="margin-top: 2rem; margin-bottom: 47vh; padding: 0 2rem; width: 700px;">
 
-    <div class="column box"><h2 class="title profile-label">User Profile</h2></div>
+    <div class="column box"><h2 class="title profile-label" th:text="#{label.profile.userProfile}"></h2></div>
 
     <div id="profileForm">
 
@@ -36,30 +36,30 @@
             </div>
             <div class="column is-8" id="profile-data" style="padding: 2rem;">
                 <div class="columns">
-                    <div class="column is-3"><label class="label profile-label">Name:</label></div>
+                    <div class="column is-3"><label class="label profile-label" th:text="#{label.profile.name}">Name:</label></div>
                     <div class="column is-9"><p th:text="${user.name}"></p></div>
                 </div>
                 <div class="columns">
-                    <div class="column is-3"><label class="label profile-label"> Email:</label></div>
+                    <div class="column is-3"><label class="label profile-label" th:text="#{label.profile.email}"> Email:</label></div>
                     <div class="column is-9"><p th:text="${user.email}"></p></div>
                 </div>
                 <div class="columns">
-                    <div class="column is-3"><label class="label profile-label">Location:</label></div>
+                    <div class="column is-3"><label class="label profile-label" th:text="#{label.profile.location}">Location:</label></div>
                     <div class="column is-9"><p th:text="${user.location}"></p></div>
                 </div>
                 <div class="columns">
-                    <div class="column is-3"><label class="label profile-label">Gender:</label></div>
+                    <div class="column is-3"><label class="label profile-label" th:text="#{label.profile.gender}">Gender:</label></div>
                     <div class="column is-9"><p th:text="${user.gender}"></p></div>
                 </div>
                 <div class="columns">
-                    <div class="column is-3"><label class="label profile-label">Date Of Birth:</label></div>
+                    <div class="column is-3"><label class="label profile-label" th:text="#{label.profile.DateOfBirth}">Date Of Birth:</label></div>
                     <div class="column is-9"><p th:text="${user.dateOfBirth}"></p></div>
                 </div>
                 <div class="columns" th:if="${#authentication.getName().equals(user.email)}">
                     <!--                    <form th:action="@{/user/editProfile(email=${#authentication.getName()})}" >-->
                     <form th:action="@{/user/editProfile}" method="post">
                         <input hidden type="text" th:name="email" th:value="${#authentication.getName()}"/>
-                        <button class="button is-primary" type="submit">Edit Profile</button>
+                        <button class="button is-primary" type="submit" th:text="#{label.profile.editProfile}">Edit Profile</button>
                     </form>
                 </div>
             </div>
