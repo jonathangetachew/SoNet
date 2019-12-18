@@ -13,27 +13,27 @@
 
     <article class="tile is-child" style="max-width: 100%;">
         <div style="margin: 1rem 0;">
-            <span style="font-size: 3em;">Unhealthy Posts</span>
+            <span style="font-size: 3em;" th:text="#{label.admin.unhealthyContent}">Unhealthy Posts</span>
         </div>
         <table class="table is-striped">
             <thead>
             <tr class="is-selected">
                 <th>#</th>
-                <th>Text</th>
-                <th>Content URL</th>
-                <th>Is Healthy</th>
-                <th>Is Disabled</th>
-                <th>Actions</th>
+                <th th:text="#{label.text}">Text</th>
+                <th th:text="#{label.contentUrl}">Content URL</th>
+                <th th:text="#{label.isHealthy}">Is Healthy</th>
+                <th th:text="#{label.isDisabled}">Is Disabled</th>
+                <th th:text="#{label.actions}">Actions</th>
             </tr>
             </thead>
             <tfoot>
             <tr class="is-selected">
                 <th>#</th>
-                <th>Text</th>
-                <th>Content URL</th>
-                <th>Is Healthy</th>
-                <th>Is Disabled</th>
-                <th>Actions</th>
+                <th th:text="#{label.text}">Text</th>
+                <th th:text="#{label.contentUrl}">Content URL</th>
+                <th th:text="#{label.isHealthy}">Is Healthy</th>
+                <th th:text="#{label.isDisabled}">Is Disabled</th>
+                <th th:text="#{label.actions}">Actions</th>
             </tr>
             </tfoot>
             <tbody>
@@ -51,7 +51,7 @@
                                 <span class="icon is-small">
                                       <i class="fa fa-check"></i>
                                     </span>
-                                <span>
+                                <span th:text="#{label.admin.allow}">
                                     Allow
                                 </span>
                             </button>
@@ -62,7 +62,7 @@
                                 <span class="icon is-small">
                                     <i class="fa fa-ban"></i>
                                 </span>
-                                <span>
+                                <span th:text="#{label.admin.ignore}">
                                     Ignore
                                 </span>
                             </button>
@@ -73,25 +73,25 @@
             </tbody>
         </table>
         <div style="margin: 1rem 0;">
-            <span style="font-size: 3em;">Unhealthy Comments</span>
+            <span style="font-size: 3em;" th:text="#{label.admin.unhealthyComment}">Unhealthy Comments</span>
         </div>
         <table class="table is-striped">
             <thead>
             <tr class="is-selected">
                 <th>#</th>
-                <th>Text</th>
-                <th>Is Healthy</th>
-                <th>Is Disabled</th>
-                <th>Actions</th>
+                <th th:text="#{label.text}">Text</th>
+                <th th:text="#{label.isHealthy}">Is Healthy</th>
+                <th th:text="#{label.isDisabled}">Is Disabled</th>
+                <th th:text="#{label.actions}">Actions</th>
             </tr>
             </thead>
             <tfoot>
             <tr class="is-selected">
                 <th>#</th>
-                <th>Text</th>
-                <th>Is Healthy</th>
-                <th>Is Disabled</th>
-                <th>Actions</th>
+                <th th:text="#{label.text}">Text</th>
+                <th th:text="#{label.isHealthy}">Is Healthy</th>
+                <th th:text="#{label.isDisabled}">Is Disabled</th>
+                <th th:text="#{label.actions}">Actions</th>
             </tr>
             </tfoot>
             <tbody>
