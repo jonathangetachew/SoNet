@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Entity
 public class UserNotification extends BaseEntity {
 
-	private Boolean isSeen;
+	private Boolean isSeen = false;
 
 	@OneToOne
 	@JoinColumn(name = "post_id")
@@ -24,6 +24,11 @@ public class UserNotification extends BaseEntity {
 
 	@ManyToMany
 	private Set<User> users = new HashSet<>();
+
+	public UserNotification(Post post, Set<User> users) {
+		this.post = post;
+		this.users = users;
+	}
 
 	public boolean addUser(User user) {
 		if (users.add(user)) return true;

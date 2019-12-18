@@ -40,7 +40,7 @@
             <tr th:each="post, i : ${unhealthyPosts}">
                 <th scope="row" th:text="${i.count}">1</th>
                 <th th:text="${post.text}">Text</th>
-                <th th:text="${#strings.substring(post.contentUrl, 0, 77)} + '...'">Content URL</th>
+                <th th:text="${post.contentUrl}">Content URL</th>
                 <th th:text="${post.isHealthy}">Is Healthy</th>
                 <th th:text="${post.isDisabled}">Is Disabled</th>
                 <td class="has-text-centered">

@@ -3,8 +3,10 @@ package edu.mum.sonet.controllers.rest;
 import edu.mum.sonet.models.Comment;
 import edu.mum.sonet.models.Post;
 import edu.mum.sonet.models.User;
+import edu.mum.sonet.models.UserNotification;
 import edu.mum.sonet.services.FileService;
 import edu.mum.sonet.services.PostService;
+import edu.mum.sonet.services.UserNotificationService;
 import edu.mum.sonet.services.UserService;
 import edu.mum.sonet.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,12 +31,14 @@ public class PostRestController {
     private final PostService postService;
     private final UserService userService;
     private final FileService fileService;
+    private final UserNotificationService userNotificationService;
 
     @Autowired
-    public PostRestController(PostService postService, UserService userService, FileService fileService) {
+    public PostRestController(PostService postService, UserService userService, FileService fileService,UserNotificationService userNotificationService) {
         this.postService = postService;
         this.userService = userService;
         this.fileService = fileService;
+        this.userNotificationService = userNotificationService;
     }
 
     private User getCurrentUser() throws UsernameNotFoundException {
@@ -62,7 +66,15 @@ public class PostRestController {
 
             if (!extractedUrls.isEmpty()) post.setContentUrl(extractedUrls.get(0));
         }
-        getCurrentUser().addPost(post);
+        User currentUser = getCurrentUser();
+        currentUser.addPost(post);
+        if(notifyFollowers){
+            System.out.println(" currentUser ->> followers: "+currentUser.getFollowers());
+            UserNotification un = new UserNotification();
+            un.setPost(post);
+            un.setUsers(currentUser.getFollowers());
+            userNotificationService.notifyUser(un);
+        }
         return postService.save(post);
     }
 
@@ -88,7 +100,7 @@ public class PostRestController {
     }
 
     @PostMapping("/api/v1/user/post/{id}/comment")
-    public Comment addComment(@PathVariable Long id, @Valid Comment comment) {
+    public Comment addComment( @Valid Comment comment,@PathVariable Long id) {
         return postService.addComment(id, getCurrentUser(), comment);
     }
 

@@ -63,7 +63,7 @@
             </div>
 
             <div class="navbar-end">
-                <div class="navbar-item" sec:authorize="hasRole('ROLE_USER')">
+                <div class="navbar-item" th:if="${#authorization.expression('hasAuthority(''USER'')')}">
                     <div class="navbar-item has-dropdown is-hoverable">
 
                         <a class=" navbar-link is-arrowless noti-icon">

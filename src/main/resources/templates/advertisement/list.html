@@ -54,7 +54,7 @@
                 <tr th:each="ad, i : ${advertisements}">
                     <th scope="row" th:text="${i.count}">1</th>
                     <th th:text="${ad.text}">Text</th>
-                    <th th:text="${#strings.substring(ad.contentUrl, 0, 77)} + '...'">Content URL</th>
+                    <th th:text="${ad.contentUrl}">Content URL</th>
                     <th th:text="${ad.adUrl}">AD URL</th>
                     <th th:text="${ad.location}">Target Location</th>
                     <th th:text="${ad.targetAge}">Target Age</th>
