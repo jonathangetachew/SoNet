@@ -35,17 +35,18 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 	private final UnhealthyWordRepository unhealthyWordRepository;
 
 	private final PasswordEncoder passwordEncoder;
+	private final CommentRepository commentRepository;
 
 	public SonetBootstrap(UserRepository userRepository, AdvertisementRepository advertisementRepository,
-	                      ClaimRepository claimRepository, UserNotificationRepository notificationRepository,
-	                      UnhealthyWordRepository unhealthyWordRepository, PasswordEncoder passwordEncoder) {
+						  ClaimRepository claimRepository, UserNotificationRepository notificationRepository,
+						  UnhealthyWordRepository unhealthyWordRepository, PasswordEncoder passwordEncoder, CommentRepository commentRepository) {
 		this.userRepository = userRepository;
 		this.advertisementRepository = advertisementRepository;
 		this.claimRepository = claimRepository;
 		this.notificationRepository = notificationRepository;
 		this.unhealthyWordRepository = unhealthyWordRepository;
 		this.passwordEncoder = passwordEncoder;
-
+		this.commentRepository = commentRepository;
 	}
 
 	@Override

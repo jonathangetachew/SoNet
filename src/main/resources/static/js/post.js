@@ -202,9 +202,9 @@ function initializeVue() {
     Vue.filter('formatDate', (value) => value ? moment(value).format('MM/DD/YYYY hh:mm') : '');
 
     Vue.component('PostList', {
-        template: `<div v-if="posts.length > 0">
-            <SinglePost v-for="post in posts" :post="post" v-bind:key="post.id" :loaded="true" :showDetailsLink="true"/>
-        </div><div v-else><Welcome :canRender="!(posts.length > 0) && !isLoading" /></div>`,
+        template: `<div v-if="dataArray.length > 0">
+            <SinglePost v-for="post in dataArray" :post="post" v-bind:key="post.id" :loaded="true" :showDetailsLink="true"/>
+        </div><div v-else><Welcome :canRender="!(dataArray.length > 0) && !isLoading" /></div>`,
         data() {
             return {
                 isLoading: true,
