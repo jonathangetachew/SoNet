@@ -225,7 +225,7 @@ function initializeVue() {
 
                 this.isLoading = false;
             },
-            async handleScroll() {
+            handleScroll() {
                 let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;
 
                 if (bottomOfWindow && this.hasMore) {
@@ -242,10 +242,10 @@ function initializeVue() {
             }
         },
         created() {
-            document.body.addEventListener('scroll', this.handleScroll);
+            window.addEventListener('scroll', this.handleScroll);
         },
         destroyed() {
-            document.body.removeEventListener('scroll', this.handleScroll);
+            window.removeEventListener('scroll', this.handleScroll);
         }
     });
 
