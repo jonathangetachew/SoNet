@@ -5,15 +5,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -44,25 +40,6 @@ public class Post extends BaseEntity {
 	@Transient
 	@JsonIgnore
 	private MultipartFile contentFile;
-
-	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-	@JoinTable(name = "post_comment",
-			joinColumns = {@JoinColumn(name = "post_id")},
-			inverseJoinColumns = {@JoinColumn(name = "comment_id")}
-	)
-	@LazyCollection(value = LazyCollectionOption.EXTRA)
-	private Set<Comment> comments = new HashSet<>();
-
-	public boolean addComment(Comment comment) {
-		if (comments.add(comment)) return true;
-		return false;
-	}
-
-	public boolean removeComment(Comment comment) {
-		if (comments.remove(comment)) return true;
-		return false;
-	}
-
 
 	@Override
 	public String toString() {
