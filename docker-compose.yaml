@@ -1,0 +1,16 @@
+version: "3"
+services:
+  mysqldb:
+    image: mysql
+    ports:
+      - 3306
+  rabbitmq:
+    image: rabbitmq
+    ports:
+      - 5672
+  project:
+    build: .
+    ports:
+      - 8080:8080
+    links:
+      - mysqldb
