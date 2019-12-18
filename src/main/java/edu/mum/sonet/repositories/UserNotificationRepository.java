@@ -15,6 +15,6 @@ public interface UserNotificationRepository extends JpaRepository<UserNotificati
 
     List<UserNotification> findAllByOrderByIdDesc();
 
-    @Query("select un from UserNotification un inner join un.users u where u.email =:email")
-    List<UserNotification> findUserNotificationForUser(@Param("email") String email);
+//    @Query("select un from UserNotification un inner join un.users u where u.email =:email")
+//    List<UserNotification> findUserNotificationForUser(@Param("email") String email);
 }

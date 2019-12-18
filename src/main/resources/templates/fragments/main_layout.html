@@ -21,7 +21,9 @@
     <script type="text/javascript" th:src="@{/js/user-notification.js}"></script>
 
 </head>
-<body>
+<!--<body>-->
+<body th:onload="'userConnect();'">
+<span style="display: none" id="currentUserEmail" th:text="${#authentication.getName()}"></span>
 <div class="main-container">
     <!--header.html  that's here  -->
     <div th:replace="fragments/header :: header"></div>

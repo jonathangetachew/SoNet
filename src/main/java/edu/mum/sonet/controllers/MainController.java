@@ -2,6 +2,7 @@ package edu.mum.sonet.controllers;
 
 import edu.mum.sonet.models.User;
 import edu.mum.sonet.models.UserNotification;
+import edu.mum.sonet.models.UserNotificationJoin;
 import edu.mum.sonet.services.FileService;
 import edu.mum.sonet.services.UserNotificationService;
 import edu.mum.sonet.services.UserService;
@@ -46,7 +47,7 @@ public class MainController {
     public String userIndex(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
-        List<UserNotification> notifications = userNotificationService.getUserNotifications(email);
+        List<UserNotificationJoin> notifications = userNotificationService.getUserNotifications(email);
         model.addAttribute("notifications",notifications);
         model.addAttribute("notificationsNumber",notifications.size());
         System.out.println(">>>> show user home page <<<<");

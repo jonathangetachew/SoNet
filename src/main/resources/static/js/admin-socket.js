@@ -6,7 +6,7 @@ var webSocketPath = baseUrl + '/gkz-stomp-endpoint';
 
 function adminConnect() {
 	console.log('>>>>> admin want to subscrip: ');
-	const socket = new SockJS(webSocketPath);
+	const socket = new SockJS("/gkz-stomp-endpoint");
 	var stompClient = Stomp.over(socket);
 
 	console.log('>>start admin connection for user notifications <<<<');

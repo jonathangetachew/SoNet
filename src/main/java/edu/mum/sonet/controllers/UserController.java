@@ -4,9 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import edu.mum.sonet.models.Claim;
-import edu.mum.sonet.models.Post;
-import edu.mum.sonet.models.UserNotification;
+import edu.mum.sonet.models.*;
 import edu.mum.sonet.services.ClaimService;
 import edu.mum.sonet.services.UserNotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +14,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import edu.mum.sonet.models.User;
 import edu.mum.sonet.services.UserService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -48,7 +45,7 @@ public class UserController {
 		authentication = SecurityContextHolder.getContext().getAuthentication();
 		String currentPrincipalName = authentication.getName();
 		User targetUser = userService.findByEmail(email);
-		List<UserNotification> notifications = userNotificationService.getUserNotifications(currentPrincipalName);
+		List<UserNotificationJoin> notifications = userNotificationService.getUserNotifications(currentPrincipalName);
 		model.addAttribute("notifications",notifications);
 		model.addAttribute("notificationsNumber",notifications.size());
 
@@ -66,7 +63,7 @@ public class UserController {
 
 	@PostMapping(value = "/user/editProfile")
 	public  String editProfile(@RequestParam(value="email") String email, Model model) {
-		List<UserNotification> notifications = userNotificationService.getUserNotifications(email);
+		List<UserNotificationJoin> notifications = userNotificationService.getUserNotifications(email);
 		model.addAttribute("notifications",notifications);
 		model.addAttribute("notificationsNumber",notifications.size());
 		User user = userService.findByEmail(email);

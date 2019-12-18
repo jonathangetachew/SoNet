@@ -71,9 +71,11 @@ public class PostRestController {
         if(notifyFollowers){
             System.out.println(" currentUser ->> followers: "+currentUser.getFollowers());
             UserNotification un = new UserNotification();
-            un.setPost(post);
-            un.setUsers(currentUser.getFollowers());
-            userNotificationService.notifyUser(un);
+            un.setPostId(post.getId());
+            un.setPostOwnerName(post.getAuthor().getName());
+            un.setPostText(post.getText());
+//            un.setUsers(currentUser.getFollowers());
+            userNotificationService.notifyUser(un,currentUser.getFollowers());
         }
         return postService.save(post);
     }

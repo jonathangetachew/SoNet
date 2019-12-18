@@ -2,6 +2,7 @@ package edu.mum.sonet.controllers;
 
 import edu.mum.sonet.models.Post;
 import edu.mum.sonet.models.UserNotification;
+import edu.mum.sonet.models.UserNotificationJoin;
 import edu.mum.sonet.services.PostService;
 import edu.mum.sonet.services.UserNotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,7 +67,7 @@ public class PostController {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalEmail = authentication.getName();
-        List<UserNotification> notifications = userNotificationService.getUserNotifications(currentPrincipalEmail);
+        List<UserNotificationJoin> notifications = userNotificationService.getUserNotifications(currentPrincipalEmail);
         model.addAttribute("notifications",notifications);
         model.addAttribute("notificationsNumber",notifications.size());
         return "/post/search";
