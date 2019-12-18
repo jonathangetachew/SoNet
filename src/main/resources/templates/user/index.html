@@ -13,15 +13,34 @@
 <body>
 <!--<body th:onload="'userConnect();'">-->
 <div layout:fragment="content">
-    <section class="section"
-             style="padding-top:10px; height: 88vh; overflow-x: hidden; overflow-y: auto; background-color: #fff;">
-        <div class="columns is-centered is-vcentered">
-            <div class="column is-desktop is-two-fifths is-centered">
+    <section class="section" style="padding: 10px 1.5rem;" id="container">
+        <div class="columns is-centered" style="max-height: 88vh;min-height: 88vh;">
+            <div class="column">
+                <div th:each="ad : ${ads_left}" th:include="advertisement/single-ad :: singleAd" th:with="item=${ad}"
+                     th:remove="tag"></div>
+            </div>
+            <div class="column is-desktop is-two-fifths is-centered"
+                 style="padding-top:10px; overflow-x: hidden; overflow-y: scroll; background-color: #fff;">
                 <div th:replace="post/form :: form"></div>
                 <div th:replace="post/list :: list"></div>
             </div>
+            <div class="column">
+                <div th:each="ad : ${ads_right}" th:include="advertisement/single-ad :: singleAd" th:with="item=${ad}"
+                     th:remove="tag"></div>
+            </div>
         </div>
     </section>
+    <script type="text/javascript" th:src="@{/js/post.js}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
+                const $notification = $delete.parentNode;
+                $delete.addEventListener('click', () => {
+                    $notification.parentNode.removeChild($notification);
+                });
+            });
+        });
+    </script>
 </div>
 </body>
 </html>

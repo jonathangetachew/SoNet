@@ -41,8 +41,9 @@ public class User extends BaseEntity {
 
 	@NotNull
 	@Enumerated(EnumType.STRING)
-	private Gender gender;
+	private Gender gender = Gender.NONE;
 
+	@Enumerated(EnumType.STRING)
 	private Location location;
 
 	@Past
@@ -70,9 +71,6 @@ public class User extends BaseEntity {
 	@OneToMany(mappedBy = "author", cascade = CascadeType.PERSIST, targetEntity = Post.class, fetch = FetchType.LAZY)
 	@JsonIgnoreProperties(value = "author")
 	private Set<Post> posts = new HashSet<>();
-
-	@OneToMany
-	private Set<Comment> comments = new HashSet<>();
 
 	@ManyToMany
 	@JoinTable(
@@ -111,16 +109,6 @@ public class User extends BaseEntity {
 			post.setAuthor(null);
 			return true;
 		}
-		return false;
-	}
-
-	public boolean addComment(Comment comment) {
-		if (comments.add(comment)) return true;
-		return false;
-	}
-
-	public boolean removeComment(Comment comment) {
-		if (comments.remove(comment)) return true;
 		return false;
 	}
 

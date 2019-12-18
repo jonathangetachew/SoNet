@@ -35,17 +35,18 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 	private final UnhealthyWordRepository unhealthyWordRepository;
 
 	private final PasswordEncoder passwordEncoder;
+	private final CommentRepository commentRepository;
 
 	public SonetBootstrap(UserRepository userRepository, AdvertisementRepository advertisementRepository,
-	                      ClaimRepository claimRepository, UserNotificationRepository notificationRepository,
-	                      UnhealthyWordRepository unhealthyWordRepository, PasswordEncoder passwordEncoder) {
+						  ClaimRepository claimRepository, UserNotificationRepository notificationRepository,
+						  UnhealthyWordRepository unhealthyWordRepository, PasswordEncoder passwordEncoder, CommentRepository commentRepository) {
 		this.userRepository = userRepository;
 		this.advertisementRepository = advertisementRepository;
 		this.claimRepository = claimRepository;
 		this.notificationRepository = notificationRepository;
 		this.unhealthyWordRepository = unhealthyWordRepository;
 		this.passwordEncoder = passwordEncoder;
-
+		this.commentRepository = commentRepository;
 	}
 
 	@Override
@@ -63,6 +64,14 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 		advertisement.setTargetAge(20);
 		advertisement.setTargetGender(Gender.NONE);
 
+		Advertisement advertisement1 = new Advertisement();
+		advertisement1.setContentUrl("https://www.youtube.com/embed/IhA-EUEjyW0");
+		advertisement1.setText("Amazon Prime Video");
+		advertisement1.setAdUrl("https://www.youtube.com/");
+		advertisement1.setLocation(Location.FAIRFIELD);
+		advertisement1.setTargetAge(18);
+		advertisement1.setTargetGender(Gender.NONE);
+
 		Advertisement advertisement2 = new Advertisement();
 		advertisement2.setContentUrl("https://i.pinimg.com/originals/6a/ae/a1/6aaea1a2f9296fe9fb44bbad0431acad.png");
 		advertisement2.setText("Spotify");
@@ -71,7 +80,7 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 		advertisement2.setTargetAge(18);
 		advertisement2.setTargetGender(Gender.NONE);
 
-		advertisementRepository.saveAll(Arrays.asList(advertisement, advertisement2));
+		advertisementRepository.saveAll(Arrays.asList(advertisement, advertisement1, advertisement2));
 
 		///> Add Posts
 		Post post = new Post();
@@ -118,9 +127,8 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 		user2.setEmail("user@sonet.com");
 		user2.setPassword(passwordEncoder.encode("user123"));
 		user2.setImageUrl("https://semantic-ui.com/images/avatar2/large/matthew.png");
-		user2.setGender(Gender.OTHER);
-		user2.setLocation(Location.ADDIS_ABABA);
-		user2.setDateOfBirth(LocalDate.of(2005, 1, 1));
+		user2.setLocation(Location.FAIRFIELD);
+		user2.setDateOfBirth(LocalDate.of(1994, 1, 1));
 		user2.addPost(post);
 		user2.addPost(post2);
 
@@ -167,27 +175,28 @@ public class SonetBootstrap implements ApplicationListener<ContextRefreshedEvent
 		nastyUser.setLocation(Location.SAN_FRANCISCO);
 		nastyUser.setDateOfBirth(LocalDate.of(2005, 1, 1));
 
+		userRepository.saveAll(Arrays.asList(user, user2, user3, user4,user5, nastyUser));
+
 		///> Add Comments
 		Comment comment = new Comment();
 		comment.setText("Hello World");
 		comment.setIsHealthy(true);
 		comment.setAuthor(user2);
+		comment.setPost(post);
 
 		Comment comment2 = new Comment();
 		comment2.setText("Miss Xing is an Amazing YouTube Channel!");
 		comment2.setIsHealthy(true);
 		comment2.setAuthor(user3);
+		comment2.setPost(post);
 
 		Comment comment3 = new Comment();
 		comment3.setText("I'm a bad word.");
 		comment3.setIsHealthy(false);
 		comment3.setAuthor(nastyUser);
+		comment3.setPost(post2);
 
-		post.addComment(comment);
-		post.addComment(comment2);
-		post2.addComment(comment3);
-
-		userRepository.saveAll(Arrays.asList(user, user2, user3, user4,user5, nastyUser));
+		commentRepository.saveAll(Arrays.asList(comment, comment2, comment3));
 
 		///> Add Claims
 		Claim claim = new Claim();

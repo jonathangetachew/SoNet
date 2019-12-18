@@ -47,7 +47,7 @@ public class UnhealthyContentController {
 
 	@GetMapping("/posts/{id}/allow")
 	public String allowPost(@PathVariable @Valid Long id) {
-		Post post = postService.findById(id);
+		Post post = postService.findById(id).get();
 
 		post.setIsHealthy(true);
 
@@ -58,7 +58,7 @@ public class UnhealthyContentController {
 
 	@GetMapping("/posts/{id}/disable")
 	public String disablePost(@PathVariable @Valid Long id) {
-		Post post = postService.findById(id);
+		Post post = postService.findById(id).get();
 
 		post.setIsDisabled(true);
 

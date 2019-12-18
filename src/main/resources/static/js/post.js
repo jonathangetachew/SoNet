@@ -1,4 +1,5 @@
 'use strict';
+
 const apiUrl = `${window.location.origin}/api/v1`;
 const singleCommentTemplate = `
     <div class="content" style="border-bottom: 1px solid #ececec; margin-bottom: 5px;">
@@ -21,6 +22,13 @@ const singleCommentTemplate = `
         </div>
     </div>
 `;
+
+Vue.component('CommentList', {
+    template: singleCommentTemplate,
+    props: {
+        comment: Object
+    }
+});
 
 const singlePostTemplate = `
 <div v-if="loaded" class="card" style="margin-bottom: 10px">
@@ -81,8 +89,8 @@ const singlePostTemplate = `
           </a>
   </footer>
   <div class="is-divider" style="margin: 0px;"></div>
-  <div v-if="comments && comments.length > 0">
-        <comment-list v-for="comment in comments" :comment="comment" v-bind:key="comment.id"/>
+  <div v-if="comments && Object.keys(comments).length > 0">
+        <comment-list v-for="comment in Object.values(comments)" :comment="comment" v-bind:key="comment.id"/>
         <div v-if="hasMoreComments" class="is-centered has-text-centered" style="padding: 5px;">
             <a @click="loadCommentsAsync()">Load more</a>
         </div>
@@ -112,6 +120,31 @@ const singlePostTemplate = `
 </div>
 `;
 
+const welcomeTemplate = `
+<div v-if="canRender" class="card">
+  <div class="content">
+    <div class="card-content">
+      <div class="content" style="padding: 3rem 1rem;" >
+        <h1 style="margin-bottom: 2rem;">Welcome to SoNet 😊</h1>
+        <p>To start your journey, create your first post on the form right above 👆</p>
+        <p>To find other user's posts and connect with friends, use the search bar located on the top of the page.</p>
+        <p>Ones you start following other users, their posts will show up in your Timeline.</p>
+        <p style="margin-top: 2rem;">
+            It's really nice to have you be part of our <strong>community.</strong>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+Vue.component('Welcome', {
+    template: welcomeTemplate,
+    props: {
+        canRender: Boolean,
+    },
+});
+
 Vue.component('SinglePost', {
     template: singlePostTemplate,
     props: {
@@ -122,15 +155,12 @@ Vue.component('SinglePost', {
     data() {
         return {
             hasMoreComments: false,
-            comments: [],
+            comments: {},
             newComment: {text: ""},
             page: 1
         }
     },
     methods: {
-        loadNextPage() {
-            this.page += 1;
-        },
         async submitForm(e) {
             e.preventDefault();
             if (this.newComment.text) {
@@ -143,7 +173,7 @@ Vue.component('SinglePost', {
                 });
                 const response = await request.json();
                 response.creationDate = new Date();
-                this.comments.unshift(response);
+                this.comments = {...{[response.id]: response}, ...this.comments};
                 this.newComment.text = "";
             }
         },
@@ -155,9 +185,11 @@ Vue.component('SinglePost', {
         async loadCommentsAsync() {
             const response = await fetch(`${apiUrl}/user/post/${this.post.id}/comments?page=${this.page}`);
             const result = await response.json();
-            this.page = result.nextPage;
-            this.hasMoreComments = result.hasMore;
-            this.comments.push(...result.data);
+            if (result) {
+                this.page = result.nextPage;
+                this.hasMoreComments = result.hasMore;
+                result.data.forEach((comment) => this.comments = {...this.comments, ...{[comment.id]: comment}});
+            }
         }
     },
     beforeMount() {
@@ -169,40 +201,56 @@ Vue.component('SinglePost', {
 function initializeVue() {
     Vue.filter('formatDate', (value) => value ? moment(value).format('MM/DD/YYYY hh:mm') : '');
 
-    Vue.component('CommentList', {
-        template: singleCommentTemplate,
-        props: {
-            comment: Object
-        }
-    });
-
     Vue.component('PostList', {
-        template: `<div v-if="posts.length > 0">
-            <SinglePost v-for="post in posts" :post="post" v-bind:key="post.id" :loaded="true" :showDetailsLink="true"/>
-        </div>`,
+        template: `<div v-if="dataArray.length > 0">
+            <SinglePost v-for="post in dataArray" :post="post" v-bind:key="post.id" :loaded="true" :showDetailsLink="true"/>
+        </div><div v-else><Welcome :canRender="!(dataArray.length > 0) && !isLoading" /></div>`,
         data() {
             return {
-                posts: [],
-                page: 1
+                isLoading: true,
+                posts: {},
+                page: 1,
+                hasMore: true
             }
         },
         methods: {
-            loadNextPage() {
-                this.page += 1;
-            },
-            async loadPostsAsync() {
-                const response = await fetch(`${window.location.origin}/api/v1/user/posts`);
+            async loadMore() {
+                const response = await fetch(`${window.location.origin}/api/v1/user/posts?page=${this.page}`);
                 const result = await response.json();
-                this.posts.push(...result.data);
-            }
+                if (result) {
+                    this.page = result.nextPage;
+                    this.hasMore = result.hasMore;
+                    result.data.forEach((post) => this.posts = {...this.posts, ...{[post.id]: post}});
+                }
+
+                this.isLoading = false;
+            },
+            handleScroll() {
+                let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;
+
+                if (bottomOfWindow && this.hasMore) {
+                    this.loadMore();
+                }
+            },
         },
         beforeMount() {
-            this.loadPostsAsync();
+            this.loadMore();
+        },
+        computed: {
+            dataArray() {
+                return Object.values(this.posts).sort((a, b) => b.creationDate - a.creationDate);
+            }
+        },
+        created() {
+            window.addEventListener('scroll', this.handleScroll);
+        },
+        destroyed() {
+            window.removeEventListener('scroll', this.handleScroll);
         }
     });
 
     const vueApp = new Vue({
-        el: '#root',
+        el: '#container',
     });
 
     return vueApp;
@@ -270,7 +318,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     });
                 }
             } else {
-                vueApp.$children[0].posts.unshift(response);
+                //const post = {[(Math.min(Object.keys(vueApp.$children[0].posts).map(i => parseInt(i))) - 1).toString()]: response};
+                vueApp.$children[0].posts = {...{[response.id]: response}, ...vueApp.$children[0].posts};
 
                 // Clear the elements
                 const els = document.querySelectorAll("textarea[name='text']");

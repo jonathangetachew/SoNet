@@ -1,16 +1,16 @@
 package edu.mum.sonet.services;
 
-import edu.mum.sonet.models.Comment;
 import edu.mum.sonet.models.Post;
 import edu.mum.sonet.models.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 
 public interface PostService extends GenericService<Post> {
-    Page<Comment> loadMoreHealthyCommentsFromPost(Long postId, Pageable pageable);
 
     Page<Post> loadMorePosts(User current, Pageable pageable);
 
@@ -20,5 +20,7 @@ public interface PostService extends GenericService<Post> {
 
     Post save(Post post);
 
-    Comment addComment(Long postId, User current, Comment comment);
+    Optional<Post> findById(Long id);
+
+    Page<Post> loadMorePostIsHealthy(Long id, Pageable pageable);
 }

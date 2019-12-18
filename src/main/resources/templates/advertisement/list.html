@@ -13,14 +13,14 @@
 
     <article class="tile is-child" style="max-width: 100%;">
         <div style="margin: 1rem 0; width: 30vw;">
-            <span style="font-size: 3em;">Advertisements</span>
+            <span style="font-size: 3em;" th:text="#{label.admin.advertisements}">Advertisements</span>
             <span style="float: right; margin-top: 1rem;">
                 <a th:href="@{'/admin/dashboard/advertisements/add'}">
                     <button class="button is-success">
                         <span class="icon is-small">
                           <i class="fa fa-plus"></i>
                         </span>
-                        <span>Add Advertisement</span>
+                        <span th:text="#{label.admin.addAdvertisement}">Add Advertisement</span>
                     </button>
                 </a>
             </span>
@@ -29,25 +29,25 @@
             <thead>
                 <tr class="is-selected">
                     <th>#</th>
-                    <th>Text</th>
-                    <th>Content URL</th>
-                    <th>AD URL</th>
-                    <th>Target Location</th>
-                    <th>Target Age</th>
-                    <th>Target Gender</th>
-                    <th>Actions</th>
+                    <th th:text="#{label.text}">Text</th>
+                    <th th:text="#{label.contentUrl}">Content URL</th>
+                    <th th:text="#{label.advertisement.adUrl}">AD URL</th>
+                    <th th:text="#{label.advertisement.location}">Target Location</th>
+                    <th th:text="#{label.advertisement.targetAge}">Target Age</th>
+                    <th th:text="#{label.advertisement.targetGender}">Target Gender</th>
+                    <th th:text="#{label.actions}">Actions</th>
                 </tr>
             </thead>
             <tfoot>
                 <tr class="is-selected">
                     <th>#</th>
-                    <th>Text</th>
-                    <th>Content URL</th>
-                    <th>AD URL</th>
-                    <th>Target Location</th>
-                    <th>Target Age</th>
-                    <th>Target Gender</th>
-                    <th>Actions</th>
+                    <th th:text="#{label.text}">Text</th>
+                    <th th:text="#{label.contentUrl}">Content URL</th>
+                    <th th:text="#{label.advertisement.adUrl}">AD URL</th>
+                    <th th:text="#{label.advertisement.location}">Target Location</th>
+                    <th th:text="#{label.advertisement.targetAge}">Target Age</th>
+                    <th th:text="#{label.advertisement.targetGender}">Target Gender</th>
+                    <th th:text="#{label.actions}">Actions</th>
             </tr>
             </tfoot>
             <tbody>

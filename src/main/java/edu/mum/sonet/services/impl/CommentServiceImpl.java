@@ -2,6 +2,8 @@ package edu.mum.sonet.services.impl;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,5 +34,10 @@ public class CommentServiceImpl extends GenericServiceImpl<Comment> implements C
 	@Override
 	public Comment save(Comment entity) {
 		return super.save(entity);
+	}
+
+	@Override
+	public Page<Comment> findByPostIdAndIsHealthyOrderByCreationDateDesc(Long postId, Boolean isHealthy, Pageable pageable) {
+		return commentRepository.findByPostIdAndIsHealthyOrderByCreationDateDesc(postId,isHealthy,pageable);
 	}
 }
