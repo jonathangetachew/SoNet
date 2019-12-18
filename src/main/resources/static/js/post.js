@@ -161,9 +161,6 @@ Vue.component('SinglePost', {
         }
     },
     methods: {
-        loadNextPage() {
-            this.page += 1;
-        },
         async submitForm(e) {
             e.preventDefault();
             if (this.newComment.text) {
@@ -212,29 +209,43 @@ function initializeVue() {
             return {
                 isLoading: true,
                 posts: {},
-                page: 1
+                page: 1,
+                hasMore: true
             }
         },
         methods: {
-            loadNextPage() {
-                this.page += 1;
-            },
-            async loadPostsAsync() {
-                const response = await fetch(`${window.location.origin}/api/v1/user/posts`);
+            async loadMore() {
+                const response = await fetch(`${window.location.origin}/api/v1/user/posts?page=${this.page}`);
                 const result = await response.json();
                 if (result) {
+                    this.page = result.nextPage;
+                    this.hasMore = result.hasMore;
                     result.data.forEach((post) => this.posts = {...this.posts, ...{[post.id]: post}});
                 }
+
                 this.isLoading = false;
-            }
+            },
+            async handleScroll() {
+                let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;
+
+                if (bottomOfWindow && this.hasMore) {
+                    this.loadMore();
+                }
+            },
+        },
+        beforeMount() {
+            this.loadMore();
         },
         computed: {
             dataArray() {
                 return Object.values(this.posts).sort((a, b) => b.creationDate - a.creationDate);
             }
         },
-        beforeMount() {
-            this.loadPostsAsync();
+        created() {
+            document.body.addEventListener('scroll', this.handleScroll);
+        },
+        destroyed() {
+            document.body.removeEventListener('scroll', this.handleScroll);
         }
     });
 
