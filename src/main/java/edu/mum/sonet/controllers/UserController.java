@@ -48,8 +48,6 @@ public class UserController {
 		authentication = SecurityContextHolder.getContext().getAuthentication();
 		String currentPrincipalName = authentication.getName();
 		User targetUser = userService.findByEmail(email);
-//		User authenticatedUser = userService.findByEmail(currentPrincipalName);
-		System.out.println(">>>> currentPrincipalName-----: "+currentPrincipalName);
 		List<UserNotification> notifications = userNotificationService.getUserNotifications(currentPrincipalName);
 		model.addAttribute("notifications",notifications);
 		model.addAttribute("notificationsNumber",notifications.size());

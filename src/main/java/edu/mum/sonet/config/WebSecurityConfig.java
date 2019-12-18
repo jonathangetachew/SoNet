@@ -179,6 +179,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         try {
 
             String userRole = Role.USER.toString();
+            for (GrantedAuthority authority : auth.getAuthorities()) {
+                userRole = authority.getAuthority();
+                System.out.println(userRole);
+                if ( userRole.equals(Role.ADMIN.toString())) break;
+            }
+
             boolean isAdmin = userRole.equals(Role.ADMIN.toString());
             String userPath = "/user/index";
             if(!isAdmin){
@@ -213,11 +219,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             ///> If user is an Admin -> redirect to admin dashboard
 
 
-            for (GrantedAuthority authority : auth.getAuthorities()) {
-                userRole = authority.getAuthority();
-                System.out.println(userRole);
-                if ( userRole.equals(Role.ADMIN.toString())) break;
-            }
+
 
 
 
