@@ -98,7 +98,7 @@ public class UnhealthyContentFilterAspect {
 
 		Object ret = proceedingJoinPoint.proceed(args);
 
-		if (isUnhealthy) throw new UnhealthyContentDetectedException("Unhealthy Post Detected");
+//		if (isUnhealthy) throw new UnhealthyContentDetectedException("Unhealthy Post Detected");
 
 		return ret;
 	}

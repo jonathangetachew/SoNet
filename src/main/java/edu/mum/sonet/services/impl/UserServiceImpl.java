@@ -83,8 +83,8 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
 			originalUser.setLocation(user.getLocation());
 			if (user.getImageFile() != null) {
 				String imagePath = fileService.saveFile(user.getImageFile(), imagesDirectory);
-				imagePath = imagePath.substring(imagePath.lastIndexOf("profileImages/"));
 				if (imagePath != null) {
+					imagePath = imagePath.substring(imagePath.lastIndexOf("profileImages/"));
 					fileService.deleteFile(originalUser.getImageUrl());
 					originalUser.setImageUrl("/" + imagePath);
 				}

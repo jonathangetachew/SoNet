@@ -5,6 +5,8 @@ import edu.mum.sonet.models.UserNotification;
 import edu.mum.sonet.services.FileService;
 import edu.mum.sonet.services.UserNotificationService;
 import edu.mum.sonet.services.UserService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -42,7 +44,9 @@ public class MainController {
 
     @GetMapping("/user/index")
     public String userIndex(Model model) {
-        List<UserNotification> notifications = userNotificationService.findAllOrderByIdDesc();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        List<UserNotification> notifications = userNotificationService.getUserNotifications(email);
         model.addAttribute("notifications",notifications);
         model.addAttribute("notificationsNumber",notifications.size());
         System.out.println(">>>> show user home page <<<<");

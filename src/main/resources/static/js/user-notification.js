@@ -12,7 +12,7 @@ function userConnect() {
     stompClient.connect({}, function (frame) {
 
         console.log('>>----- conect on: notifications');
-        _this.stompClient.subscribe("/user/notifications" , function (data) {
+        _this.stompClient.subscribe("/notifications" , function (data) {
             let Notification = JSON.parse(data.body);
 
             console.log(' =======++++++>>> get new Notifications by pushing: ', Notification);
