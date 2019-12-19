@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Not Found 🙁 | SoNet</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet"> -->
+    <link href="https://fonts.googleapis.com/css?family=Questrial&display=swap" rel="stylesheet">
+    <!-- Bulma Version 0.8.x-->
+    <link rel="stylesheet" href="https://unpkg.com/bulma@0.8.0/css/bulma.min.css"/>
+    <!-- Custom CSS-->
+    <link rel="stylesheet" href="/css/error.css"/>
+</head>
+<body>
+    <div id="notfound">
+        <div class="notfound">
+            <div class="notfound-bg">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            <h1 th:text="#{label.error.title}">oops!</h1>
+            <h2 th:text="#{label.error.message} + ' 🙁'">The Page You're Looking For Cannot Be Found. 🙁</h2>
+            <a onclick="goBack()" th:text="#{label.error.goBackButton}">go back</a>
+        </div>
+    </div>
+</body>
+<script>
+    function goBack() {
+        window.history.back();
+}
+</script>
+</html>

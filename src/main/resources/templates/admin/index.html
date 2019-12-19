@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html
+        xmlns:layout="http://www.w3.org/1999/xhtml"
+        layout:decorate="~{fragments/admin-dashboard-layout}"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:th="https://www.thymeleaf.org"
+>
+<head>
+    <title>Dashboard | SoNet</title>
+    <!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.0.3/sockjs.min.js"></script>-->
+
+    <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/stomp.js}"></script>
+    <script type="text/javascript" th:src="@{/js/admin-socket.js}"></script>
+    <link rel="stylesheet" href="/css/main.css" th:href="@{/css/admin.css}"/>
+</head>
+<!--<body>-->
+<body th:onload="'adminConnect();'">
+<div layout:fragment="admin-dashboard-content">
+
+    <article class="tile is-child">
+        <div style="margin: 1rem 0;">
+            <span style="font-size: 3em;" th:text="#{label.admin.notifications}">Notifications</span>
+        </div>
+        <!--                <p class="subtitle">Notifications go here...</p>-->
+        <div id="result">
+            <!--                    th:if="${!notifications.isEmpty()}"-->
+            <table class="table is-striped" id="notify-table">
+                <thead>
+                <tr class="is-selected">
+                    <!--                            <th>#</th>-->
+                    <th th:text="#{label.text}" class="table-column">Type</th>
+                    <th th:text="#{label.user}" class="table-column">User</th>
+                    <th th:text="#{label.text}" class="table-column">Text</th>
+                </tr>
+                </thead>
+                <tbody id="table-body">
+                <tr th:each="notif : ${notifications}">
+                    <!--                            <td scope="row" th:text="1">1</td>-->
+                    <td th:text="${notif.type}"></td>
+                    <td th:text="${notif.user.name}"></td>
+                    <td th:text="${notif.text}"></td>
+
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </article>
+
+</div>
+</body>
+</html>

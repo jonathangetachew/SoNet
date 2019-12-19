@@ -1,0 +1,44 @@
+server:
+  port: 8080
+
+spring:
+  profiles:
+    active: dev
+#  main:
+#    lazy-initialization: true
+#    allow-bean-definition-overriding: true
+#  rabbitmq:
+#    host: localhost
+#    port: 5672
+#    username: guest
+#    password: guest
+
+
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2KB
+      max-file-size: 200MB
+      max-request-size: 250MB
+#
+# Security Config
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            redirect-uri: "http://localhost:8080/oauth2/callback/google"
+#
+jwt:
+  header: Authorization
+  secret: mySecret
+  expiration: 60480000
+  route:
+    authentication:
+      path: auth
+      refresh: refresh
+
+app:
+  auth:
+    tokenSecret: 926D96C90030DD58429D2751AC1BDBBC
+    tokenExpirationMsec: 864000000

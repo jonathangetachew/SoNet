@@ -1,0 +1,21 @@
+version: "3"
+services:
+  mysqldb:
+    image: mysql
+    environment:
+      MYSQL_DATABASE: 'sonot'
+      MYSQL_USER: 'sonet'
+      MYSQL_PASSWORD: 'Root@A123'
+      MYSQL_ROOT_PASSWORD: 'Root@123'
+    ports:
+      - 3306
+  rabbitmq:
+    image: rabbitmq
+    ports:
+      - 5672
+  project:
+    build: .
+    ports:
+      - 8080:8080
+    links:
+      - mysqldb

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sign up | SoNet</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bulma Version 0.8.x-->
+    <link rel="stylesheet" href="https://unpkg.com/bulma@0.8.0/css/bulma.min.css"/>
+    <!-- Font Awesome -->
+    <script defer src="https://use.fontawesome.com/releases/v5.11.2/js/all.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/main.css" th:href="@{/css/login.css}"/>
+</head>
+
+<body>
+<div id="login">
+    <div class="login-card" style="min-width: 500px!important;">
+
+        <div class="card-title">
+            <h1 th:text="#{label.signup}">Sign up</h1>
+        </div>
+
+        <div class="content">
+
+            <form th:object="${user}" th:action="@{/signup}" enctype="multipart/form-data" method="POST">
+
+                <div class="field">
+                    <div class="control has-icons-left">
+                        <input type="name" name="name"
+                               placeholder="Full Name"
+                               th:placeholder="#{label.signup.name}"
+                               class="input" required>
+                        <span class="icon is-small is-left">
+                            <i class="fa fa-user"></i>
+                        </span>
+                    </div>
+                    <p class="help is-danger"
+                       th:errors="*{name}"
+                       th:if="${#fields.hasErrors('name')}">Error</p>
+                </div>
+                <div class="field">
+                    <div class="control has-icons-left">
+                        <input type="email" name="email"
+                               placeholder="Email"
+                               th:placeholder="#{label.email}"
+                               class="input" required>
+                        <span class="icon is-small is-left">
+                            <i class="fa fa-envelope"></i>
+                        </span>
+                    </div>
+                    <p class="help is-danger"
+                       th:errors="*{email}"
+                       th:if="${#fields.hasErrors('email')}">Error</p>
+                </div>
+                <div class="field">
+                    <div class="control has-icons-left">
+                        <input type="password" name="password"
+                               placeholder="Password"
+                               th:placeholder="#{label.password}"
+                               class="input" required>
+                        <span class="icon is-small is-left">
+                          <i class="fa fa-lock"></i>
+                        </span>
+                    </div>
+                    <p class="help is-danger"
+                       th:errors="*{password}"
+                       th:if="${#fields.hasErrors('password')}">Error</p>
+                </div>
+
+                <div class="field">
+                    <div class="control has-icons-left">
+                        <input type="date" name="dateOfBirth"
+                               class="input" th:value="*{dateOfBirth}" th:field="*{dateOfBirth}" required>
+                        <span class="icon is-small is-left">
+                            <i class="fa fa-calendar"></i>
+                        </span>
+                    </div>
+                    <p class="help is-danger"
+                       th:errors="*{dateOfBirth}"
+                       th:if="${#fields.hasErrors('dateOfBirth')}">Error</p>
+                </div>
+
+                <div class="file has-name is-fullwidth field">
+                    <label class="file-label">
+                        <input class="file-input" type="file" name="imageFile" th:field="*{imageFile}" required>
+                        <span class="file-cta">
+                                <span class="file-icon">
+                                 <i class="fas fa-upload"></i>
+                                </span>
+                                <span class="file-label" th:text="#{label.signup.imageUpload}">
+                                    Choose Profile Picture
+                                </span>
+                        </span>
+                        <span class="file-name" th:text="#{label.signup.imageFileName}">
+                            Profile Picture
+                        </span>
+                    </label>
+                    <p class="help is-danger"
+                       th:errors="*{imageFile}"
+                       th:if="${#fields.hasErrors('imageFile')}">Error</p>
+                </div>
+
+                <div class="field">
+                    <div class="control">
+                        <div class="select is-fullwidth">
+                            <select class="select" th:field="*{gender}" th:value="*{gender}" required>
+                                <option value="" selected
+                                        th:text="#{label.signup.genderSelect}">Choose Gender</option>
+                                <option th:each="genderValue : ${T(edu.mum.sonet.models.enums.Gender).values()}"
+                                        th:value="${genderValue.name()}"
+                                        th:text="${genderValue.name()}">FEMALE</option>
+                            </select>
+                        </div>
+                    </div>
+                    <p class="help is-danger"
+                       th:errors="*{gender}"
+                       th:if="${#fields.hasErrors('gender')}">Error</p>
+                </div>
+
+                <div class="field">
+                    <div class="control">
+                        <div class="select is-fullwidth">
+                            <select class="select" th:field="*{location}" th:value="*{location}" required>
+                                <option value="" selected
+                                        th:text="#{label.signup.locationSelect}">Choose Location</option>
+                                <option th:each="locationValue : ${T(edu.mum.sonet.models.enums.Location).values()}"
+                                        th:value="${locationValue.name()}"
+                                        th:text="${locationValue.name()}">FAIRFIELD</option>
+                            </select>
+                        </div>
+                    </div>
+                    <p class="help is-danger"
+                       th:errors="*{location}"
+                       th:if="${#fields.hasErrors('location')}">Error</p>
+                </div>
+
+                <button type="submit" id="login-button" class="btn btn-primary"
+                        th:placeholder="#{label.signup}">Sign up</button>
+
+                <div class="level options">
+                    <div class="checkbox level-left">
+                        <span th:text="#{label.signup.linkToLoginInquiry}">Already have an account?</span>
+                    </div>
+
+                    <a class="btn btn-link level-right" th:href="@{login}" th:text="#{label.login}">Login</a>
+                </div>
+            </form>
+
+            <hr class="hr-text" data-content="OR">
+            <div class="login-social">
+                <!-- Google Button -->
+                <a href="/oauth2/authorize/google">
+                    <button id="google" class="button is-large is-rounded is-fullwidth">
+                        <span class="icon is-medium">
+                          <i class="fab fa-google"></i>
+                        </span>
+                        <span>Google</span>
+                    </button>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

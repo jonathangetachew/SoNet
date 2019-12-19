@@ -1,0 +1,109 @@
+<!DOCTYPE HTML>
+<html
+        xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml"
+        layout:decorate="~{fragments/main_layout}"
+        xmlns="http://www.w3.org/1999/xhtml"
+>
+<head>
+    <title>Details | SoNet</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <section class="section"
+             style="padding-top:10px; height: 88vh; overflow-x: hidden; overflow-y: auto; background-color: #fff;">
+        <div class="columns is-centered is-vcentered">
+            <div class="column is-desktop is-two-fifths is-centered">
+                <div th:each="post, iStat : ${postPage?.content}">
+                    <div class="card" style="margin-bottom: 10px">
+                        <nav class="card-header navbar" role="navigation" style="box-shadow: 0 0 0 transparent;">
+                            <div class="navbar-brand" style="flex: 1;">
+                                <div class="media" style="padding: 1.5rem; flex: 1; margin-bottom: 0px;">
+                                    <div class="media-left">
+                                        <figure class="image is-48x48">
+                                            <img class="is-rounded" th:src="${post.author.imageUrl}" alt="Image">
+                                        </figure>
+                                    </div>
+                                    <div class="media-content">
+                                        <a th:href="@{'/user/showProfile?email='+${post.author.email}}">
+                                            <strong th:text="${post.author.name}"></strong> <small
+                                                th:text="${post.author.email}"></small>
+                                        </a>
+                                        <br>
+                                        <!--                            <time datetime="2016-1-1">{{post.creationDate | formatDate}}</time>-->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="navbar-end">
+                                <div v-if="showDetailsLink" class="navbar-item has-dropdown is-hoverable">
+                                    <a class="navbar-link"></a>
+                                    <div class="navbar-dropdown">
+                                        <a class="navbar-item" th:href="@{'/user/post/' + ${post.id}}">Details</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </nav>
+                        <div class="content" style="margin-bottom: 5px;">
+                            <div th:if="${post.contentUrl}" class="card-image">
+                                <figure class="image">
+                                    <object th:data="${post.contentUrl}" width="100%" height="100%"
+                                            style="min-height:400px; max-height: 400px;"></object>
+                                </figure>
+                            </div>
+                            <div class="card-content" style="padding: 5px 1.5rem;">
+                                <div class="content">
+                                    <p th:text="${post.text}"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <footer class="card-footer">
+                            <a class="card-footer-item" aria-label="reply">
+            <span class="icon is-small">
+              <i class="fa fa-reply" aria-hidden="true"></i>
+            </span>
+                            </a>
+                            <a class="card-footer-item" aria-label="retweet">
+            <span class="icon is-small">
+              <i class="fa fa-retweet" aria-hidden="true"></i>
+            </span>
+                            </a>
+                            <a class="card-footer-item" aria-label="like">
+            <span class="icon is-small">
+              <i class="fa fa-heart" aria-hidden="true"></i>
+              <span class="likes" th:text="${post.likeCount}"></span>
+            </span>
+                            </a>
+                        </footer>
+                    </div>
+
+                    <!--    <tr th:each="post, iStat : ${postPage?.content}"-->
+                    <!--        th:style="${iStat.odd}? 'font-weight: bold;'"-->
+                    <!--        th:alt-title="${iStat.even}? 'even' : 'odd'">-->
+                    <!--        <td th:text="${post.text}" />-->
+                    <!--    </tr>-->
+
+                    <!--    <div th:if="${postPage.totalPages > 0}" class="pagination"-->
+                    <!--         th:each="pageNumber : ${pageNumbers}">-->
+                    <div th:if="${postPage?.totalPages > 1}">
+                        <nav class="pagination is-rounded" role="navigation" aria-label="pagination">
+                            <!--        <a class="pagination-previous"-->
+                            <!--           th:href="@{/posts/search(size=${postPage.size}, page=${pageNumber-1}, searchInput=${searchInput})}">Previous</a>-->
+                            <!--        <a class="pagination-next"-->
+                            <!--           th:href="@{/posts/search(size=${postPage.size}, page=${pageNumber+1}, searchInput=${searchInput})}">Next page</a>-->
+                            <ul class="pagination-list">
+
+                                <li th:each="pageNumber : ${pageNumbers}">
+                                    <a th:href="@{/user/posts/search(size=${postPage.size}, page=${pageNumber}, searchInput=${searchInput})}"
+                                       th:text=${pageNumber}
+                                       class="pagination-link "
+                                       th:classappend="${pageNumber==postPage.number + 1} ? is-current">
+                                    </a></li>
+
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+    </section>
+</div>
+</body>
+</html>
