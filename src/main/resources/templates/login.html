@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login | SoNet</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bulma Version 0.8.x-->
+    <link rel="stylesheet" href="https://unpkg.com/bulma@0.8.0/css/bulma.min.css"/>
+    <!-- Font Awesome -->
+    <script defer src="https://use.fontawesome.com/releases/v5.11.2/js/all.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/main.css" th:href="@{/css/login.css}"/>
+</head>
+<body>
+<div id="login">
+    <div class="login-card">
+
+        <div class="card-title">
+            <h1 th:text="#{label.login}">Login</h1>
+        </div>
+
+        <div class="content">
+            <div class="notification is-danger" th:if="${loginError}">
+                <span th:text="#{label.login.unsuccessfulLogin}">
+                    Invalid Username / Password.
+                </span>
+            </div>
+
+            <div class="notification is-info" th:if="${param.logout}">
+                <span th:text="#{label.login.successfulLogout}">
+                    You have been logged out.
+                </span>
+            </div>
+
+            <form method="POST" action="/login">
+
+                <input id="email" type="email" name="email" title="email"
+                       placeholder="Email" th:placeholder="#{label.email}" required autofocus>
+                <input id="password" type="password" name="password" title="password"
+                       placeholder="Password" th:placeholder="#{label.password}" required>
+
+                <button type="submit" id="login-button"
+                        class="btn btn-primary"
+                        th:placeholder="#{label.login}">Login</button>
+
+                <div class="level options">
+                    <div class="checkbox level-left">
+                        <span th:text="#{label.login.linkToSignupInquiry}">New here?</span>
+                    </div>
+
+                    <a class="btn btn-link level-right"
+                       th:placeholder="#{label.signup}" th:href="@{signup}">Sign up</a>
+                </div>
+            </form>
+
+            <hr class="hr-text" data-content="OR">
+            <div class="login-social">
+                <!-- Google Button -->
+                <a href="/oauth2/authorize/google">
+                    <button id="google" class="button is-large is-rounded is-fullwidth">
+                        <span class="icon is-medium">
+                          <i class="fab fa-google"></i>
+                        </span>
+                        <span>Google</span>
+                    </button>
+                </a>
+            </div>
+
+<!--            Claim Form -->
+            <div class="notification is-warning" th:if="${number}" id="claimForm">
+                <span th:text="#{label.login.claimFormMessage}">Your Account is Blocked...</span><br>
+                <form th:action="@{/claim}">
+                    <strong th:text="#{label.login.claimFormFileAppeal}">File an Appeal</strong>
+                    <div class="control has-icons-right">
+                        <input class="input is-medium" type="text" name="text"
+                               placeholder="Give a reason" th:placeholder="#{label.login.claimFormReason}" required>
+                        <span class="icon is-right">↵</span>
+                    </div>
+                </form>
+            </div>
+
+            <div class="notification is-danger" th:if="${banned}" id="bannedMessage">
+                <span th:text="#{label.login.bannedFormMessage}">Your Account is Banned...</span>
+            </div>
+
+            <div class="notification is-info" id="claimSuccess" th:if="${message}">
+                <p th:text="${message}"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

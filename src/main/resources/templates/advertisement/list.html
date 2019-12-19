@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<html
+        xmlns:layout="http://www.w3.org/1999/xhtml"
+        layout:decorate="~{fragments/admin-dashboard-layout}"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:th="https://www.thymeleaf.org"
+>
+<head>
+    <title>Dashboard | Advertisements</title>
+</head>
+<body>
+<div layout:fragment="admin-dashboard-content">
+
+    <article class="tile is-child" style="max-width: 100%;">
+        <div style="margin: 1rem 0; width: 30vw;">
+            <span style="font-size: 3em;" th:text="#{label.admin.advertisements}">Advertisements</span>
+            <span style="float: right; margin-top: 1rem;">
+                <a th:href="@{'/admin/dashboard/advertisements/add'}">
+                    <button class="button is-success">
+                        <span class="icon is-small">
+                          <i class="fa fa-plus"></i>
+                        </span>
+                        <span th:text="#{label.admin.addAdvertisement}">Add Advertisement</span>
+                    </button>
+                </a>
+            </span>
+        </div>
+        <table class="table is-striped">
+            <thead>
+                <tr class="is-selected">
+                    <th>#</th>
+                    <th th:text="#{label.text}">Text</th>
+                    <th th:text="#{label.contentUrl}">Content URL</th>
+                    <th th:text="#{label.advertisement.adUrl}">AD URL</th>
+                    <th th:text="#{label.advertisement.location}">Target Location</th>
+                    <th th:text="#{label.advertisement.targetAge}">Target Age</th>
+                    <th th:text="#{label.advertisement.targetGender}">Target Gender</th>
+                    <th th:text="#{label.actions}">Actions</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr class="is-selected">
+                    <th>#</th>
+                    <th th:text="#{label.text}">Text</th>
+                    <th th:text="#{label.contentUrl}">Content URL</th>
+                    <th th:text="#{label.advertisement.adUrl}">AD URL</th>
+                    <th th:text="#{label.advertisement.location}">Target Location</th>
+                    <th th:text="#{label.advertisement.targetAge}">Target Age</th>
+                    <th th:text="#{label.advertisement.targetGender}">Target Gender</th>
+                    <th th:text="#{label.actions}">Actions</th>
+            </tr>
+            </tfoot>
+            <tbody>
+                <tr th:each="ad, i : ${advertisements}">
+                    <th scope="row" th:text="${i.count}">1</th>
+                    <th th:text="${ad.text}">Text</th>
+                    <th th:text="${ad.contentUrl}">Content URL</th>
+                    <th th:text="${ad.adUrl}">AD URL</th>
+                    <th th:text="${ad.location}">Target Location</th>
+                    <th th:text="${ad.targetAge}">Target Age</th>
+                    <th th:text="${ad.targetGender}">Target Gender</th>
+                    <td class="has-text-centered">
+                        <a th:href="@{'/admin/dashboard/advertisements/' + ${ad.id} + '/delete'}"
+                           title="Delete">
+                            <button class="delete"></button>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </article>
+
+</div>
+</body>
+</html>

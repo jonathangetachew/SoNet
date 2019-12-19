@@ -1,0 +1,139 @@
+<header th:fragment="header"
+        xmlns:th="https://www.thymeleaf.org"
+        xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+    <!-- Static navbar -->
+    <nav class="navbar" role="navigation" aria-label="main navigation"
+         th:classappend="${#authorization.expression('hasAuthority(''USER'')') ? 'is-primary' : ''}">
+        <div class="navbar-brand">
+            <a class="navbar-item"
+               th:href="${#authorization.expression('hasAuthority(''USER'')') ? '/user/index' : '/admin/dashboard'}">
+                <div style="width: 150px; font-weight: bold; font-size: 1.7rem!important;" class="has-text-centered">
+                    <span class="icon">
+                        <i class="fa fa-reddit-alien"></i>
+                    </span>
+                    <span style="margin-left: 10px;" th:text="#{label.applicationName}">SoNet</span>
+                </div>
+            </a>
+
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+               data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+
+        <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-start">
+                <!-- Check if User has a specific authority and render corresponding navbar links -->
+                <a class="navbar-item"
+                   sec:authorize="hasAuthority('USER')"
+                   th:href="@{/user/index}"
+                   th:classappend="${#httpServletRequest.getRequestURI() == '/user/index' ? 'is-active':''}"
+                   th:text="#{label.home}">
+                    Home
+                </a>
+                <!--                <a class="navbar-item"-->
+                <!--                   sec:authorize="hasAuthority('USER')"-->
+                <!--                   th:href="@{/user/posts/search}"-->
+                <!--                   th:classappend="${#httpServletRequest.getRequestURI() == '/user/posts/search' ? 'is-active':''}"-->
+                <!--                   th:text="#{label.search}">-->
+                <!--                    Search-->
+                <!--                </a>-->
+                <a class="navbar-item"
+                   sec:authorize="hasAuthority('ADMIN')"
+                   th:href="@{/admin/dashboard}"
+                   th:classappend="${#httpServletRequest.getRequestURI() == '/admin/dashboard' ? 'is-active':''}"
+                   th:text="#{label.home}">
+                    Home
+                </a>
+            </div>
+
+            <div th:if="${#authorization.expression('hasAuthority(''USER'')')}" style="margin:0px auto; width: 50%;">
+                <form th:action="@{/user/posts/search}">
+                    <div class="panel-block" id="search-form">
+                        <p class="control has-icons-left">
+                            <input class="input is-success" type="text" th:name="searchInput"
+                                   th:placeholder="#{label.search}">
+                            <span class="icon is-left">
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                              </span>
+                        </p>
+                    </div>
+                </form>
+            </div>
+
+            <div class="navbar-end">
+                <div class="navbar-item" th:if="${#authorization.expression('hasAuthority(''USER'')')}">
+                    <div class="navbar-item has-dropdown is-hoverable">
+
+                        <a class=" navbar-link is-arrowless noti-icon">
+                            <!--                            <i class="fa fa-circle fa-stack-2x"></i>-->
+                            <i style="font-size: 24px" class="fa fa-bell"></i>
+                            <span class="badge" id="notification-num" th:text="${notificationsNumber}">0</span>
+
+                        </a>
+
+                        <div class="navbar-dropdown" id="notifications-parent">
+                            <div id="notifications-dialog" th:each="noti : ${notifications}">
+<!--                                <a th:href="/user/post/${noti?.post?.id}>">-->
+                                    <a class="navbar-item">
+                                        <p style="color: crimson;"
+                                           th:text="${noti?.userNotification.postOwnerName}">
+
+                                        </p> &nbsp;
+                                        <span>add new post</span><br>
+
+                                    </a>
+                                    <a class="navbar-item">
+                                        <p th:if="*{noti?.userNotification.postText !=null and #strings.length(noti?.userNotification.postText)>20}">
+                                            <span th:text="${#strings.substring(noti?.userNotification.postText,0,20)}  "></span>
+                                            <span>...</span>
+                                        </p>
+
+                                        <p th:if="*{noti?.userNotification.postText!=null and #strings.length(noti?.userNotification.postText)<=20}"
+                                           th:text="${noti?.userNotification.postText}  "></p>
+                                    </a>
+<!--                                </a>-->
+
+
+                                <hr class="navbar-divider"
+                                    th:if="${#authorization.expression('hasAuthority(''USER'')')}">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a class="navbar-item" th:href="@{(${#locale.language == 'es' ? '?lang=en' : '?lang=es'})}">
+                    <div th:text="(${#locale.language} == 'es') ? 'EN' : 'ES'"></div>
+                </a>
+
+                <div class="navbar-item">
+                    <div class="navbar-item has-dropdown is-hoverable">
+                        <a class="navbar-link">
+                            <figure class="image is-24x24">
+                                <img class="is-rounded" th:src="${currentUser.imageUrl}">
+                            </figure>
+                            <span th:text="${currentUser.name}" style="margin-left: 0.5rem;"></span>
+                        </a>
+
+                        <div class="navbar-dropdown">
+                            <a th:href="@{/user/showProfile(email=${currentUser.email})}"
+                               class="navbar-item"
+                               th:if="${#authorization.expression('hasAuthority(''USER'')')}"
+                               th:text="#{label.myProfile}">
+                                My Profile
+                            </a>
+                            <hr class="navbar-divider" th:if="${#authorization.expression('hasAuthority(''USER'')')}">
+                            <a class="navbar-item" th:href="@{/logout}" style="color: crimson;"
+                               th:text="#{label.logout}">
+                                Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
